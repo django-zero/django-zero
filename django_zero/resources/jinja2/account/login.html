@@ -1,0 +1,85 @@
+{% extends "account/base.html" %}
+
+{% block head_title %}{{ _('Sign In') }}{% endblock %}
+{% block stylesheets %}
+    {{ super() }}
+    <link href="{{ static('hello/floating-labels.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+    <form class="form-signin" method="POST" action="{% url 'account_login' %}">
+        {% csrf_token %}
+
+        <div class="text-center mb-4">
+            <h1 class="h2 mb-3 font-weight-normal">{{ _('Sign In') }}</h1>
+        </div>
+
+        <div>
+            {#% get_providers as socialaccount_providers %#}
+
+            {% if socialaccount_providers %}
+
+                <p>{% trans site_name=site.name -%}
+                    Please sign in with one of your existing third party accounts. Or,
+                    <a href="{{ signup_url }}">sign up</a>
+                    for a {{ site_name }} account and sign in below:
+                {% endtrans %}</p>
+
+                <div class="socialaccount_ballot">
+
+                    <ul class="socialaccount_providers">
+                        {% set process="login" %}
+                        {% include "socialaccount/snippets/provider_list.html" %}
+                    </ul>
+
+                    <div class="login-or">{{ _('or') }}</div>
+
+                </div>
+
+                {% include "socialaccount/snippets/login_extra.html" %}
+
+            {% else %}
+
+                <p>{% trans %}If you have not created an account yet, then please
+                    <a href="{{ signup_url }}">sign up</a> first.{% endtrans %}</p>
+
+            {% endif %}
+        </div>
+
+        {{ form.non_field_errors() }}
+
+        {% for field in form %}
+            {% if field.field.__class__.__name__ == 'BooleanField' %}
+                <div class="checkbox mb-3">
+                    <label>
+                        {{ field.errors | safe }}
+                        {{ field.as_widget() | safe }}
+                        {{ field.label }}
+                    </label>
+                </div>
+
+            {% else %}
+                <div class="form-label-group">
+                    {{ field.errors | safe }}
+                    {{ field.as_widget() | safe }}
+                    {{ field.label_tag() | safe }}
+
+                    {% if field.help_text %}
+                        <p class="help">{{ field.help_text | safe }}</p>
+                    {% endif %}
+                </div>
+            {% endif %}
+        {% endfor %}
+
+        {% if redirect_field_value %}
+            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+        {% endif %}
+
+        <button class="btn btn-lg btn-primary btn-block" type="submit">{{ _('Sign In') }}</button>
+
+        <div class="text-right">
+            <a href="{% url 'account_reset_password' %}">{{ _('Forgot Password?') }}</a>
+        </div>
+    </form>
+
+{% endblock %}

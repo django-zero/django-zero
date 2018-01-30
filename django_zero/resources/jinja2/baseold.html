@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+    {% block head %}
+        {% block head_meta %}
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        {% endblock %}
+
+        <title>{% block head_title %}{{ _("Django Zero Application") }}{% endblock %}</title>
+
+        {% block stylesheets %}
+            {{ assets.get_stylesheets('bootstrap') }}
+        {% endblock %}
+    {% endblock %}
+</head>
+<body>
+
+{% block content %}
+    <h1>Hello, world!</h1>
+{% endblock %}
+
+{% block javascripts %}
+    {{ assets.get_javascripts('bootstrap') }}
+{% endblock %}
+
+</body>
+</html>

@@ -1,0 +1,4 @@
+include *.txt
+include django_zero/package.json
+include django_zero/yarn.lock
+recursive-include django_zero/resources *.js *.scss *.html *.ico

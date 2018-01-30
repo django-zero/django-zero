@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link rel="icon" href="{{ static('favicon.ico') }}">
+
+    <title>Hello, world</title>
+
+    {{ assets.get_stylesheets('bootstrap') }}
+
+    <link href="{{ static('hello/cover.css') }}" rel="stylesheet">
+</head>
+
+<body class="text-center">
+
+<div class="cover-container d-flex h-100 p-3 mx-auto flex-column">
+    <header class="masthead mb-auto">
+        <div class="inner">
+            <h3 class="masthead-brand">ZERØ</h3>
+            <nav class="nav nav-masthead justify-content-center">
+                <a class="nav-link active" href="{{ url('home') }}">Home</a>
+                <a class="nav-link" href="{{ url('account_login') }}">Signin </a>
+            </nav>
+        </div>
+    </header>
+
+    <main role="main" class="inner cover">
+        <h1 class="cover-heading">Hello, world</h1>
+        <p class="lead">
+            This is the example application of django-zero, a python package that helps you setup django projects using
+            zero configuration.
+        </p>
+        <p class="lead">
+            It's still Django, you can unplug anything we added, and use anything you're used to. And even remove
+            django-zero if has no use you anymore for your project.
+        </p>
+        <p class="lead">
+            <a href="#" class="btn btn-lg btn-secondary">Documentation</a>
+        </p>
+    </main>
+
+    <footer class="mastfoot mt-auto">
+        <div class="inner">
+            <p>Ø</p>
+        </div>
+    </footer>
+</div>
+
+{{ assets.get_javascripts('bootstrap') }}
+</body>
+</html>

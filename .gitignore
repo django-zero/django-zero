@@ -1,0 +1,13 @@
+*.egg-info
+*.iml
+*.pyc
+*.swp
+/.cache
+/.coverage
+/.idea
+/.python*-*
+/build
+/dist
+/django_zero/node_modules
+/htmlcov
+/pylint.html
