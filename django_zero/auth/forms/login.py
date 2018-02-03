@@ -9,4 +9,3 @@ class LoginForm(BaseLoginForm):
 
         self.fields['login'].widget.attrs['class'] = 'form-control'
         self.fields['password'].widget.attrs['class'] = 'form-control'
-

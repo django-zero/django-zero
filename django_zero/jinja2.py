@@ -44,7 +44,8 @@ class AssetsHelper:
 
         try:
             return Markup(
-                '<script src="' + os.path.join(self._path, bundle['js']) + '" type="text/javascript"></script>')
+                '<script src="' + os.path.join(self._path, bundle['js']) + '" type="text/javascript"></script>'
+            )
         except KeyError as e:
             return ''
 
@@ -155,12 +156,14 @@ def environment(**options):
     from django.utils import translation
     env.install_gettext_translations(translation)
 
-    env.globals.update({
-        'static': staticfiles_storage.url,
-        'url': reverse,
-        'assets': AssetsHelper('.cache/assets.json'),
-        '_': gettext,
-    })
+    env.globals.update(
+        {
+            'static': staticfiles_storage.url,
+            'url': reverse,
+            'assets': AssetsHelper('.cache/assets.json'),
+            '_': gettext,
+        }
+    )
 
     env.add_extension(DjangoCsrfExtension)
     env.add_extension(DjangoIncludesExtension)

@@ -1,14 +1,16 @@
 import argparse
+import logging
 import os
 import shlex
 import shutil
 import subprocess
 import sys
 
-import mondrian
-from honcho.manager import Manager
-
 import django_zero
+import mondrian
+from django_zero.commands import BaseCommand
+from django_zero.commands.init import InitCommand
+from django_zero.processes import create_honcho_manager
 
 
 def check_installed():
@@ -33,7 +35,8 @@ def handle_webpack(*args):
     env = {**os.environ, **get_env()}
     subprocess.call(
         'yarn run webpack --config config/webpack.js ' + ' '.join(map(shlex.quote, args)),
-        env=env, shell=True,
+        env=env,
+        shell=True,
     )
 
 
@@ -43,8 +46,9 @@ def handle_manage(*args):
     # Add CWD and make sure django-zero base path is not in path so we avoid loading its settings instead of user's.
     sys.path = [os.getcwd()] + list(filter(lambda p: p and not p == env['DJANGO_ZERO_BASE_DIR'], sys.path))
 
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", 'config.settings')
-    os.environ.setdefault("DJANGO_BASE_DIR", env['DJANGO_BASE_DIR'])
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
+    os.environ.setdefault('DJANGO_BASE_DIR', env['DJANGO_BASE_DIR'])
+    os.environ.setdefault('DJANGO_DEBUG', 'true')
 
     try:
         from django.core.management import execute_from_command_line
@@ -52,15 +56,14 @@ def handle_manage(*args):
         raise ImportError(
             "Couldn't import Django. Are you sure it's installed and "
             "available on your PYTHONPATH environment variable? Did you "
-            "forget to activate a virtual environment?") from exc
+            "forget to activate a virtual environment?"
+        ) from exc
     return execute_from_command_line(['django-zero manage'] + list(args))
 
 
 def handle_start():
     check_installed()
-    m = Manager()
-    m.add_process('server', 'PYTHONUNBUFFERED=1 python -m django_zero manage runserver')
-    m.add_process('assets', 'PYTHONUNBUFFERED=1 python -m django_zero webpack --watch --colors')
+    m = create_honcho_manager(env={'DJANGO_DEBUG': '1'})
     m.loop()
     sys.exit(m.returncode)
 
@@ -81,6 +84,7 @@ def handle_path():
 
 
 commands = {
+    'init': InitCommand,
     'manage': handle_manage,
     'path': handle_path,
     'start': handle_start,
@@ -94,19 +98,29 @@ def main():
     mondrian.setup(excepthook=True)
 
     parser = argparse.ArgumentParser()
+    parser.add_argument('--debug', action='store_true')
 
     subparsers = parser.add_subparsers(dest='command')
     subparsers.required = True
 
     for command, command_handler in commands.items():
         subparser = subparsers.add_parser(command)
-        subparser.set_defaults(handler=command_handler)
+        if isinstance(command_handler, type) and issubclass(command_handler, BaseCommand):
+            command_instance = command_handler()
+            command_instance.add_arguments(subparser)
+            subparser.set_defaults(handler=command_instance.handle)
+        else:
+            subparser.set_defaults(handler=command_handler)
 
     options, rest = parser.parse_known_args()
     options = options.__dict__
 
     options.pop('command')
+    debug = options.pop('debug')
     handler = options.pop('handler')
+
+    if debug:
+        logging.getLogger().setLevel(logging.DEBUG)
 
     return handler(*rest, **options)
 

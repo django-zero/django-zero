@@ -3,18 +3,20 @@ import os
 
 import mondrian
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+from django_zero.utils import get_bool_from_env
 
+# Directories
 BASE_DIR = os.environ['DJANGO_BASE_DIR']
-DJANGO_ZERO_BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+ZERO_DIR = os.path.dirname(os.path.dirname(__file__))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = None
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = get_bool_from_env('DJANGO_DEBUG')
 
 ALLOWED_HOSTS = []
+INTERNAL_IPS = ['127.0.0.1']
 
 # Applications
 INSTALLED_APPS = [
@@ -46,8 +48,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-INTERNAL_IPS = ['127.0.0.1']
-
 # Urls
 ROOT_URLCONF = 'django_zero.urls'
 
@@ -55,7 +55,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.jinja2.Jinja2',
         'DIRS': [
-            os.path.join(DJANGO_ZERO_BASE_DIR, 'resources/jinja2'),
+            os.path.join(ZERO_DIR, 'resources/jinja2'),
             os.path.join(BASE_DIR, 'resources/jinja2'),
         ],
         'APP_DIRS': True,
@@ -66,7 +66,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            os.path.join(DJANGO_ZERO_BASE_DIR, 'resources/templates'),
+            os.path.join(ZERO_DIR, 'resources/templates'),
             os.path.join(BASE_DIR, 'resources/templates'),
         ],
         'APP_DIRS': True,
@@ -101,20 +101,16 @@ AUTHENTICATION_BACKENDS = [
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME':
-            'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
     },
     {
-        'NAME':
-            'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
     },
     {
-        'NAME':
-            'django.contrib.auth.password_validation.CommonPasswordValidator',
+        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
     },
     {
-        'NAME':
-            'django.contrib.auth.password_validation.NumericPasswordValidator',
+        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
 
@@ -134,7 +130,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    os.path.join(DJANGO_ZERO_BASE_DIR, 'resources/static'),
+    os.path.join(ZERO_DIR, 'resources/static'),
     os.path.join(BASE_DIR, 'resources/static'),
     os.path.join(BASE_DIR, '.cache/webpack'),
 ]

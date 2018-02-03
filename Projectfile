@@ -2,19 +2,24 @@
 
 from medikit import require
 
-python = require('python')
+NAME = 'django_zero'
+
 git = require('git')
 make = require('make')
-# nodejs = require('nodejs')
+nodejs = require('nodejs')
+pytest = require('pytest')
+python = require('python')
+sphinx = require('sphinx')
+yapf = require('yapf')
 
 python.setup(
-    name='django_zero',
+    name=NAME,
     description='Zero-configuration django projects.',
     license='Apache License, Version 2.0',
     url='',
     download_url='',
-    author='',
-    author_email='',
+    author='Romain Dorgueil',
+    author_email='romain@dorgueil.net',
     entry_points={
         'console_scripts': [
             'django-zero = django_zero.__main__:main',
@@ -26,17 +31,38 @@ python.add_requirements(
     'django ~=2.0',
     'django-allauth ~=0.34.0',
     'django-includes ~=0.2.0',
-    'honcho ~=1.0',
     'jinja2 ~=2.10',
     'mondrian ~=0.6',
     'whitenoise ~=3.3',
+    dev=[
+        'cookiecutter ~=1.6',
+        'django-extensions ~=1.9',
+        'django_debug_toolbar ~=1.9.1',
+        'honcho ~=1.0',
+        'werkzeug ~=0.14.1',
+    ]
 )
 
-# dev ? or what ?
-python.add_requirements(
-    'django-extensions ~=1.9',
-    'django_debug_toolbar ~=1.9.1',
-    'werkzeug ~=0.14.1',
+nodejs.setup(base_dir=NAME)
+
+nodejs.add_dependencies(
+    {
+        'assets-webpack-plugin': '^3.5.1',
+        'babel-core': '^6.26.0',
+        'babel-loader': '^7.1.2',
+        'babel-preset-env': '^1.6.1',
+        'bootstrap': '^4.0.0',
+        'css-loader': '^0.28.9',
+        'extract-text-webpack-plugin': '^3.0.2',
+        'jquery': '1.9.1 - 3',
+        'node-sass': '^4.0.0',
+        'popper.js': '^1.12.9',
+        'postcss-loader': '^2.0.10',
+        'precss': '^3.1.0',
+        'sass-loader': '^6.0.6',
+        'style-loader': '^0.19.1',
+        'webpack': '^3.10.0'
+    }
 )
 
 # vim: ft=python:

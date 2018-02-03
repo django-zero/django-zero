@@ -2,12 +2,16 @@
 *.iml
 *.pyc
 *.swp
+.DS_Store
 /.cache
 /.coverage
 /.idea
+/.medikit-pipeline
 /.python*-*
+/.release
 /build
 /dist
 /django_zero/node_modules
 /htmlcov
 /pylint.html
+/docs/_build
