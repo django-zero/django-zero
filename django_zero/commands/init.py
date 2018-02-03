@@ -13,11 +13,38 @@ class InitCommand(BaseCommand):
         project = subparsers.add_parser('project')
         project.add_argument('path')
 
+        app = subparsers.add_parser('app')
+        app.add_argument('name')
+
     def handle(self, *args, **options):
         _type = options.pop('type')
 
+        if _type == 'app':
+            return self.handle_app(*args, **options)
+
         if _type == 'project':
             return self.handle_project(*args, **options)
+
+    def handle_app(self, *args, **options):
+        no_input = options.pop('no_input')
+        name = options.pop('name')
+        path = 'apps'
+
+        template = os.path.join(os.path.dirname(__file__), 'templates/app')
+        from cookiecutter.main import cookiecutter
+        cookiecutter(template, checkout=False, output_dir=path, extra_context={'name': name, **options},
+                     no_input=True)
+
+        print('Your "{}" application has been created.'.format(name))
+        print()
+        print('Please add the following to your INSTALLED_APPS (in config/)')
+        print()
+        print("  INSTALLED_APPS = [")
+        print("      ...,")
+        print("      'apps.{}',".format(name))
+        print("  ]")
+        print()
+
 
     def handle_project(self, *args, **options):
         no_input = options.pop('no_input')

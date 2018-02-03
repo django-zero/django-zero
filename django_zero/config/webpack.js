@@ -5,7 +5,7 @@ const basePath = process.env.DJANGO_BASE_DIR;
 const resolveConfig = {modules: [path.resolve(zeroPath, 'node_modules')]}
 
 function createWebpackConfig() {
-    const ExtractTextPlugin = require("extract-text-webpack-plugin");
+    const ExtractTextPlugin = require('extract-text-webpack-plugin');
     const AssetsPlugin = require('assets-webpack-plugin');
 
     return {
@@ -77,5 +77,7 @@ function createWebpackConfig() {
 }
 
 module.exports = {
-    createWebpackConfig
+    basePath,
+    createWebpackConfig,
+    zeroPath,
 };
