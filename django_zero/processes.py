@@ -3,7 +3,6 @@ import shlex
 import subprocess
 
 from django_zero.utils import get_env
-from honcho.manager import Manager
 
 DEFAULT_DEV_PROCESSES = [
     'server',
@@ -30,6 +29,8 @@ def create_honcho_manager(*, printer=None, mode='dev', **kwargs):
         **kwargs.pop('environ', {}),
         'PYTHONUNBUFFERED': '1',
     }
+
+    from honcho.manager import Manager
     m = Manager(printer=printer)
 
     for proc_name, proc_cmd in sorted(get_procs(mode).items()):
