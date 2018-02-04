@@ -1,43 +1,33 @@
 import argparse
 import logging
 import os
-import shlex
 import shutil
 import subprocess
 import sys
 
 import django_zero
-import mondrian
 from django_zero.commands import BaseCommand
 from django_zero.commands.init import InitCommand
-from django_zero.processes import create_honcho_manager
+from django_zero.commands.start import StartCommand
+from django_zero.processes import call_webpack
+from django_zero.utils import check_installed, get_env
 
-
-def check_installed():
-    env = get_env()
-    node_modules_path = os.path.join(env['DJANGO_ZERO_BASE_DIR'], 'node_modules')
-
-    if not os.path.exists(node_modules_path):
-        raise RuntimeError('You must run "django-zero install" first, which depends on node.js and yarn.')
-
-
-def get_env():
-    base_path = os.path.dirname(django_zero.__file__)
-    return {
-        'DJANGO_BASE_DIR': os.getcwd(),
-        'DJANGO_ZERO_BASE_DIR': base_path,
-        'NODE_PATH': os.path.dirname(base_path),
-    }
+import mondrian
 
 
 def handle_webpack(*args):
     check_installed()
-    env = {**os.environ, **get_env()}
-    subprocess.call(
-        'yarn run webpack --config config/webpack.js ' + ' '.join(map(shlex.quote, args)),
-        env=env,
-        shell=True,
-    )
+    return call_webpack(*args)
+
+
+def handle_gunicorn(*args):
+    from gunicorn.app.wsgiapp import WSGIApplication
+
+    _sys_argv_backup, sys.argv = sys.argv, [sys.argv[1], 'config.wsgi', *sys.argv[2:]]
+    try:
+        WSGIApplication('django-zero %(prog)s [OPTIONS]').run()
+    finally:
+        sys.argv = _sys_argv_backup
 
 
 def handle_manage(*args):
@@ -61,13 +51,6 @@ def handle_manage(*args):
     return execute_from_command_line(['django-zero manage'] + list(args))
 
 
-def handle_start():
-    check_installed()
-    m = create_honcho_manager(env={'DJANGO_DEBUG': '1'})
-    m.loop()
-    sys.exit(m.returncode)
-
-
 def handle_install():
     env = get_env()
     subprocess.call('yarn install', cwd=env['DJANGO_ZERO_BASE_DIR'], shell=True)
@@ -85,9 +68,10 @@ def handle_path():
 
 commands = {
     'init': InitCommand,
+    'gunicorn': handle_gunicorn,
     'manage': handle_manage,
     'path': handle_path,
-    'start': handle_start,
+    'start': StartCommand,
     'webpack': handle_webpack,
     'install': handle_install,
     'uninstall': handle_uninstall,
@@ -126,4 +110,7 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    retval = main()
+
+    if retval:
+        sys.exit(int(retval))

@@ -1,15 +1,46 @@
 import os
+import shlex
+import subprocess
 
+from django_zero.utils import get_env
 from honcho.manager import Manager
 
+DEFAULT_DEV_PROCESSES = [
+    'server',
+    'assets',
+]
 
-def create_honcho_manager(printer=None, **kwargs):
-    env = {
+
+def get_procs(mode='dev'):
+    if mode == 'dev':
+        return {
+            'server': 'python -m django_zero manage runserver',
+            'assets': 'python -m django_zero webpack --watch --colors',
+        }
+    if mode == 'prod':
+        return {
+            'server': 'python -m django_zero gunicorn',
+        }
+    raise NotImplementedError('Unknown mode {}.'.format(mode))
+
+
+def create_honcho_manager(*, printer=None, mode='dev', **kwargs):
+    environ = {
         **os.environ,
-        **kwargs.pop('env', {}),
+        **kwargs.pop('environ', {}),
         'PYTHONUNBUFFERED': '1',
     }
     m = Manager(printer=printer)
-    m.add_process('server', 'python -m django_zero manage runserver', env=env)
-    m.add_process('assets', 'python -m django_zero webpack --watch --colors', env=env)
+
+    for proc_name, proc_cmd in sorted(get_procs(mode).items()):
+        m.add_process(proc_name, proc_cmd, env=environ)
+
     return m
+
+
+def call_webpack(*args, environ=None):
+    return subprocess.call(
+        'yarn run webpack --config config/webpack.js ' + ' '.join(map(shlex.quote, args)),
+        env={**os.environ, **get_env(), **(environ or {})},
+        shell=True,
+    )

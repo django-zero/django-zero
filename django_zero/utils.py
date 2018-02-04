@@ -3,6 +3,8 @@ import operator
 import os
 from functools import reduce
 
+import django_zero
+
 
 class LazyListFromLists(collections.Sequence):
     def __init__(self, *lists):
@@ -43,8 +45,18 @@ def get_bool_from_env(var, default=False):
     return True
 
 
-if __name__ == '__main__':
-    l1 = [1, 2, 3]
-    l2 = [10, 20, 30]
-    l = LazyListFromLists(l1, l2)
-    print(list(l))
+def check_installed():
+    env = get_env()
+    node_modules_path = os.path.join(env['DJANGO_ZERO_BASE_DIR'], 'node_modules')
+
+    if not os.path.exists(node_modules_path):
+        raise RuntimeError('You must run "django-zero install" first, which depends on node.js and yarn.')
+
+
+def get_env():
+    base_path = os.path.dirname(django_zero.__file__)
+    return {
+        'DJANGO_BASE_DIR': os.getcwd(),
+        'DJANGO_ZERO_BASE_DIR': base_path,
+        'NODE_PATH': os.path.dirname(base_path),
+    }
