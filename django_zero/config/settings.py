@@ -1,7 +1,6 @@
 import logging
-import os
-
 import mondrian
+import os
 
 from django_zero.utils import get_bool_from_env
 
@@ -137,7 +136,10 @@ STATICFILES_DIRS = [
 # Let's make sure all those dirs exist.
 for _dir in STATICFILES_DIRS:
     if not os.path.exists(_dir):
-        os.makedirs(_dir)
+        try:
+            os.makedirs(_dir)
+        except OSError:
+            STATICFILES_DIRS.remove(_dir)
 
 # Site
 
