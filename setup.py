@@ -52,8 +52,8 @@ setup(
     packages=find_packages(exclude=['ez_setup', 'example', 'test']),
     include_package_data=True,
     install_requires=[
-        'django (~= 2.0)', 'django-allauth (~= 0.34)', 'django-includes (~= 0.2)', 'jinja2 (~= 2.10)',
-        'mondrian (~= 0.6)', 'whitenoise (~= 3.3)'
+        'brotli (~= 1.0)', 'django (~= 2.0)', 'django-allauth (~= 0.34)', 'django-includes (~= 0.2)',
+        'jinja2 (~= 2.10)', 'mondrian (~= 0.6)', 'whitenoise (~= 3.3)'
     ],
     extras_require={
         'dev': [

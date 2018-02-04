@@ -32,8 +32,7 @@ class InitCommand(BaseCommand):
 
         template = os.path.join(os.path.dirname(__file__), 'templates/app')
         from cookiecutter.main import cookiecutter
-        cookiecutter(template, checkout=False, output_dir=path, extra_context={'name': name, **options},
-                     no_input=True)
+        cookiecutter(template, checkout=False, output_dir=path, extra_context={'name': name, **options}, no_input=True)
 
         print('Your "{}" application has been created.'.format(name))
         print()
@@ -44,7 +43,6 @@ class InitCommand(BaseCommand):
         print("      'apps.{}',".format(name))
         print("  ]")
         print()
-
 
     def handle_project(self, *args, **options):
         no_input = options.pop('no_input')

@@ -15,7 +15,7 @@ SECRET_KEY = None
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = get_bool_from_env('DJANGO_DEBUG')
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1']
 INTERNAL_IPS = ['127.0.0.1']
 
 # Applications
@@ -127,13 +127,17 @@ USE_L10N = True
 USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
-
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(ZERO_DIR, 'resources/static'),
     os.path.join(BASE_DIR, 'resources/static'),
     os.path.join(BASE_DIR, '.cache/webpack'),
 ]
+
+# Let's make sure all those dirs exist.
+for _dir in STATICFILES_DIRS:
+    if not os.path.exists(_dir):
+        os.makedirs(_dir)
 
 # Site
 
@@ -143,6 +147,7 @@ SITE_ID = 1
 LOGGING = {}
 mondrian.setup(excepthook=True)
 logging.getLogger().setLevel(os.getenv('DJANGO_LOG_LEVEL', 'INFO'))
+logging.getLogger().addHandler(logging.FileHandler('/tmp/logs'))
 
 # Authentication
 ACCOUNT_FORMS = {

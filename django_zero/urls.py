@@ -19,7 +19,7 @@ if settings.DEBUG:
         import debug_toolbar
 
         urlpatterns = [
-                          path(r'__debug__/', include(debug_toolbar.urls)),
-                      ] + urlpatterns
+            path(r'__debug__/', include(debug_toolbar.urls)),
+        ] + urlpatterns
     except ImportError as exc:
         logging.getLogger(__name__).exception('Could not import debug_toolbar, skipping.')

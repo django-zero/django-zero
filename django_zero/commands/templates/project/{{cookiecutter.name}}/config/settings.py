@@ -6,4 +6,3 @@ SECRET_KEY = 's3cr3t'
 INSTALLED_APPS += [
     # Add your own applications there.
 ]
-

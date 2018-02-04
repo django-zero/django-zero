@@ -16,7 +16,6 @@
 # import sys
 # sys.path.insert(0, os.path.abspath('.'))
 
-
 # -- Project information -----------------------------------------------------
 
 project = 'Django Zero'
@@ -27,7 +26,6 @@ author = 'Romain Dorgueil'
 version = ''
 # The full version, including alpha/beta/rc tags
 release = ''
-
 
 # -- General configuration ---------------------------------------------------
 
@@ -75,7 +73,6 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = 'sphinx'
 
-
 # -- Options for HTML output -------------------------------------------------
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
@@ -104,12 +101,10 @@ html_static_path = ['_static']
 #
 # html_sidebars = {}
 
-
 # -- Options for HTMLHelp output ---------------------------------------------
 
 # Output file base name for HTML help builder.
 htmlhelp_basename = 'DjangoZerodoc'
-
 
 # -- Options for LaTeX output ------------------------------------------------
 
@@ -135,20 +130,14 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'DjangoZero.tex', 'Django Zero Documentation',
-     'Romain Dorgueil', 'manual'),
+    (master_doc, 'DjangoZero.tex', 'Django Zero Documentation', 'Romain Dorgueil', 'manual'),
 ]
-
 
 # -- Options for manual page output ------------------------------------------
 
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
-man_pages = [
-    (master_doc, 'djangozero', 'Django Zero Documentation',
-     [author], 1)
-]
-
+man_pages = [(master_doc, 'djangozero', 'Django Zero Documentation', [author], 1)]
 
 # -- Options for Texinfo output ----------------------------------------------
 
@@ -156,11 +145,11 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'DjangoZero', 'Django Zero Documentation',
-     author, 'DjangoZero', 'One line description of project.',
-     'Miscellaneous'),
+    (
+        master_doc, 'DjangoZero', 'Django Zero Documentation', author, 'DjangoZero', 'One line description of project.',
+        'Miscellaneous'
+    ),
 ]
-
 
 # -- Options for Epub output -------------------------------------------------
 
@@ -181,7 +170,6 @@ epub_copyright = copyright
 
 # A list of files that should not be packed into the epub file.
 epub_exclude_files = ['search.html']
-
 
 # -- Extension configuration -------------------------------------------------
 

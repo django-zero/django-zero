@@ -63,6 +63,8 @@ def test_create_file(tmpdir):
                             assert resp.status_code == 200
                         finally:
                             os.killpg(pid, signal.SIGKILL)
+                    elif msg.type == 'line':
+                        print('>>>', msg.data.decode('utf-8'), end='')
                     elif msg.type == 'stop':
                         pid = None
                         exit = True

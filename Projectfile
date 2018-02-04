@@ -28,6 +28,7 @@ python.setup(
 )
 
 python.add_requirements(
+    'brotli ~=1.0',
     'django ~=2.0',
     'django-allauth ~=0.34',
     'django-includes ~=0.2',
