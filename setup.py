@@ -52,14 +52,14 @@ setup(
     packages=find_packages(exclude=['ez_setup', 'example', 'test']),
     include_package_data=True,
     install_requires=[
-        'django (~= 2.0)', 'django-allauth (~= 0.34.0)', 'django-includes (~= 0.2.0)', 'jinja2 (~= 2.10)',
+        'django (~= 2.0)', 'django-allauth (~= 0.34)', 'django-includes (~= 0.2)', 'jinja2 (~= 2.10)',
         'mondrian (~= 0.6)', 'whitenoise (~= 3.3)'
     ],
     extras_require={
         'dev': [
             'cookiecutter (~= 1.6)', 'coverage (>= 4.4, < 5.0)', 'django-extensions (~= 1.9)',
-            'django_debug_toolbar (~= 1.9.1)', 'honcho (~= 1.0)', 'pytest (>= 3.1, < 4.0)',
-            'pytest-cov (>= 2.5, < 3.0)', 'sphinx (>= 1.6, < 2.0)', 'werkzeug (~= 0.14.1)', 'yapf'
+            'django_debug_toolbar (~= 1.9)', 'honcho (~= 1.0)', 'pytest (>= 3.1, < 4.0)', 'pytest-cov (>= 2.5, < 3.0)',
+            'sphinx (>= 1.6, < 2.0)', 'werkzeug (~= 0.14)', 'yapf'
         ]
     },
     entry_points={'console_scripts': ['django-zero = django_zero.__main__:main']},
