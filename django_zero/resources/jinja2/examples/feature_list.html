@@ -1,0 +1,45 @@
+{% extends 'examples/base.html' %}
+
+{% block stylesheets %}
+    {{ super() }}
+
+    <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
+    {{ assets.get_stylesheets('examples-blog') }}
+{% endblock %}
+
+{% block content %}
+    <div class="jumbotron mt-4 p-3 p-md-5 text-white rounded bg-dark">
+        <div class="col-md-12 px-0">
+            <h1 class="display-4 font-italic">Welcome!</h1>
+            <p class="lead my-3">
+                Django-Zero is a wrapper package around the Django framework that configures for you a lot of
+                reasonable (imho) things and let you customize everything afterward.
+            </p>
+            <p class="lead mb-0"><a href="#" class="text-white font-weight-bold">Read the documentation...</a></p>
+        </div>
+    </div>
+
+    <div class="row mb-2">
+        {% for feature_slug, feature in features.items() | sort %}
+            <div class="col-md-6">
+                <div class="card flex-md-row mb-4 box-shadow h-225">
+                    <div class="card-body d-flex flex-column align-items-start">
+                        <strong class="d-inline-block mb-2 text-primary">{{ feature.category }}</strong>
+                        <h3 class="mb-0">
+                            <a class="text-dark" href="#">{{ feature.name }}</a>
+                        </h3>
+                        <br>
+                        <p class="card-text mb-auto">{{ feature.description }}</p>
+                        <a href="{{ url('example_feature_detail', kwargs={'slug':feature_slug}) }}">Read more...</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ super() }}
+
+    <script src="{{ static('holder.js') }}"></script>
+{% endblock %}

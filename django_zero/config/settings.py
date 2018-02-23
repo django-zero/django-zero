@@ -1,7 +1,7 @@
 import logging
-import mondrian
 import os
 
+import mondrian
 from django_zero.utils import get_bool_from_env
 
 # Directories
@@ -14,7 +14,7 @@ SECRET_KEY = None
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = get_bool_from_env('DJANGO_DEBUG')
 
-ALLOWED_HOSTS = ['127.0.0.1']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 INTERNAL_IPS = ['127.0.0.1']
 
 # Applications

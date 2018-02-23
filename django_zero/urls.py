@@ -12,7 +12,6 @@ for app in settings.INSTALLED_APPS:
         urlpatterns.append(path('', include(app + '.urls')))
 
 urlpatterns.append(path('', include('allauth.urls')))
-urlpatterns.append(path('', views.default_view))
 
 if settings.DEBUG:
     try:
@@ -23,3 +22,7 @@ if settings.DEBUG:
         ] + urlpatterns
     except ImportError as exc:
         logging.getLogger(__name__).exception('Could not import debug_toolbar, skipping.')
+
+# Default example views
+urlpatterns.append(path('', views.example_feature_list_view, name='example_feature_list'))
+urlpatterns.append(path('<slug>', views.example_feature_detail_view, name='example_feature_detail'))

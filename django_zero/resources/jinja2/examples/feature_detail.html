@@ -1,0 +1,40 @@
+{% extends 'examples/base.html' %}
+
+{% block stylesheets %}
+    {{ super() }}
+
+    <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
+    {{ assets.get_stylesheets('examples-blog') }}
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-3">
+            <ul>
+                {% for feature_slug, feature in features.items() | sort %}
+                    <li>
+                        {% if feature == current_feature %}
+                            <strong>{{ feature.name }}</strong>
+                        {% else %}
+                            <a href="{{ url('example_feature_detail', kwargs={'slug':feature_slug}) }}">{{ feature.name }}</a>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+
+        </div>
+        <div class="col-9">
+            <h1 class="display-4 font-italic">{{ current_feature.name }}</h1>
+
+            {% if content %}
+                {{ content.body | safe }}
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ super() }}
+
+    <script src="{{ static('holder.js') }}"></script>
+{% endblock %}
