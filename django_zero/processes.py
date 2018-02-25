@@ -18,7 +18,7 @@ def get_procs(mode='dev'):
         }
     if mode == 'prod':
         return {
-            'server': 'python -m django_zero daphne',
+            'server': 'python -m django_zero gunicorn --access-logfile -',
         }
     raise NotImplementedError('Unknown mode {}.'.format(mode))
 

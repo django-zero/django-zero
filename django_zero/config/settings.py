@@ -9,7 +9,7 @@ BASE_DIR = os.environ['DJANGO_BASE_DIR']
 ZERO_DIR = os.path.dirname(os.path.dirname(__file__))
 
 # Django Zero settings
-ZERO_ENABLE_CHANNELS = get_bool_from_env('ZERO_ENABLE_CHANNELS', default=True)
+ZERO_ENABLE_CHANNELS = get_bool_from_env('ZERO_ENABLE_CHANNELS', default=False)
 ZERO_ENABLE_DEMO = get_bool_from_env('ZERO_ENABLE_DEMO', default=False)
 ZERO_ENABLE_WHITENOISE = get_bool_from_env('ZERO_ENABLE_WHITENOISE', default=True)
 

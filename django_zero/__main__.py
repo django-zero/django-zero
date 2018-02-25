@@ -20,7 +20,10 @@ def handle_webpack(*args):
 
 
 def handle_gunicorn(*args):
-    from gunicorn.app.wsgiapp import WSGIApplication
+    try:
+        from gunicorn.app.wsgiapp import WSGIApplication
+    except ModuleNotFoundError as exc:
+        raise ModuleNotFoundError('Gunicorn not found. Please install it (pip install gunicorn).') from exc
 
     _sys_argv_backup, sys.argv = sys.argv, [sys.argv[1], 'config.wsgi', *sys.argv[2:]]
     try:
