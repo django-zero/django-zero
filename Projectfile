@@ -35,6 +35,17 @@ python.add_requirements(
     'jinja2 ~=2.10',
     'mondrian ~=0.6',
     'whitenoise ~=3.3',
+)
+
+# Channels
+python.add_requirements(
+    channels=[
+        'channels ~=2.0,>=2.0.2',
+    ]
+)
+
+# Dev-only tooling
+python.add_requirements(
     dev=[
         'cookiecutter ~=1.6',
         'django-extensions ~=1.9',

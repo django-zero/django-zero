@@ -8,6 +8,11 @@ from django_zero.utils import get_bool_from_env
 BASE_DIR = os.environ['DJANGO_BASE_DIR']
 ZERO_DIR = os.path.dirname(os.path.dirname(__file__))
 
+# Django Zero settings
+ZERO_ENABLE_CHANNELS = get_bool_from_env('ZERO_ENABLE_CHANNELS', default=True)
+ZERO_ENABLE_DEMO = get_bool_from_env('ZERO_ENABLE_DEMO', default=False)
+ZERO_ENABLE_WHITENOISE = get_bool_from_env('ZERO_ENABLE_WHITENOISE', default=True)
+
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = None
 
@@ -25,8 +30,8 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    *(['channels'] if ZERO_ENABLE_CHANNELS else []),
     *(['django_extensions'] if DEBUG else []),
-    'whitenoise.runserver_nostatic',
     'django.contrib.staticfiles',
     *(['debug_toolbar'] if DEBUG else []),
     'allauth',
@@ -37,7 +42,7 @@ INSTALLED_APPS = [
 # Middlewares
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    *(['whitenoise.middleware.WhiteNoiseMiddleware'] if ZERO_ENABLE_WHITENOISE else []),
     *(['debug_toolbar.middleware.DebugToolbarMiddleware'] if DEBUG else []),
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -81,6 +86,8 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'config.wsgi.application'
+if ZERO_ENABLE_CHANNELS:
+    ASGI_APPLICATION = 'config.routing.application'
 
 # Database
 
@@ -157,6 +164,3 @@ ACCOUNT_FORMS = {
 }
 
 LOGIN_REDIRECT_URL = '/profile'
-
-# Django Zero settings
-ZERO_ENABLE_DEMO = False
