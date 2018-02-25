@@ -36,9 +36,9 @@ class InitCommand(BaseCommand):
 
         print('Your "{}" application has been created.'.format(name))
         print()
-        print('Please add the following to your INSTALLED_APPS (in config/)')
+        print('Please add the following to your INSTALLED_APPS (in config/settings.py)')
         print()
-        print("  INSTALLED_APPS = [")
+        print("  INSTALLED_APPS += [")
         print("      ...,")
         print("      'apps.{}',".format(name))
         print("  ]")

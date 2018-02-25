@@ -23,6 +23,7 @@ if settings.DEBUG:
     except ImportError as exc:
         logging.getLogger(__name__).exception('Could not import debug_toolbar, skipping.')
 
-# Default example views
-urlpatterns.append(path('', views.example_feature_list_view, name='example_feature_list'))
-urlpatterns.append(path('<slug>', views.example_feature_detail_view, name='example_feature_detail'))
+if settings.DEBUG and settings.ZERO_ENABLE_DEMO:
+    # Default example views
+    urlpatterns.append(path('', views.example_feature_list_view, name='example_feature_list'))
+    urlpatterns.append(path('<slug>', views.example_feature_detail_view, name='example_feature_detail'))

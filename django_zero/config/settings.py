@@ -157,3 +157,6 @@ ACCOUNT_FORMS = {
 }
 
 LOGIN_REDIRECT_URL = '/profile'
+
+# Django Zero settings
+ZERO_ENABLE_DEMO = False
