@@ -1,0 +1,27 @@
+from medikit import require
+
+NAME = '{{ cookiecutter.name }}'
+
+python = require('python')
+
+# Basic setup
+python.setup(
+    name=NAME,
+    description='',
+    license='',
+    url='',
+    download_url='',
+    author='',
+    author_email='',
+)
+
+# Disable default package name creation
+python.create_packages = False
+python.version_file = 'config/version.py'
+
+# Added as a constraint to authorize editable install
+python.add_constraints(
+    'django-zero',
+)
+
+# vim: ft=python:

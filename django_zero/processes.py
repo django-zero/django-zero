@@ -18,7 +18,7 @@ def get_procs(mode='dev'):
         }
     if mode == 'prod':
         return {
-            'server': 'python -m django_zero gunicorn',
+            'server': 'python -m django_zero daphne',
         }
     raise NotImplementedError('Unknown mode {}.'.format(mode))
 
@@ -39,9 +39,17 @@ def create_honcho_manager(*, printer=None, mode='dev', **kwargs):
     return m
 
 
+def call_manage(*args, environ=None):
+    return subprocess.call(
+        'python -m django_zero manage ' + ' '.join(map(shlex.quote, args)),
+        env={**os.environ, **get_env(), **(environ or {})},
+        shell=True,
+        )
+
 def call_webpack(*args, environ=None):
     return subprocess.call(
         'yarn run webpack --config config/webpack.js ' + ' '.join(map(shlex.quote, args)),
         env={**os.environ, **get_env(), **(environ or {})},
         shell=True,
     )
+

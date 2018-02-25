@@ -3,16 +3,15 @@ import logging
 import os
 import shutil
 import subprocess
-import sys
 
 import django_zero
+import mondrian
+import sys
 from django_zero.commands import BaseCommand
-from django_zero.commands.init import InitCommand
+from django_zero.commands.create import CreateCommand
 from django_zero.commands.start import StartCommand
 from django_zero.processes import call_webpack
 from django_zero.utils import check_installed, get_env
-
-import mondrian
 
 
 def handle_webpack(*args):
@@ -26,6 +25,16 @@ def handle_gunicorn(*args):
     _sys_argv_backup, sys.argv = sys.argv, [sys.argv[1], 'config.wsgi', *sys.argv[2:]]
     try:
         WSGIApplication('django-zero %(prog)s [OPTIONS]').run()
+    finally:
+        sys.argv = _sys_argv_backup
+
+
+def handle_daphne(*args):
+    from daphne.cli import CommandLineInterface as DaphneCLI
+
+    _sys_argv_backup, sys.argv = sys.argv, [sys.argv[1], 'config.asgi:application', *sys.argv[2:]]
+    try:
+        DaphneCLI.entrypoint()
     finally:
         sys.argv = _sys_argv_backup
 
@@ -67,14 +76,15 @@ def handle_path():
 
 
 commands = {
-    'init': InitCommand,
+    'create': CreateCommand,
     'gunicorn': handle_gunicorn,
+    'daphne': handle_daphne,
+    'install': handle_install,
     'manage': handle_manage,
     'path': handle_path,
     'start': StartCommand,
-    'webpack': handle_webpack,
-    'install': handle_install,
     'uninstall': handle_uninstall,
+    'webpack': handle_webpack,
 }
 
 

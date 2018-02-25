@@ -139,6 +139,7 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'resources/static'),
     os.path.join(BASE_DIR, '.cache/webpack'),
 ]
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Let's make sure all those dirs exist.
 for _dir in STATICFILES_DIRS:

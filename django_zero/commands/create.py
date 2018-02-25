@@ -3,7 +3,7 @@ import os
 from django_zero.commands import BaseCommand
 
 
-class InitCommand(BaseCommand):
+class CreateCommand(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument('--no-input', action='store_true')
 
@@ -55,3 +55,11 @@ class InitCommand(BaseCommand):
         from cookiecutter.main import cookiecutter
         cookiecutter(template, checkout=False, output_dir=path, extra_context={'name': name, **options},
                      no_input=no_input)
+
+        from medikit.commands import handle_update
+        oldwd = os.getcwd()
+        os.chdir(os.path.join(path, name))
+        try:
+            handle_update('Projectfile')
+        finally:
+            os.chdir(oldwd)
