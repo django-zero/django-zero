@@ -13,10 +13,15 @@ def test_create_file(tmpdir):
     old_wd = os.getcwd()
     os.chdir(str(tmpdir))
     try:
-        os.system('python -m django_zero init --no-input project foo')
+        os.system('python -m django_zero create --no-input project foo')
 
         os.chdir(str(tmpdir.join('foo')))
-        os.system('make install')
+
+        # TODO: move back into make install
+        os.system('python -m django_zero install')
+        os.system('yarn install')
+
+        # Run the webpack assets builder
         os.system('python -m django_zero webpack')
 
         events = multiprocessing.Queue()
