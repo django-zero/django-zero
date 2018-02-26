@@ -46,10 +46,10 @@ def call_manage(*args, environ=None):
         shell=True,
         )
 
+
 def call_webpack(*args, environ=None):
     return subprocess.call(
         'yarn run webpack --config config/webpack.js ' + ' '.join(map(shlex.quote, args)),
         env={**os.environ, **get_env(), **(environ or {})},
         shell=True,
     )
-

@@ -1,6 +1,6 @@
 # django_zero (see github.com/python-medikit)
 
-from medikit import require
+from medikit import listen, require
 
 NAME = 'django_zero'
 
@@ -54,6 +54,7 @@ python.add_requirements(
         'django-extensions ~=1.9',
         'django_debug_toolbar ~=1.9',
         'honcho ~=1.0',
+        'medikit ~=0.5',
         'werkzeug ~=0.14',
     ],
 )
@@ -79,5 +80,19 @@ python.add_requirements(
         'webpack': '^3.10.0'
     }
 ))
+
+@listen(make.on_generate)
+def on_make_generate(event):
+    event.makefile.add_target('testrun', '''
+        $(eval TMPDIR := $(shell mktemp -d))
+        (cd $(TMPDIR); $(PYTHON) -m virtualenv -p $(PYTHON) env)
+        $(TMPDIR)/env/bin/pip install .[dev]
+        $(eval ZERO := $(TMPDIR)/env/bin/django-zero)
+        (cd $(TMPDIR); $(ZERO) install)
+        (cd $(TMPDIR); $(ZERO) create --no-input project acme)
+        (cd $(TMPDIR)/acme; $(YARN) install)
+        (cd $(TMPDIR)/acme; $(ZERO) manage migrate)
+        trap 'rm -rf "$(TMPDIR)"' EXIT; (cd $(TMPDIR)/acme; $(ZERO) start)
+    ''', phony=True)
 
 # vim: ft=python:

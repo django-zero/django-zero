@@ -1,9 +1,11 @@
 import os
 
-from django_zero.commands import BaseCommand
+from django_zero.commands.base import BaseCommand
 
 
 class CreateCommand(BaseCommand):
+    """Create a project/an app."""
+
     def add_arguments(self, parser):
         parser.add_argument('--no-input', action='store_true')
 
