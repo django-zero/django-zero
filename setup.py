@@ -56,10 +56,11 @@ setup(
         'jinja2 (~= 2.10)', 'mondrian (~= 0.6)', 'whitenoise (~= 3.3)'
     ],
     extras_require={
+        'celery': ['celery (~= 4.1)', 'django_celery_beat (~= 1.1.1)', 'django_celery_results (~= 1.0.1)'],
         'channels': ['channels (~= 2.0, >= 2.0.2)'],
         'dev': [
-            'cookiecutter (~= 1.6)', 'coverage (>= 4.4, < 5.0)', 'django-extensions (~= 1.9)',
-            'django_debug_toolbar (~= 1.9)', 'honcho (~= 1.0)', 'pytest (>= 3.1, < 4.0)', 'pytest-cov (>= 2.5, < 3.0)',
+            'cookiecutter (~= 1.6)', 'coverage (~= 4.4)', 'django-extensions (~= 1.9)', 'django_debug_toolbar (~= 1.9)',
+            'honcho (~= 1.0)', 'pytest (~= 3.4)', 'pytest-cov (~= 2.5)', 'pytest-sugar (~= 0.9.1)',
             'sphinx (>= 1.6, < 2.0)', 'werkzeug (~= 0.14)', 'yapf'
         ]
     },

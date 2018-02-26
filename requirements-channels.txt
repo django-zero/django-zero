@@ -1,4 +1,5 @@
 -e .[channels]
+-r requirements.txt
 asgiref==2.1.6
 async-timeout==2.0.0
 attrs==17.4.0
@@ -8,7 +9,8 @@ channels==2.0.2
 constantly==15.1.0
 daphne==2.0.4
 django==2.0.2
-hyperlink==17.3.1
+hyperlink==18.0.0
+idna==2.6
 incremental==17.5.0
 pytz==2018.3
 six==1.11.0

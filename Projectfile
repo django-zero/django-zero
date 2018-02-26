@@ -35,29 +35,32 @@ python.add_requirements(
     'jinja2 ~=2.10',
     'mondrian ~=0.6',
     'whitenoise ~=3.3',
-)
 
-# Channels
-python.add_requirements(
+    # Celery
+    celery=[
+        'celery ~=4.1',
+        'django_celery_beat ~=1.1.1',
+        'django_celery_results ~=1.0.1',
+    ],
+
+    # Channels
     channels=[
         'channels ~=2.0,>=2.0.2',
-    ]
-)
+    ],
 
-# Dev-only tooling
-python.add_requirements(
+    # Dev-only tooling
     dev=[
         'cookiecutter ~=1.6',
         'django-extensions ~=1.9',
         'django_debug_toolbar ~=1.9',
         'honcho ~=1.0',
         'werkzeug ~=0.14',
-    ]
+    ],
 )
 
-nodejs.setup(base_dir=NAME)
-
-nodejs.add_dependencies(
+(nodejs
+    .setup(base_dir=NAME)
+    .add_dependencies(
     {
         'assets-webpack-plugin': '^3.5.1',
         'babel-core': '^6.26.0',
@@ -75,6 +78,6 @@ nodejs.add_dependencies(
         'style-loader': '^0.19.1',
         'webpack': '^3.10.0'
     }
-)
+))
 
 # vim: ft=python:
