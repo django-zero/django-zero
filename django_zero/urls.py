@@ -1,11 +1,13 @@
 import logging
 
 from django.conf import settings
+from django.contrib import admin
 from django.urls import include, path
-
 from django_zero import views
 
-urlpatterns = []
+urlpatterns = [
+    path('admin/', admin.site.urls),
+]
 
 for app in settings.INSTALLED_APPS:
     if app.startswith('apps.'):
@@ -17,9 +19,7 @@ if settings.DEBUG:
     try:
         import debug_toolbar
 
-        urlpatterns = [
-            path(r'__debug__/', include(debug_toolbar.urls)),
-        ] + urlpatterns
+        urlpatterns = [path(r'__debug__/', include(debug_toolbar.urls))] + urlpatterns
     except ImportError as exc:
         logging.getLogger(__name__).exception('Could not import debug_toolbar, skipping.')
 

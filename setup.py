@@ -59,7 +59,7 @@ setup(
         'channels': ['channels (~= 2.0, >= 2.0.2)'],
         'dev': [
             'cookiecutter (~= 1.6)', 'coverage (~= 4.4)', 'django-extensions (~= 1.9)', 'django_debug_toolbar (~= 1.9)',
-            'honcho (~= 1.0)', 'pytest (~= 3.4)', 'pytest-cov (~= 2.5)', 'pytest-sugar (~= 0.9.1)',
+            'honcho (~= 1.0)', 'medikit (~= 0.5)', 'pytest (~= 3.4)', 'pytest-cov (~= 2.5)', 'pytest-sugar (~= 0.9.1)',
             'sphinx (>= 1.6, < 2.0)', 'werkzeug (~= 0.14)', 'yapf'
         ]
     },

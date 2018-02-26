@@ -22,7 +22,7 @@ YAPF_OPTIONS ?= -rip
 YARN ?= $(shell which yarn)
 NODE ?= $(shell which node)
 
-.PHONY: $(SPHINX_SOURCEDIR) clean format install install-dev test update update-requirements
+.PHONY: $(SPHINX_SOURCEDIR) clean format install install-dev test testrun update update-requirements
 
 # Installs the local project dependencies.
 install:
@@ -61,3 +61,14 @@ $(SPHINX_SOURCEDIR): install-dev
 format: install-dev
 	$(YAPF) $(YAPF_OPTIONS) .
 	$(YAPF) $(YAPF_OPTIONS) Projectfile
+
+testrun:
+	$(eval TMPDIR := $(shell mktemp -d))
+	(cd $(TMPDIR); $(PYTHON) -m virtualenv -p $(PYTHON) env)
+	$(TMPDIR)/env/bin/pip install .[dev]
+	$(eval ZERO := $(TMPDIR)/env/bin/django-zero)
+	(cd $(TMPDIR); $(ZERO) install)
+	(cd $(TMPDIR); $(ZERO) create --no-input project acme)
+	(cd $(TMPDIR)/acme; $(YARN) install)
+	(cd $(TMPDIR)/acme; $(ZERO) manage migrate)
+	trap 'rm -rf "$(TMPDIR)"' EXIT; (cd $(TMPDIR)/acme; $(ZERO) start)
