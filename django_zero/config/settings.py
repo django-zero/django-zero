@@ -11,6 +11,7 @@ ZERO_DIR = os.path.dirname(os.path.dirname(__file__))
 
 # Django Zero settings
 ZERO_ENABLE_DEMO = get_bool_from_env('ENABLE_DEMO', default=False)
+ZERO_ENABLE_EXPERIMENTS = get_bool_from_env('ENABLE_EXPERIMENTS', default=False)
 
 # Feature Flags
 _is_celery_enabled = features.is_celery_enabled()

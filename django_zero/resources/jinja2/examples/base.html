@@ -35,12 +35,12 @@
                         Django Zero
                     </strong>
                 </a>
-                <div class="hidden" style="visibility: hidden; display: none">
+                {% if settings.ZERO_ENABLE_EXPERIMENTS %}
                     <div class="col-4 d-flex justify-content-end align-items-center">
-                        <a class="btn btn-sm mx-2" href="#">Register</a>
-                        <a class="btn btn-sm btn-outline-secondary" href="#">Sign in</a>
+                        <a class="btn btn-sm btn-outline-secondary mx-2" href="#">Register</a>
+                        <a class="btn btn-sm btn-outline-secondary mx-2" href="#">Sign in</a>
                     </div>
-                </div>
+                {% endif %}
             </div>
         </div>
     </header>
