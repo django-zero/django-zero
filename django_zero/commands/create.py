@@ -8,8 +8,6 @@ class CreateCommand(BaseCommand):
     """Create a project/an app."""
 
     def add_arguments(self, parser):
-        parser.add_argument('--no-input', action='store_true')
-
         subparsers = parser.add_subparsers(dest='type')
         subparsers.required = True
 
@@ -31,7 +29,6 @@ class CreateCommand(BaseCommand):
     def handle_app(self, *args, **options):
         check_dev_extras('django-zero create app')
 
-        no_input = options.pop('no_input')
         name = options.pop('name')
         path = 'apps'
 
@@ -52,7 +49,6 @@ class CreateCommand(BaseCommand):
     def handle_project(self, *args, **options):
         check_dev_extras('django-zero create project')
 
-        no_input = options.pop('no_input')
         path = options.pop('path')
         name = os.path.basename(path)
         path = os.path.dirname(path) or '.'
@@ -64,7 +60,7 @@ class CreateCommand(BaseCommand):
             template, checkout=False, output_dir=path, extra_context={
                 'name': name,
                 **options
-            }, no_input=no_input
+            }, no_input=True
         )
 
         from medikit.commands import handle_update

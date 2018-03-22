@@ -152,16 +152,19 @@ class DjangoUrlExtension(Extension):
 
 
 def environment(**options):
-    env = Environment(extensions=['jinja2.ext.i18n'], **options)
+    from django.conf import settings
     from django.utils import translation
+
+    env = Environment(extensions=['jinja2.ext.i18n'], **options)
     env.install_gettext_translations(translation)
 
     env.globals.update(
         {
+            '_': gettext,
+            'assets': AssetsHelper('.cache/assets.json'),
+            'settings': settings,
             'static': staticfiles_storage.url,
             'url': reverse,
-            'assets': AssetsHelper('.cache/assets.json'),
-            '_': gettext,
         }
     )
 
