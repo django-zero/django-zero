@@ -101,4 +101,20 @@ def on_make_generate(event):
         trap 'rm -rf "$(TMPDIR)"' EXIT; (cd $(TMPDIR)/acme; $(ZERO) start)
     ''', phony=True)
 
+
+# Pipelines
+@listen(make.on_generate)
+def on_make_generate_pipelines(event):
+    # Releases
+    event.makefile.add_target(
+        'release',
+        '''
+            python -c 'import medikit; print(medikit.__version__)' || pip install medikit;
+            $(PYTHON) -m medikit pipeline release start
+        ''',
+        phony=True,
+        doc='Releases django-zero.'
+    )
+
+
 # vim: ft=python:

@@ -12,62 +12,76 @@ Feature = namedtuple('Feature', [
 ])
 
 FEATURES = {
-    'webpack': Feature(
+    'webpack':
+    Feature(
         name='Webpack',
         category='Assets Management',
-        description='Assets are compiled using webpack. Default configuration provides Babel and Sass, tuneable at will.',
+        description=
+        'Assets are compiled using webpack. Default configuration provides Babel and Sass, tuneable at will.',
     ),
-    'jinja2': Feature(
+    'jinja2':
+    Feature(
         name='Jinja 2',
         category='Templating',
         description='Jinja2 templating engine is installed and configured, with django-friendly filters and globals.',
     ),
-    'bootstrap': Feature(
+    'bootstrap':
+    Feature(
         name='Bootstrap 4',
         category='Frontend',
         description='The modern frontend framework.\nEither use the default version or customize its build.',
     ),
-    'allauth': Feature(
+    'allauth':
+    Feature(
         name='Allauth',
         category='Authentication',
-        description='User management is pre-configured, with matching views. Adding OAuth providers is a matter of pasting your keys.',
+        description=
+        'User management is pre-configured, with matching views. Adding OAuth providers is a matter of pasting your keys.',
     ),
-    'docker': Feature(
+    'docker':
+    Feature(
         name='Docker & Rocker',
         category='Packaging',
         description='Build production ready images using either Docker or Rocker.',
     ),
-    'debug': Feature(
+    'debug':
+    Feature(
         name='Toolbar & Extensions',
         category='Debugging',
         description='Development server enables both django-extensions and django-debug-toolbar.',
     ),
-    'cookiecutter': Feature(
+    'cookiecutter':
+    Feature(
         name='Cookiecutter',
         category='Scaffolding',
         description='Create projects and applications in seconds, using the interactive cookiecutter templates.',
     ),
-    'mondrian': Feature(
+    'mondrian':
+    Feature(
         name='Mondrian',
         category='Logging',
         description='Configure and extend the python logging facilities without even thinking about it.',
     ),
-    'gunicorn': Feature(
+    'gunicorn':
+    Feature(
         name='Gunicorn',
         category='Production Server',
         description='Battle-tested production server at your fingertips, packaged for take-away.',
     ),
-    'whitenoise': Feature(
+    'whitenoise':
+    Feature(
         name='Whitenoise',
         category='Assets Server',
         description='Like static files, but better (including compression and brotli support)!',
     ),
-    'honcho': Feature(
+    'honcho':
+    Feature(
         name='Honcho',
         category='Process Manager',
         description='Manage all the necessary processes running in parallel and keep your console readable.',
     ),
-    'pytest': Feature(
+    'pytest':
+    Feature(
         name='Pytest',
         category='Testing',
         description='Write tests for your code and make sure you are dead serious about output quality!',
@@ -95,8 +109,14 @@ def example_feature_detail_view(request, slug):
                 parsed = publish_parts(f.read(), writer_name='html5')
         except ImportError:
             parsed = {
-                'body': 'Please install python\'s <code>docutils</code> package to render the detail pages of demo application.'
+                'body':
+                'Please install python\'s <code>docutils</code> package to render the detail pages of demo application.'
             }
 
-    return render(request, 'examples/feature_detail.html',
-                  {'current_feature': feature, 'features': FEATURES, 'content': parsed})
+    return render(
+        request, 'examples/feature_detail.html', {
+            'current_feature': feature,
+            'features': FEATURES,
+            'content': parsed
+        }
+    )

@@ -27,6 +27,7 @@ def get_procs(mode='dev'):
 
     return procs
 
+
 def create_honcho_manager(*, printer=None, mode='dev', **kwargs):
     environ = {
         **os.environ,
@@ -46,14 +47,22 @@ def create_honcho_manager(*, printer=None, mode='dev', **kwargs):
 def call_manage(*args, environ=None):
     return subprocess.call(
         'python -m django_zero manage ' + ' '.join(map(shlex.quote, args)),
-        env={**os.environ, **get_env(), **(environ or {})},
+        env={
+            **os.environ,
+            **get_env(),
+            **(environ or {})
+        },
         shell=True,
-        )
+    )
 
 
 def call_webpack(*args, environ=None):
     return subprocess.call(
         'yarn run webpack --config config/webpack.js ' + ' '.join(map(shlex.quote, args)),
-        env={**os.environ, **get_env(), **(environ or {})},
+        env={
+            **os.environ,
+            **get_env(),
+            **(environ or {})
+        },
         shell=True,
     )

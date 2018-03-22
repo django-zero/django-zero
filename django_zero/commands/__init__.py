@@ -104,11 +104,7 @@ def main():
                 )
             else:
                 # other lines
-                print(f(
-                    prefix,
-                    arg_formatted + ' ' * (line_length - arg_length - 2 * SPACES),
-                    suffix
-                ))
+                print(f(prefix, arg_formatted + ' ' * (line_length - arg_length - 2 * SPACES), suffix))
 
         print(f(w('╚' + '═' * (line_length - 2) + '╝')))
 

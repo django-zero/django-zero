@@ -2,6 +2,7 @@ import logging
 
 from django_zero.errors import UserError
 
+
 class BaseCommand:
     """
     Base class for CLI commands.

@@ -74,7 +74,6 @@ def check_installed():
         )
 
 
-
 DEV_EXTRA_REQUIRED_MESSAGE = (
     'You need django-zero development tools to use `{cmd}` ("{req}" not found).\n'
     'Try installing the `dev` extra:\n'
@@ -103,6 +102,7 @@ def check_dev_extras(cmd):
         import honcho
     except ImportError:
         raise UserError(*DEV_EXTRA_REQUIRED_MESSAGE.format(cmd=cmd, req='honcho').split('\n'))
+
 
 def check_prod_extras(cmd):
     try:

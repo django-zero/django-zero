@@ -60,8 +60,12 @@ class CreateCommand(BaseCommand):
         template = os.path.join(os.path.dirname(__file__), 'templates/project')
 
         from cookiecutter.main import cookiecutter
-        cookiecutter(template, checkout=False, output_dir=path, extra_context={'name': name, **options},
-                     no_input=no_input)
+        cookiecutter(
+            template, checkout=False, output_dir=path, extra_context={
+                'name': name,
+                **options
+            }, no_input=no_input
+        )
 
         from medikit.commands import handle_update
         oldwd = os.getcwd()
