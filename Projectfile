@@ -94,10 +94,10 @@ def on_make_generate(event):
         (cd $(TMPDIR); $(PYTHON) -m virtualenv -p $(PYTHON) env)
         $(TMPDIR)/env/bin/pip install .[dev]
         $(eval ZERO := $(TMPDIR)/env/bin/django-zero)
-        (cd $(TMPDIR); $(ZERO) install)
         (cd $(TMPDIR); $(ZERO) create --no-input project acme)
-        (cd $(TMPDIR)/acme; $(YARN) install)
+        (cd $(TMPDIR)/acme; $(ZERO) install)
         (cd $(TMPDIR)/acme; $(ZERO) manage migrate)
+        (cd $(TMPDIR)/acme; make start)
         trap 'rm -rf "$(TMPDIR)"' EXIT; (cd $(TMPDIR)/acme; $(ZERO) start)
     ''', phony=True)
 

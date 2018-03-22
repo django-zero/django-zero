@@ -29,7 +29,7 @@ MEDIKIT ?= $(PYTHON) -m medikit
 MEDIKIT_UPDATE_OPTIONS ?= 
 MEDIKIT_VERSION ?= 0.5.18
 
-.PHONY: $(SPHINX_SOURCEDIR) clean format help install install-celery install-channels install-dev install-prod medikit quick test testrun update update-requirements
+.PHONY: $(SPHINX_SOURCEDIR) clean format help install install-celery install-channels install-dev install-prod medikit quick release test testrun update update-requirements
 
 install: .medikit/install   ## Installs the project.
 .medikit/install: $(PYTHON_REQUIREMENTS_FILE) setup.py
@@ -125,11 +125,15 @@ testrun:   ##
 	(cd $(TMPDIR); $(PYTHON) -m virtualenv -p $(PYTHON) env)
 	$(TMPDIR)/env/bin/pip install .[dev]
 	$(eval ZERO := $(TMPDIR)/env/bin/django-zero)
-	(cd $(TMPDIR); $(ZERO) install)
 	(cd $(TMPDIR); $(ZERO) create --no-input project acme)
-	(cd $(TMPDIR)/acme; $(YARN) install)
+	(cd $(TMPDIR)/acme; $(ZERO) install)
 	(cd $(TMPDIR)/acme; $(ZERO) manage migrate)
+	(cd $(TMPDIR)/acme; make start)
 	trap 'rm -rf "$(TMPDIR)"' EXIT; (cd $(TMPDIR)/acme; $(ZERO) start)
+
+release:   ## Releases django-zero.
+	python -c 'import medikit; print(medikit.__version__)' || pip install medikit;
+	$(PYTHON) -m medikit pipeline release start
 
 medikit:   # Checks installed medikit version and updates it if it is outdated.
 	@$(PYTHON) -c 'import medikit, sys; from packaging.version import Version; sys.exit(0 if Version(medikit.__version__) >= Version("$(MEDIKIT_VERSION)") else 1)' || $(PYTHON) -m pip install -U "medikit>=$(MEDIKIT_VERSION)"
