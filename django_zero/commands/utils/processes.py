@@ -1,6 +1,7 @@
 import os
 import shlex
 import subprocess
+import sys
 
 from django_zero.config import features
 from django_zero.utils import get_env
@@ -14,16 +15,16 @@ DEFAULT_DEV_PROCESSES = [
 def get_procs(mode='dev'):
     procs = {}
     if mode == 'dev':
-        procs['server'] = 'python -m django_zero manage runserver'
-        procs['assets'] = 'python -m django_zero webpack --watch --colors'
+        procs['server'] = sys.executable + ' -m django_zero manage runserver'
+        procs['assets'] = sys.executable + ' -m django_zero webpack --watch --colors'
     elif mode == 'prod':
-        procs['server'] = 'python -m django_zero gunicorn --access-logfile -'
+        procs['server'] = sys.executable + ' -m django_zero gunicorn --access-logfile -'
     else:
         raise NotImplementedError('Unknown mode {}.'.format(mode))
 
     if features.is_celery_enabled():
-        procs['beat'] = 'python -m django_zero celery beat'
-        procs['worker'] = 'python -m django_zero celery worker'
+        procs['beat'] = sys.executable + ' -m django_zero celery beat'
+        procs['worker'] = sys.executable + ' -m django_zero celery worker'
 
     return procs
 
@@ -46,7 +47,7 @@ def create_honcho_manager(*, printer=None, mode='dev', **kwargs):
 
 def call_manage(*args, environ=None):
     return subprocess.call(
-        'python -m django_zero manage ' + ' '.join(map(shlex.quote, args)),
+        sys.executable + ' -m django_zero manage ' + ' '.join(map(shlex.quote, args)),
         env={
             **os.environ,
             **get_env(),
