@@ -3,4 +3,4 @@ include django_zero/config/*.js
 include django_zero/package.json
 include django_zero/yarn.lock
 recursive-include django_zero/commands/templates *
-recursive-include django_zero/resources *.js *.scss *.html *.ico
+recursive-include django_zero/resources *.js *.scss *.html *.ico *.png *.xml *.svg *.jpg *.webmanifest
