@@ -1,9 +1,7 @@
 import sys
 
-from django_zero.commands import main
-
 if __name__ == '__main__':
-    retval = main()
+    from django_zero.commands import main
 
-    if retval:
-        sys.exit(int(retval))
+    retval = main()
+    sys.exit(int(retval) if retval else 0)

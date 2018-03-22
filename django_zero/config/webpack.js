@@ -2,7 +2,12 @@ var path = require('path');
 
 const zeroPath = process.env.DJANGO_ZERO_BASE_DIR;
 const basePath = process.env.DJANGO_BASE_DIR;
-const resolveConfig = {modules: [path.resolve(zeroPath, 'node_modules')]}
+const resolveConfig = {
+    modules: [
+        path.resolve(zeroPath, 'node_modules'),
+        path.resolve(basePath, 'node_modules'),
+    ]
+}
 
 function createWebpackConfig(withExamples = false) {
     const ExtractTextPlugin = require('extract-text-webpack-plugin');
@@ -15,7 +20,7 @@ function createWebpackConfig(withExamples = false) {
     if (withExamples) {
         entries = {
             ...entries,
-            'examples-blog': path.resolve(zeroPath, 'resources/assets/examples/blog.js'),
+            'demo': path.resolve(zeroPath, 'resources/assets/examples/demo.js'),
         }
     }
 

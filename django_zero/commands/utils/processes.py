@@ -2,6 +2,7 @@ import os
 import shlex
 import subprocess
 
+from django_zero.config import features
 from django_zero.utils import get_env
 
 DEFAULT_DEV_PROCESSES = [
@@ -11,17 +12,20 @@ DEFAULT_DEV_PROCESSES = [
 
 
 def get_procs(mode='dev'):
+    procs = {}
     if mode == 'dev':
-        return {
-            'server': 'python -m django_zero manage runserver',
-            'assets': 'python -m django_zero webpack --watch --colors',
-        }
-    if mode == 'prod':
-        return {
-            'server': 'python -m django_zero gunicorn --access-logfile -',
-        }
-    raise NotImplementedError('Unknown mode {}.'.format(mode))
+        procs['server'] = 'python -m django_zero manage runserver'
+        procs['assets'] = 'python -m django_zero webpack --watch --colors'
+    elif mode == 'prod':
+        procs['server'] = 'python -m django_zero gunicorn --access-logfile -'
+    else:
+        raise NotImplementedError('Unknown mode {}.'.format(mode))
 
+    if features.is_celery_enabled():
+        procs['beat'] = 'python -m django_zero celery beat'
+        procs['worker'] = 'python -m django_zero celery worker'
+
+    return procs
 
 def create_honcho_manager(*, printer=None, mode='dev', **kwargs):
     environ = {

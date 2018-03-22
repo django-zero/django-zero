@@ -1,7 +1,8 @@
-from medikit import require
+from medikit import listen, require
 
 NAME = '{{ cookiecutter.name }}'
 
+make = require('make')
 python = require('python')
 
 # Basic setup
@@ -23,5 +24,17 @@ python.version_file = 'config/version.py'
 python.add_constraints(
     'django-zero',
 )
+
+
+@listen(make.on_generate)
+def on_make_generate_django_zero(event):
+    event.makefile['DJANGO_ZERO'] = '$(PYTHON) -m django_zero'
+    event.makefile.get_target('install-dev').install += [
+        '$(DJANGO_ZERO) install',
+    ]
+
+    event.makefile.add_target('start', '''
+        $(DJANGO_ZERO) start
+    ''', deps=('install-dev', ), first=True, doc='Starts the django development server.')
 
 # vim: ft=python:

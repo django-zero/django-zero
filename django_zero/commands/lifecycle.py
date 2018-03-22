@@ -5,7 +5,7 @@ import subprocess
 import django_zero
 from django_zero.commands import BaseCommand
 from django_zero.commands.utils.processes import call_webpack, call_manage, create_honcho_manager
-from django_zero.utils import get_env, check_installed
+from django_zero.utils import get_env, check_installed, check_dev_extras, check_prod_extras
 
 
 class StartCommand(BaseCommand):
@@ -15,7 +15,11 @@ class StartCommand(BaseCommand):
         parser.add_argument('--prod', '-p', action='store_true')
 
     def handle(self, *, prod=False):
+        cmd = 'django-zero start'
+        check_dev_extras(cmd)
+
         if prod:
+            check_prod_extras(cmd)
             call_webpack('-p')
             call_manage('collectstatic', '--noinput')
             m = create_honcho_manager(mode='prod')
@@ -33,6 +37,7 @@ class InstallCommand(BaseCommand):
     def handle(self):
         env = get_env()
         subprocess.call('yarn install', cwd=env['DJANGO_ZERO_BASE_DIR'], shell=True)
+        subprocess.call('yarn install', cwd=env['DJANGO_BASE_DIR'], shell=True)
 
 
 class UninstallCommand(BaseCommand):

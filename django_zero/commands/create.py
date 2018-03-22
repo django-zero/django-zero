@@ -1,6 +1,7 @@
 import os
 
 from django_zero.commands.base import BaseCommand
+from django_zero.utils import check_dev_extras
 
 
 class CreateCommand(BaseCommand):
@@ -28,6 +29,8 @@ class CreateCommand(BaseCommand):
             return self.handle_project(*args, **options)
 
     def handle_app(self, *args, **options):
+        check_dev_extras('django-zero create app')
+
         no_input = options.pop('no_input')
         name = options.pop('name')
         path = 'apps'
@@ -47,6 +50,8 @@ class CreateCommand(BaseCommand):
         print()
 
     def handle_project(self, *args, **options):
+        check_dev_extras('django-zero create project')
+
         no_input = options.pop('no_input')
         path = options.pop('path')
         name = os.path.basename(path)

@@ -59,7 +59,21 @@ class DaphneCommand(BaseCommand):
             sys.argv = _sys_argv_backup
 
 
+class CeleryCommand(BaseCommand):
+    """Runs the celery CLI."""
+
+    def handle(self, *args):
+        from celery.__main__ import main as celery_main
+        _sys_argv_backup, sys.argv = sys.argv, [' '.join(sys.argv[0:2]), '-A', 'config.celery', *sys.argv[2:]]
+        try:
+            celery_main()
+        finally:
+            sys.argv = _sys_argv_backup
+
+
 class WebpackCommand(BaseCommand):
+    """Runs weppack using your project's configuration (in config/webpack.js)."""
+
     def handle(self, *args):
         check_installed()
         return call_webpack(*args)

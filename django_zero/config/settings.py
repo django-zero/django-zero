@@ -2,6 +2,7 @@ import logging
 import os
 
 import mondrian
+from django_zero.config import features
 from django_zero.utils import get_bool_from_env
 
 # Directories
@@ -9,15 +10,35 @@ BASE_DIR = os.environ['DJANGO_BASE_DIR']
 ZERO_DIR = os.path.dirname(os.path.dirname(__file__))
 
 # Django Zero settings
-ZERO_ENABLE_CHANNELS = get_bool_from_env('ZERO_ENABLE_CHANNELS', default=False)
-ZERO_ENABLE_DEMO = get_bool_from_env('ZERO_ENABLE_DEMO', default=False)
-ZERO_ENABLE_WHITENOISE = get_bool_from_env('ZERO_ENABLE_WHITENOISE', default=True)
+ZERO_ENABLE_DEMO = get_bool_from_env('ENABLE_DEMO', default=False)
+
+# Feature Flags
+_is_celery_enabled = features.is_celery_enabled()
+_is_channels_enabled = features.is_channels_enabled()
+_is_whitenoise_enabled = features.is_whitenoise_enabled()
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = None
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = get_bool_from_env('DJANGO_DEBUG')
+_debug_only_apps = []
+_debug_only_middlewares = []
+if DEBUG:
+    try:
+        import django_extensions
+
+        _debug_only_apps.append('django_extensions')
+    except ImportError:
+        pass
+
+    try:
+        import debug_toolbar
+
+        _debug_only_apps.append('debug_toolbar')
+        _debug_only_middlewares.append('debug_toolbar.middleware.DebugToolbarMiddleware')
+    except ImportError:
+        pass
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 INTERNAL_IPS = ['127.0.0.1']
@@ -30,10 +51,9 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    *(['channels'] if ZERO_ENABLE_CHANNELS else []),
-    *(['django_extensions'] if DEBUG else []),
+    *(['channels'] if _is_channels_enabled else []),
     'django.contrib.staticfiles',
-    *(['debug_toolbar'] if DEBUG else []),
+    *_debug_only_apps,
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
@@ -42,8 +62,8 @@ INSTALLED_APPS = [
 # Middlewares
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    *(['whitenoise.middleware.WhiteNoiseMiddleware'] if ZERO_ENABLE_WHITENOISE else []),
-    *(['debug_toolbar.middleware.DebugToolbarMiddleware'] if DEBUG else []),
+    *(['whitenoise.middleware.WhiteNoiseMiddleware'] if _is_whitenoise_enabled else []),
+    *_debug_only_middlewares,
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -86,7 +106,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'config.wsgi.application'
-if ZERO_ENABLE_CHANNELS:
+if _is_channels_enabled:
     ASGI_APPLICATION = 'config.routing.application'
 
 # Database
@@ -155,9 +175,9 @@ SITE_ID = 1
 
 # Logging
 LOGGING = {}
+LOGGING_CONFIG = None
 mondrian.setup(excepthook=True)
 logging.getLogger().setLevel(os.getenv('DJANGO_LOG_LEVEL', 'INFO'))
-logging.getLogger().addHandler(logging.FileHandler('/tmp/logs'))
 
 # Authentication
 ACCOUNT_FORMS = {

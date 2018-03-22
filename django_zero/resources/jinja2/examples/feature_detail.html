@@ -8,27 +8,41 @@
 {% endblock %}
 
 {% block content %}
-    <div class="row">
-        <div class="col-3">
-            <ul>
-                {% for feature_slug, feature in features.items() | sort %}
-                    <li>
-                        {% if feature == current_feature %}
-                            <strong>{{ feature.name }}</strong>
-                        {% else %}
-                            <a href="{{ url('example_feature_detail', kwargs={'slug':feature_slug}) }}">{{ feature.name }}</a>
-                        {% endif %}
-                    </li>
-                {% endfor %}
-            </ul>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+                <div class="sidebar-sticky">
+                    <ul class="nav flex-column">
+                        {% for feature_slug, feature in features.items() | sort %}
+                            <li class="nav-item">
+                                <a class="nav-link {% if feature == current_feature %}active{% endif %}"
+                                   href="{{ url('example_feature_detail', kwargs={'slug':feature_slug}) }}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                         stroke-linejoin="round" class="feather feather-home">
+                                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                        <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                                    </svg>
+                                    {% if feature == current_feature %}
+                                        <strong>{{ feature.name }}</strong> <span class="sr-only">(current)</span>
+                                    {% else %}
+                                        {{ feature.name }}
+                                    {% endif %}
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </nav>
 
-        </div>
-        <div class="col-9">
-            <h1 class="display-4 font-italic">{{ current_feature.name }}</h1>
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
 
-            {% if content %}
-                {{ content.body | safe }}
-            {% endif %}
+                <h1 class="display-4 font-italic">{{ current_feature.name }}</h1>
+
+                {% if content %}
+                    {{ content.body | safe }}
+                {% endif %}
+            </main>
         </div>
     </div>
 {% endblock %}

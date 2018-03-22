@@ -4,7 +4,6 @@ from collections import namedtuple
 from django.conf import settings
 from django.http import Http404
 from django.shortcuts import render
-from docutils.core import publish_parts
 
 Feature = namedtuple('Feature', [
     'name',
@@ -90,8 +89,14 @@ def example_feature_detail_view(request, slug):
     filename = os.path.join(settings.ZERO_DIR, '../docs/features', slug + '.rst')
 
     if os.path.exists(filename):
-        with open(filename) as f:
-            parsed = publish_parts(f.read(), writer_name='html5')
+        try:
+            from docutils.core import publish_parts
+            with open(filename) as f:
+                parsed = publish_parts(f.read(), writer_name='html5')
+        except ImportError:
+            parsed = {
+                'body': 'Please install python\'s <code>docutils</code> package to render the detail pages of demo application.'
+            }
 
     return render(request, 'examples/feature_detail.html',
                   {'current_feature': feature, 'features': FEATURES, 'content': parsed})

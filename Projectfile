@@ -22,7 +22,7 @@ python.setup(
     author_email='romain@dorgueil.net',
     entry_points={
         'console_scripts': [
-            'django-zero = django_zero.__main__:main',
+            'django-zero = django_zero.commands:main',
         ],
     }
 )
@@ -57,6 +57,11 @@ python.add_requirements(
         'medikit ~=0.5',
         'werkzeug ~=0.14',
     ],
+
+    # Production tools
+    prod=[
+        'gunicorn ~=19.7.1',
+    ]
 )
 
 (nodejs
@@ -80,6 +85,7 @@ python.add_requirements(
         'webpack': '^3.10.0'
     }
 ))
+
 
 @listen(make.on_generate)
 def on_make_generate(event):

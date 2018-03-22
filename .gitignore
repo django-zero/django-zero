@@ -7,11 +7,13 @@
 /.coverage
 /.idea
 /.medikit-pipeline
+/.medikit/
+/.pytest_cache/
 /.python*-*
 /.release
 /build
 /dist
 /django_zero/node_modules
+/docs/_build
 /htmlcov
 /pylint.html
-/docs/_build
