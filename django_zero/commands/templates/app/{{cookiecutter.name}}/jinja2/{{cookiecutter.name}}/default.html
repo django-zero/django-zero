@@ -1,1 +1,33 @@
-Hello, {{ cookiecutter.name }}.
+{% raw %}{% extends "base.html" %}
+
+{% block content %}
+    <main role="main">
+        <section class="jumbotron text-center" style="background-image: url('{{ static('nuages.jpg') }}');">
+            <div class="container">
+                <h1 class="jumbotron-heading">Welcome to your new django application!</h1>
+                <p class="lead">
+                    This is the default page of your new <code>{% endraw %}{{ cookiecutter.name }}{% raw %}</code> application.
+                </p>
+                <p class="lead">
+                    It's now a good time to go ahead and write some code instead of this default page.
+                </p>
+                <div class="text-center">
+                <pre class="text-left" style="width: 75%; margin: auto; background-color: rgba(255,255,255,0.75)"><code>
+                    apps/{% endraw %}{{ cookiecutter.name }}{% raw %}/
+                    ├── __init__.py
+                    ├── admin.py              # django's admin
+                    ├── apps.py               # django's app config
+                    ├── jinja2
+                    │   └── hello
+                    │       └── default.html  # this template
+                    ├── migrations
+                    │   └── __init__.py
+                    ├── models.py             # your models
+                    ├── urls.py               # your urls
+                    └── views.py              # your views
+                </code></pre>
+                </div>
+            </div>
+        </section>
+    </main>
+{% endblock %}{% endraw %}
