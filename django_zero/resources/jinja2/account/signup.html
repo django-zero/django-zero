@@ -1,0 +1,66 @@
+{% extends "account/base.html" %}
+
+{% block head_title %}{{ _('Registration') }}{% endblock %}
+
+{% block content %}
+    <main role="main">
+        <form class="account card box-shadow p-4" method="POST" action="{% url 'account_signup' %}">
+            {% csrf_token %}
+
+            <div class="mb-4" style="width: 420px;">
+                <h1 class="h3 mb-3 font-weight-normal">{{ _("Create your account") }}</h1>
+            </div>
+
+            {{ form.non_field_errors() }}
+
+            <div class="form-group">
+                {{ form['username'].label_tag() }}
+                {{ form['username'].as_widget() }}
+                {% if form['username'].help_text %}
+                    <p class="help">{{ form['username'].help_text }}</p>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                {{ form['email'].label_tag() }}
+                {{ form['email'].as_widget() }}
+                {% if form['email'].help_text %}
+                    <p class="help">{{ form['email'].help_text }}</p>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                {{ form['password1'].label_tag() }}
+                {{ form['password1'].as_widget() }}
+                {{ form['password1'].errors }}
+                {% if form['password1'].help_text %}
+                    <p class="help">{{ form['password1'].help_text }}</p>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                {{ form['password2'].label_tag() }}
+                {{ form['password2'].as_widget() }}
+                {% if form['password2'].help_text %}
+                    <p class="help">{{ form['password2'].help_text }}</p>
+                {% endif %}
+            </div>
+
+            {% if redirect_field_value %}
+                <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+            {% endif %}
+
+            <button class="btn btn-lg btn-primary btn-block" type="submit">{{ _("Create your account") }}</button>
+
+            <p class="small mt-3">
+                {{ _('By creating an account, you agree to our <a href="#">Conditions of Use</a>.') }}
+            </p>
+
+            <div class="mt-3">
+                {{ _('Already have an account?') }}
+                <a href="{{ login_url }}">{{ _('Sign in') }} <i class="fa fa-right"></i></a>
+            </div>
+        </form>
+    </main>
+{% endblock %}
+

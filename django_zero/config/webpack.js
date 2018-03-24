@@ -14,6 +14,7 @@ function createWebpackConfig(withExamples = false) {
     const AssetsPlugin = require('assets-webpack-plugin');
 
     let entries = {
+        account: path.resolve(zeroPath, 'resources/assets/account.js'),
         bootstrap: path.resolve(zeroPath, 'resources/assets/bootstrap.js'),
     };
 

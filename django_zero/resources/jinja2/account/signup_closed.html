@@ -1,0 +1,15 @@
+{% extends "account/base.html" %}
+
+{% block head_title %}{{ _('Sign Up Closed') }}{% endblock %}
+
+{% block content %}
+    <main role="main">
+        <div class="account card box-shadow p-4">
+            <div class="mb-4" style="width: 420px;">
+                <h1 class="h3 mb-3 font-weight-normal">{{ _("Sign Up Closed") }}</h1>
+            </div>
+
+            <p>{{ _('We are sorry, but the sign up is currently closed.') }}</p>
+        </div>
+    </main>
+{% endblock %}

@@ -181,8 +181,11 @@ mondrian.setup(excepthook=True)
 logging.getLogger().setLevel(os.getenv('DJANGO_LOG_LEVEL', 'INFO'))
 
 # Authentication
+ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_FORMS = {
-    'login': 'django_zero.auth.forms.login.LoginForm',
+    'login': 'django_zero.auth.forms.LoginForm',
+    'reset_password': 'django_zero.auth.forms.ResetPasswordForm',
+    'signup': 'django_zero.auth.forms.SignupForm',
 }
 
 LOGIN_REDIRECT_URL = '/profile'
