@@ -19,7 +19,7 @@ first==2.0.1
 future==0.16.0
 git-semver==0.2.2
 gitdb2==2.0.3
-gitpython==2.1.8
+gitpython==2.1.9
 honcho==1.0.1
 idna==2.6
 imagesize==1.0.0
@@ -28,6 +28,7 @@ jinja2==2.10
 markupsafe==1.0
 medikit==0.5.18
 mondrian==0.6.6
+more-itertools==4.1.0
 packaging==17.1
 pbr==3.1.1
 pip-tools==1.11.0
@@ -37,8 +38,8 @@ py==1.5.3
 pygments==2.2.0
 pyparsing==2.2.0
 pytest-cov==2.5.1
-pytest==3.4.2
-python-dateutil==2.7.0
+pytest==3.5.0
+python-dateutil==2.7.1
 pytz==2018.3
 requests==2.18.4
 semantic-version==2.6.0
