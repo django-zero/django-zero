@@ -80,8 +80,8 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.jinja2.Jinja2',
         'DIRS': [
-            os.path.join(ZERO_DIR, 'resources/jinja2'),
             os.path.join(BASE_DIR, 'resources/jinja2'),
+            os.path.join(ZERO_DIR, 'resources/jinja2'),
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -91,8 +91,8 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            os.path.join(ZERO_DIR, 'resources/templates'),
             os.path.join(BASE_DIR, 'resources/templates'),
+            os.path.join(ZERO_DIR, 'resources/templates'),
         ],
         'APP_DIRS': True,
         'OPTIONS': {
