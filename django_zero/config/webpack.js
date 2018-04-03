@@ -1,7 +1,10 @@
 var path = require('path');
+var webpack = require('webpack');
 
 const zeroPath = process.env.DJANGO_ZERO_BASE_DIR;
 const basePath = process.env.DJANGO_BASE_DIR;
+const NODE_ENV = process.env.NODE_ENV || 'production';
+
 const resolveConfig = {
     modules: [
         path.resolve(zeroPath, 'node_modules'),
@@ -9,7 +12,7 @@ const resolveConfig = {
     ]
 }
 
-function createWebpackConfig(withExamples = false) {
+function createWebpackConfig(withExamples = false, production = (NODE_ENV == 'production')) {
     const ExtractTextPlugin = require('extract-text-webpack-plugin');
     const AssetsPlugin = require('assets-webpack-plugin');
 
@@ -25,7 +28,7 @@ function createWebpackConfig(withExamples = false) {
         }
     }
 
-    return {
+    let config = {
         context: basePath,
         devtool: 'eval-source-map',
 
@@ -44,7 +47,12 @@ function createWebpackConfig(withExamples = false) {
             new AssetsPlugin({
                 path: basePath,
                 filename: '.cache/assets.json',
-            })
+            }),
+            new webpack.DefinePlugin({
+                'process.env': {
+                    'NODE_ENV': JSON.stringify(NODE_ENV)
+                }
+            }),
         ],
 
         module: {
@@ -73,8 +81,7 @@ function createWebpackConfig(withExamples = false) {
                             loader: 'resolve-url-loader',
                             options: { sourceMap: true }
                         }, {
-                            loader: 'sass-loader',
-                            options: { sourceMap: true }
+                            loader: 'sass-loader?sourceMap'
                         }]
                     })
                 },
@@ -96,10 +103,17 @@ function createWebpackConfig(withExamples = false) {
         performance: {
             hints: "warning"
         },
+    };
+
+    if (production) {
+        config.plugins.push(new webpack.optimize.UglifyJsPlugin())
     }
+
+    return config;
 }
 
 module.exports = {
+    NODE_ENV,
     basePath,
     createWebpackConfig,
     zeroPath,

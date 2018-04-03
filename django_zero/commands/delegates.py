@@ -74,6 +74,12 @@ class CeleryCommand(BaseCommand):
 class WebpackCommand(BaseCommand):
     """Runs weppack using your project's configuration (in config/webpack.js)."""
 
-    def handle(self, *args):
+    def add_arguments(self, parser):
+        parser.add_argument('--production', '--prod', '-p', action='store_true')
+
+    def handle(self, *args, production=False):
         check_installed()
-        return call_webpack(*args)
+        environ = {
+            'NODE_ENV': 'production' if production else 'development'
+        }
+        return call_webpack(*args, environ=environ)
