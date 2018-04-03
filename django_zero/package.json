@@ -13,7 +13,6 @@
         "popper.js": "^1.12.9",
         "postcss-loader": "^2.0.10",
         "precss": "^3.1.0",
-        "resolve-url-loader": "^2.3.0",
         "sass-loader": "^6.0.6",
         "style-loader": "^0.19.1",
         "webpack": "^3.10.0"
@@ -21,5 +20,5 @@
     "description": "Zero-configuration django projects.",
     "license": "Apache License, Version 2.0",
     "name": "django_zero",
-    "version": "0.0.13"
+    "version": "0.0.14"
 }
