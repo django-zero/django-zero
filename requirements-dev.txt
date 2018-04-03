@@ -13,11 +13,11 @@ cookiecutter==1.6.0
 coverage==4.5.1
 django-debug-toolbar==1.9.1
 django-extensions==1.9.9
-django==2.0.3
+django==2.0.4
 docutils==0.14
 first==2.0.1
 future==0.16.0
-git-semver==0.2.2
+git-semver==0.2.3
 gitdb2==2.0.3
 gitpython==2.1.9
 honcho==1.0.1
@@ -26,11 +26,11 @@ imagesize==1.0.0
 jinja2-time==0.2.0
 jinja2==2.10
 markupsafe==1.0
-medikit==0.5.18
+medikit==0.5.19
 mondrian==0.6.6
 more-itertools==4.1.0
 packaging==17.1
-pbr==3.1.1
+pbr==4.0.0
 pip-tools==1.11.0
 pluggy==0.6.0
 poyo==0.4.1
