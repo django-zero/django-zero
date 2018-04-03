@@ -27,12 +27,14 @@ class SignupForm(BaseSignupForm):
 
         self.label_suffix = ''
 
-        self.fields['username'].widget.attrs['class'] = 'form-control'
-        self.fields['username'].widget.attrs['placeholder'] = ''
-        self.fields['username'].label = _('Your username')
+        if 'username' in self.fields:
+            self.fields['username'].widget.attrs['class'] = 'form-control'
+            self.fields['username'].widget.attrs['placeholder'] = ''
+            self.fields['username'].label = _('Your username')
 
         self.fields['email'].widget.attrs['class'] = 'form-control'
         self.fields['email'].widget.attrs['placeholder'] = ''
+        self.fields['email'].label = _('Email address')
 
         self.fields['password1'].widget.attrs['class'] = 'form-control'
         self.fields['password1'].widget.attrs['placeholder'] = _('At least 8 characters')

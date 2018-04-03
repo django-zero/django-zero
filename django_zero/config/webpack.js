@@ -50,23 +50,31 @@ function createWebpackConfig(withExamples = false) {
         module: {
             loaders: [
                 {
-                    test: /\.(scss)$/,
+                    test: /\.css$/,
+                    loaders: ['style-loader', 'css-loader', 'postcss-loader', 'resolve-url-loader']
+                }, {
+                    test: /\.scss$/,
                     use: ExtractTextPlugin.extract({
                         fallback: 'style-loader',
                         use: [{
                             loader: 'css-loader',
                         }, {
-                            loader: 'postcss-loader',
+                            loader: 'postcss-loader?sourceMap',
                             options: {
                                 plugins: function () {
                                     return [
                                         require('precss'),
                                         require('autoprefixer')
                                     ];
-                                }
+                                },
+                                sourceMap: true,
                             }
                         }, {
-                            loader: 'sass-loader'
+                            loader: 'resolve-url-loader',
+                            options: { sourceMap: true }
+                        }, {
+                            loader: 'sass-loader',
+                            options: { sourceMap: true }
                         }]
                     })
                 },
@@ -77,10 +85,10 @@ function createWebpackConfig(withExamples = false) {
                     }
                 },
                 {
-                    test: /\.(jpg|png)$/, loader: 'url?limit=25000'
-                },
-                {
-                    test: /\.svg$/, loader: 'file-loader'
+                    test: /\.(jpe?g|png|svg|ttf|woff|eot)$/,
+                    use: [{
+                        loader: 'file-loader'
+                    }]
                 }
             ]
         },

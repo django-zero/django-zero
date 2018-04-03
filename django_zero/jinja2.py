@@ -1,6 +1,7 @@
 import json
 import os
 
+from django.contrib import messages
 from django.contrib.staticfiles.storage import staticfiles_storage
 from django.urls import reverse
 from django.utils.encoding import force_text
@@ -162,6 +163,7 @@ def environment(**options):
         {
             '_': gettext,
             'assets': AssetsHelper('.cache/assets.json'),
+            'get_messages': messages.get_messages,
             'settings': settings,
             'static': staticfiles_storage.url,
             'url': reverse,
