@@ -6,7 +6,7 @@ from django.urls import include, path
 from django_zero import views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path(settings.ADMIN_URL.strip('/') + '/', admin.site.urls),
 ]
 
 for app in settings.INSTALLED_APPS:
@@ -18,6 +18,7 @@ urlpatterns.append(path('', include('allauth.urls')))
 if settings.DEBUG:
     try:
         import debug_toolbar
+
         urlpatterns = [path(r'__debug__/', include(debug_toolbar.urls))] + urlpatterns
     except ImportError as exc:
         logging.getLogger(__name__).warning('Could not import debug_toolbar, skipping.')

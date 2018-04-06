@@ -189,3 +189,4 @@ ACCOUNT_FORMS = {
 }
 
 LOGIN_REDIRECT_URL = '/profile'
+ADMIN_URL = '/admin'
