@@ -46,7 +46,7 @@ function createWebpackConfig(withExamples = false, production = (NODE_ENV == 'pr
             new ExtractTextPlugin('[name].css'),
             new AssetsPlugin({
                 path: basePath,
-                filename: '.cache/assets.json',
+                filename: 'assets.json',
             }),
             new webpack.DefinePlugin({
                 'process.env': {

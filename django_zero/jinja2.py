@@ -162,7 +162,7 @@ def environment(**options):
     env.globals.update(
         {
             '_': gettext,
-            'assets': AssetsHelper('.cache/assets.json'),
+            'assets': AssetsHelper('assets.json'),
             'get_messages': messages.get_messages,
             'settings': settings,
             'static': staticfiles_storage.url,
