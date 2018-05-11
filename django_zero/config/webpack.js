@@ -59,7 +59,7 @@ function createWebpackConfig(withExamples = false, production = (NODE_ENV == 'pr
             loaders: [
                 {
                     test: /\.css$/,
-                    loaders: ['style-loader', 'css-loader', 'postcss-loader', 'resolve-url-loader']
+                    loaders: ['style-loader', 'css-loader', 'resolve-url-loader?sourceMap']
                 }, {
                     test: /\.scss$/,
                     use: ExtractTextPlugin.extract({
@@ -78,8 +78,7 @@ function createWebpackConfig(withExamples = false, production = (NODE_ENV == 'pr
                                 sourceMap: true,
                             }
                         }, {
-                            loader: 'resolve-url-loader',
-                            options: { sourceMap: true }
+                            loader: 'resolve-url-loader?sourceMap'
                         }, {
                             loader: 'sass-loader?sourceMap'
                         }]

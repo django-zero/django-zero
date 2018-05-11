@@ -2,7 +2,7 @@
 -r requirements.txt
 alabaster==0.7.10
 arrow==0.12.1
-attrs==17.4.0
+attrs==18.1.0
 babel==2.5.3
 binaryornot==0.4.4
 certifi==2018.4.16
@@ -13,7 +13,7 @@ cookiecutter==1.6.0
 coverage==4.5.1
 django-debug-toolbar==1.9.1
 django-extensions==1.9.9
-django==2.0.4
+django==2.0.5
 docutils==0.14
 first==2.0.1
 future==0.16.0
@@ -31,22 +31,22 @@ mondrian==0.7.0
 more-itertools==4.1.0
 packaging==17.1
 pbr==4.0.2
-pip-tools==2.0.1
+pip-tools==2.0.2
 pluggy==0.6.0
 poyo==0.4.1
 py==1.5.3
 pygments==2.2.0
 pyparsing==2.2.0
 pytest-cov==2.5.1
-pytest==3.5.0
-python-dateutil==2.7.2
+pytest==3.5.1
+python-dateutil==2.7.3
 pytz==2018.4
 requests==2.18.4
 semantic-version==2.6.0
 six==1.11.0
 smmap2==2.0.3
 snowballstemmer==1.2.1
-sphinx==1.7.3
+sphinx==1.7.4
 sphinxcontrib-websupport==1.0.1
 sqlparse==0.2.4
 stevedore==1.28.0
