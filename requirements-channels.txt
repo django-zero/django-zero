@@ -1,13 +1,13 @@
 -e .[channels]
 -r requirements.txt
-asgiref==2.3.0
-async-timeout==2.0.1
+asgiref==2.3.2
+async-timeout==3.0.0
 attrs==18.1.0
-autobahn==18.5.1
+autobahn==18.5.2
 automat==0.6.0
 channels==2.1.1
 constantly==15.1.0
-daphne==2.1.1
+daphne==2.1.2
 django==2.0.5
 hyperlink==18.0.0
 idna==2.6

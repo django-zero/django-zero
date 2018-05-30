@@ -1,10 +1,10 @@
 -e .[celery]
 -r requirements.txt
-amqp==2.2.2
+amqp==2.3.2
 billiard==3.5.0.3
-celery==4.1.0
+celery==4.1.1
 django-celery-beat==1.1.1
 django-celery-results==1.0.1
-kombu==4.1.0
+kombu==4.2.0
 pytz==2018.4
 vine==1.1.4

@@ -188,5 +188,6 @@ ACCOUNT_FORMS = {
     'signup': 'django_zero.auth.forms.SignupForm',
 }
 
+LOGIN_URL = '/login'
 LOGIN_REDIRECT_URL = '/profile'
 ADMIN_URL = '/admin'
