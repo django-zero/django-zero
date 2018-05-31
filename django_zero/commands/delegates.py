@@ -16,7 +16,7 @@ class DjangoCommand(BaseCommand):
         sys.path = [os.getcwd()] + list(filter(lambda p: p and not p == env['DJANGO_ZERO_BASE_DIR'], sys.path))
 
         os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
-        os.environ.setdefault('DJANGO_BASE_DIR', env['DJANGO_BASE_DIR'])
+        os.environ.setdefault('DJANGO_BASE_DIR', env.get('DJANGO_BASE_DIR', os.getcwd()))
         os.environ.setdefault('DJANGO_DEBUG', 'true')
 
         try:

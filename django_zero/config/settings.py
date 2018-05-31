@@ -6,7 +6,7 @@ from django_zero.config import features
 from django_zero.utils import get_bool_from_env
 
 # Directories
-BASE_DIR = os.environ['DJANGO_BASE_DIR']
+BASE_DIR = os.environ.get('DJANGO_BASE_DIR', os.getcwd())
 ZERO_DIR = os.path.dirname(os.path.dirname(__file__))
 
 # Django Zero settings
