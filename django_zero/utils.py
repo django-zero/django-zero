@@ -46,6 +46,24 @@ def get_bool_from_env(var, default=False):
     return True
 
 
+def get_list_from_env(name, default=None):
+    """Helper to get list from environment."""
+    if name not in os.environ:
+        return default or []
+    return os.environ[name].split(',')
+
+
+def get_map_from_env(name, default={}):
+    """
+    Helper to get mapping from environment.
+    parses 'first_name:name,email:mail'
+    into {'email': 'mail', 'first_name': 'name'}
+    """
+    if os.environ.get(name):
+        return dict(e.split(':') for e in os.environ[name].split(','))
+    return {}
+
+
 def check_installed():
     env = get_env()
 

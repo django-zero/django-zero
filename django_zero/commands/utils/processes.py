@@ -3,7 +3,7 @@ import shlex
 import subprocess
 import sys
 
-from django_zero.config import features
+from django_zero.config.settings import features
 from django_zero.utils import get_env
 
 DEFAULT_DEV_PROCESSES = [
