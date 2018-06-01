@@ -1,7 +1,7 @@
 Zero-Configuration Django Projects
 ==================================
 
-*Work in progress.*
+*This is a work in progress. It's used in production, but it may, or may not fit your needs. Also, things can change without warnings.*
 
 Create modern web applications using python, django, jinja2, whitenoise, webpack, bootstrap, ... without having to
 configure anything. No magic included, you can unplug/customize anything afterward.
@@ -14,7 +14,7 @@ Out of the box, you get:
 * **Jinja2** templating.
 * **Webpack**, **Bootstrap**, **Sass** for assets.
 * **Honcho** for process management.
-* **Docker** images (built either with **docker** or **rocker**).
+* **Docker** images.
 * **Allauth** for user authentication (with jinja2 templates).
 * **Debug toolbar** and **django extensions** in development mode.
 * **Cookiecutter** for scaffolding.
@@ -29,7 +29,7 @@ Everything is used explicitely and you can unplug any feature you don't like.
 Quick start
 ===========
 
-You need Python3.5+, Node.js and Yarn.
+You need Python3.5+, Node.js LTS and Yarn. We advise to stick to latest stable python 3.
 
 Install the project, and build node modules required for development.
 
