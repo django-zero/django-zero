@@ -50,12 +50,13 @@ python.add_requirements(
 
     # Dev-only tooling
     dev=[
-        'pytest-django ~=3.2',
         'cookiecutter ~=1.6',
         'django-extensions ~=2.0',
         'django_debug_toolbar ~=1.9',
         'honcho ~=1.0',
         'medikit ~=0.6',
+        'pyquery ~=1.4',
+        'pytest-django ~=3.2',
         'werkzeug ~=0.14',
     ],
 

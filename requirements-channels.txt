@@ -8,7 +8,7 @@ automat==0.6.0
 channels==2.1.1
 constantly==15.1.0
 daphne==2.1.2
-django==2.0.5
+django==2.0.6
 hyperlink==18.0.0
 idna==2.6
 incremental==17.5.0
