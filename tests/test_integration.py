@@ -1,12 +1,24 @@
+import gc
 import multiprocessing
 import os
 import signal
 import socket
 from queue import Empty
-from time import sleep
 
 import requests
 from honcho.process import Process
+from time import sleep
+
+
+def get_free_port():
+    """Get free port."""
+    sock = socket.socket()
+    sock.bind(('localhost', 0))
+    port = sock.getsockname()[1]
+    sock.close()
+    del sock
+    gc.collect()
+    return port
 
 
 def test_create_file(tmpdir):
@@ -21,14 +33,19 @@ def test_create_file(tmpdir):
         os.system('python -m django_zero install')
         os.system('yarn install')
 
+        os.system('python -m django_zero manage migrate')
+
         # Run the webpack assets builder
         os.system('python -m django_zero webpack')
 
-        events = multiprocessing.Queue()
-        server = Process('python -m django_zero manage runserver', name='server')
-        server_process = multiprocessing.Process(name='server', target=server.run, args=(events, True))
+        target = '127.0.0.1', get_free_port()
+        print('Target:', *target)
 
-        target = '127.0.0.1', 8000
+        events = multiprocessing.Queue()
+        server_command = 'python -m django_zero manage runserver {0}:{1}'.format(*target)
+        print('Command:', server_command)
+        server = Process(server_command, name='server')
+        server_process = multiprocessing.Process(name='server', target=server.run, args=(events, True))
 
         try:
             server_process.start()

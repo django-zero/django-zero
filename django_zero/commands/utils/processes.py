@@ -3,7 +3,6 @@ import shlex
 import subprocess
 import sys
 
-from django_zero.config.settings import features
 from django_zero.utils import get_env
 
 DEFAULT_DEV_PROCESSES = [
@@ -13,6 +12,8 @@ DEFAULT_DEV_PROCESSES = [
 
 
 def get_procs(mode='dev'):
+    from django_zero.config.settings import features
+
     procs = {}
     if mode == 'dev':
         procs['server'] = sys.executable + ' -m django_zero manage runserver'
