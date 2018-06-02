@@ -16,5 +16,3 @@ def is_channels_enabled():
 @lru_cache()
 def is_whitenoise_enabled():
     return get_bool_from_env('ENABLE_WHITENOISE', default=True)
-
-

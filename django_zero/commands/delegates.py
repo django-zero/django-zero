@@ -79,7 +79,5 @@ class WebpackCommand(BaseCommand):
 
     def handle(self, *args, production=False):
         check_installed()
-        environ = {
-            'NODE_ENV': 'production' if production else 'development'
-        }
+        environ = {'NODE_ENV': 'production' if production else 'development'}
         return call_webpack(*args, environ=environ)
