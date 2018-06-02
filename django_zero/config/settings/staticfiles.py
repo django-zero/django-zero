@@ -2,26 +2,21 @@
 
 import os
 
+from django_zero.utils import create_directories_or_ignore
 from .base import BASE_DIR, ZERO_DIR
 
-STATIC_URL = os.environ.get('STATIC_URL', '/static/')
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'resources/static'),
-    os.path.join(BASE_DIR, '.cache/webpack'),
-    os.path.join(ZERO_DIR, 'resources/static'),
-]
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_DIRS = create_directories_or_ignore(
+    os.path.join(BASE_DIR, 'resources/static'), os.path.join(BASE_DIR, '.cache/webpack'),
+    os.path.join(ZERO_DIR, 'resources/static')
+)
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
 
-# Let's make sure all those dirs exist.
-for _dir in STATICFILES_DIRS:
-    if not os.path.exists(_dir):
-        try:
-            os.makedirs(_dir)
-        except OSError:
-            STATICFILES_DIRS.remove(_dir)
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_URL = os.environ.get('STATIC_URL', '/static/')
 
 __all__ = [
     'STATICFILES_DIRS',
+    'STATICFILES_STORAGE',
     'STATIC_ROOT',
     'STATIC_URL',
 ]

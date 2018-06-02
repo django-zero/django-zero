@@ -64,6 +64,20 @@ def get_map_from_env(name, default={}):
     return {}
 
 
+def create_directories_or_ignore(*dirs):
+    actual_dirs = []
+
+    for _dir in dirs:
+        if not os.path.exists(_dir):
+            try:
+                os.makedirs(_dir)
+            except OSError:
+                continue
+        actual_dirs.append(_dir)
+
+    return actual_dirs
+
+
 def check_installed():
     env = get_env()
 

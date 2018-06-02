@@ -12,7 +12,7 @@ const resolveConfig = {
     ]
 }
 
-function createWebpackConfig(withExamples = false, production = (NODE_ENV == 'production')) {
+function createWebpackConfig(withExamples = false, production = (NODE_ENV === 'production')) {
     const ExtractTextPlugin = require('extract-text-webpack-plugin');
     const AssetsPlugin = require('assets-webpack-plugin');
 
@@ -27,6 +27,8 @@ function createWebpackConfig(withExamples = false, production = (NODE_ENV == 'pr
             'demo': path.resolve(zeroPath, 'resources/assets/examples/demo.js'),
         }
     }
+
+    let cssLoaderOptions = {minimize: production};
 
     let config = {
         context: basePath,
@@ -59,13 +61,21 @@ function createWebpackConfig(withExamples = false, production = (NODE_ENV == 'pr
             loaders: [
                 {
                     test: /\.css$/,
-                    loaders: ['style-loader', 'css-loader', 'resolve-url-loader?sourceMap']
+                    use: [{
+                        loader: 'style-loader'
+                    }, {
+                        loader: 'css-loader',
+                        options: cssLoaderOptions,
+                    }, {
+                        loader: 'resolve-url-loader?sourceMap'
+                    }]
                 }, {
                     test: /\.scss$/,
                     use: ExtractTextPlugin.extract({
                         fallback: 'style-loader',
                         use: [{
                             loader: 'css-loader',
+                            options: cssLoaderOptions,
                         }, {
                             loader: 'postcss-loader?sourceMap',
                             options: {
@@ -105,6 +115,7 @@ function createWebpackConfig(withExamples = false, production = (NODE_ENV == 'pr
     };
 
     if (production) {
+        config.devtool = false;
         config.plugins.push(new webpack.optimize.UglifyJsPlugin())
     }
 

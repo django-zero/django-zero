@@ -1,5 +1,6 @@
-from django_zero.config.settings.base import BASE_DIR, ZERO_DIR
-from django_zero.config.settings.debug import DEBUG
+from django_zero.config.settings.base import *
+from django_zero.config.settings.base import __all__ as _all_base
+
 from django_zero.config.settings.features import is_channels_enabled
 from django_zero.utils import get_bool_from_env
 
@@ -22,7 +23,7 @@ from .templates import __all__ as _all_templates
 ZERO_ENABLE_DEMO = get_bool_from_env('ENABLE_DEMO', default=False)
 ZERO_ENABLE_EXPERIMENTS = get_bool_from_env('ENABLE_EXPERIMENTS', default=False)
 
-__all__ = _all_authentication + _all_databases + _all_django + _all_i18n + _all_security + _all_staticfiles + _all_templates + [
+__all__ = _all_base + _all_authentication + _all_databases + _all_django + _all_i18n + _all_security + _all_staticfiles + _all_templates + [
     'ZERO_ENABLE_DEMO',
     'ZERO_ENABLE_EXPERIMENTS',
 ]

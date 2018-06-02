@@ -1,4 +1,4 @@
-from django_zero.config.settings.debug import DEBUG
+from django_zero.config.settings.base import DEBUG
 from django_zero.config.settings.features import is_channels_enabled, is_whitenoise_enabled
 
 _debug_only_apps = []
