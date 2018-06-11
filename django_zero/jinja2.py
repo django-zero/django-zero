@@ -1,5 +1,6 @@
 import json
 import os
+import warnings
 
 from django.contrib import messages
 from django.contrib.staticfiles.storage import staticfiles_storage
@@ -21,8 +22,14 @@ class AssetsHelper:
     @property
     def data(self):
         if not self._data:
-            with open(self.filename) as f:
-                self._data = json.load(f)
+            try:
+                with open(self.filename) as f:
+                    self._data = json.load(f)
+            except OSError as exc:
+                warnings.warn(
+                    'Unreadable assets (looked for %r). Maybe webpack is still running?'.format(self.filename)
+                )
+                return {}
         return self._data
 
     def get_stylesheets(self, name):
@@ -33,9 +40,10 @@ class AssetsHelper:
 
         try:
             return Markup('<link href="' + staticfiles_storage.url(bundle['css']) + '" rel="stylesheet">')
-
         except KeyError as e:
-            return ''
+            message = 'Stylesheet bundle not found: {}'.format(name)
+            warnings.warn(message)
+            return '<!-- {} -->'.format(message)
 
     def get_javascripts(self, name):
         try:
@@ -48,7 +56,9 @@ class AssetsHelper:
                 '<script src="' + os.path.join(self._path, bundle['js']) + '" type="text/javascript"></script>'
             )
         except KeyError as e:
-            return ''
+            message = 'Javascript bundle not found: {}'.format(name)
+            warnings.warn(message)
+            return '<!-- {} -->'.format(message)
 
 
 class DjangoCsrfExtension(Extension):
@@ -162,7 +172,7 @@ def environment(**options):
     env.globals.update(
         {
             '_': gettext,
-            'assets': AssetsHelper('.cache/assets.json'),
+            'assets': AssetsHelper('assets.json'),
             'get_messages': messages.get_messages,
             'settings': settings,
             'static': staticfiles_storage.url,

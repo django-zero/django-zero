@@ -9,9 +9,11 @@ urlpatterns = [
     path(settings.ADMIN_URL.strip('/') + '/', admin.site.urls),
 ]
 
-for app in settings.INSTALLED_APPS:
-    if app.startswith('apps.'):
-        urlpatterns.append(path('', include(app + '.urls')))
+# Only auto-include urls from app if we're using our default urls, otherwise, let the user do it
+if settings.ROOT_URLCONF == 'django_zero.urls':
+    for app in settings.INSTALLED_APPS:
+        if app.startswith('apps.'):
+            urlpatterns.append(path('', include(app + '.urls')))
 
 urlpatterns.append(path('', include('allauth.urls')))
 

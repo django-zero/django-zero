@@ -1,7 +1,5 @@
 import logging
 
-from django_zero.errors import UserError
-
 
 class BaseCommand:
     """

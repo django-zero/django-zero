@@ -30,10 +30,10 @@ python.setup(
 python.add_requirements(
     'brotli ~=1.0',
     'django ~=2.0',
-    'django-allauth ~=0.34',
+    'django-allauth ~=0.36',
     'django-includes ~=0.2',
     'jinja2 ~=2.10',
-    'mondrian ~=0.6',
+    'mondrian ~=0.7',
     'whitenoise ~=3.3',
 
     # Celery
@@ -45,22 +45,24 @@ python.add_requirements(
 
     # Channels
     channels=[
-        'channels ~=2.0,>=2.0.2',
+        'channels ~=2.1',
     ],
 
     # Dev-only tooling
     dev=[
         'cookiecutter ~=1.6',
-        'django-extensions ~=1.9',
+        'django-extensions ~=2.0',
         'django_debug_toolbar ~=1.9',
         'honcho ~=1.0',
-        'medikit ~=0.5',
+        'medikit ~=0.6',
+        'pyquery ~=1.4',
+        'pytest-django ~=3.2',
         'werkzeug ~=0.14',
     ],
 
     # Production tools
     prod=[
-        'gunicorn ~=19.7.1',
+        'gunicorn ~=19.8',
     ]
 )
 
