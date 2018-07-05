@@ -1,5 +1,6 @@
 import json
 import os
+import re
 import warnings
 
 from django.contrib import messages
@@ -162,9 +163,34 @@ class DjangoUrlExtension(Extension):
             return nodes.Assign(as_var, call, lineno=lineno)
 
 
+class SpacelessExtension(Extension):
+    """
+    Removes whitespace between HTML tags at compile time, including tab and newline characters.
+    It does not remove whitespace between jinja2 tags or variables. Neither does it remove whitespace between tags
+    and their text content.
+    Adapted from coffin:
+        https://github.com/coffin/coffin/blob/master/coffin/template/defaulttags.py
+    """
+
+    tags = {'spaceless'}
+
+    def parse(self, parser):
+        next(parser.stream)
+        lineno = parser.stream.current.lineno
+        body = parser.parse_statements(['name:endspaceless'], drop_needle=True)
+        return nodes.CallBlock(
+            self.call_method('_strip_spaces', [], [], None, None),
+            [], [], body,
+        ).set_lineno(lineno)
+
+    def _strip_spaces(self, caller=None):
+        return re.sub(r'>\s+<', '><', caller().strip())
+
+
 def environment(**options):
     from django.conf import settings
     from django.utils import translation
+    from django.urls import translate_url
 
     env = Environment(extensions=['jinja2.ext.i18n'], **options)
     env.install_gettext_translations(translation)
@@ -177,11 +203,14 @@ def environment(**options):
             'settings': settings,
             'static': staticfiles_storage.url,
             'url': reverse,
+            'get_language': translation.get_language,
+            'translate_url': translate_url,
         }
     )
 
     env.add_extension(DjangoCsrfExtension)
     env.add_extension(DjangoIncludesExtension)
     env.add_extension(DjangoUrlExtension)
+    env.add_extension(SpacelessExtension)
 
     return env
