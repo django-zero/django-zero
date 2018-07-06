@@ -44,7 +44,7 @@ class AssetsHelper:
         except KeyError as e:
             message = 'Stylesheet bundle not found: {}'.format(name)
             warnings.warn(message)
-            return '<!-- {} -->'.format(message)
+            return Markup('<!-- {} -->'.format(message))
 
     def get_javascripts(self, name):
         try:
@@ -59,7 +59,7 @@ class AssetsHelper:
         except KeyError as e:
             message = 'Javascript bundle not found: {}'.format(name)
             warnings.warn(message)
-            return '<!-- {} -->'.format(message)
+            return Markup('<!-- {} -->'.format(message))
 
 
 class DjangoCsrfExtension(Extension):
