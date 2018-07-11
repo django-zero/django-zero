@@ -18,14 +18,17 @@ class AssetsHelper:
     def __init__(self, filename):
         self.filename = filename
         self._data = None
+        self._mtime = None
         self._path = '/static'
 
     @property
     def data(self):
-        if not self._data:
+        mtime = os.path.getmtime(self.filename)
+        if mtime != self._mtime or not self._data:
             try:
                 with open(self.filename) as f:
                     self._data = json.load(f)
+                self._mtime = mtime
             except OSError as exc:
                 warnings.warn(
                     'Unreadable assets (looked for %r). Maybe webpack is still running?'.format(self.filename)
@@ -33,7 +36,10 @@ class AssetsHelper:
                 return {}
         return self._data
 
-    def get_stylesheets(self, name):
+    def get_stylesheets(self, *names):
+        return Markup(''.join(map(self.get_stylesheet, names)))
+
+    def get_stylesheet(self, name):
         try:
             bundle = self.data[name]
         except KeyError as e:
@@ -46,7 +52,10 @@ class AssetsHelper:
             warnings.warn(message)
             return Markup('<!-- {} -->'.format(message))
 
-    def get_javascripts(self, name):
+    def get_javascripts(self, *names):
+        return Markup(''.join(map(self.get_javascript, names)))
+
+    def get_javascript(self, name):
         try:
             bundle = self.data[name]
         except KeyError as e:

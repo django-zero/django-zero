@@ -17,7 +17,7 @@ def get_procs(mode='dev'):
     procs = {}
     if mode == 'dev':
         procs['server'] = sys.executable + ' -m django_zero manage runserver'
-        procs['assets'] = sys.executable + ' -m django_zero webpack --watch --colors'
+        procs['assets'] = sys.executable + ' -m django_zero webpack --watch'
     elif mode == 'prod':
         procs['server'] = sys.executable + ' -m django_zero gunicorn --access-logfile -'
     else:

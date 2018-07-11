@@ -13,7 +13,7 @@ const resolveConfig = {
 }
 
 function createWebpackConfig(withExamples = false, production = (NODE_ENV === 'production')) {
-    const ExtractTextPlugin = require('extract-text-webpack-plugin');
+    const MiniCssExtractPlugin = require("mini-css-extract-plugin");
     const AssetsPlugin = require('assets-webpack-plugin');
 
     let entries = {
@@ -32,7 +32,9 @@ function createWebpackConfig(withExamples = false, production = (NODE_ENV === 'p
 
     let config = {
         context: basePath,
-        devtool: 'eval-source-map',
+        target: 'web',
+        devtool: production ? false : 'eval-source-map',
+        mode: production ? 'production' : 'development',
 
         resolve: resolveConfig,
         resolveLoader: resolveConfig,
@@ -44,8 +46,25 @@ function createWebpackConfig(withExamples = false, production = (NODE_ENV === 'p
             filename: '[name].js',
         },
 
+        /*
+        optimization: {
+            splitChunks: {
+                cacheGroups: {
+                    commons: {
+                        test: /[\\/]node_modules[\\/]/,
+                        name: 'vendor',
+                        chunks: 'all'
+                    }
+                }
+            }
+        },
+        */
+
         plugins: [
-            new ExtractTextPlugin('[name].css'),
+            new MiniCssExtractPlugin({
+                filename: '[name].css',
+                chunkFilename: '[id].css',
+            }),
             new AssetsPlugin({
                 path: basePath,
                 filename: 'assets.json',
@@ -58,53 +77,39 @@ function createWebpackConfig(withExamples = false, production = (NODE_ENV === 'p
         ],
 
         module: {
-            loaders: [
+            rules: [
                 {
-                    test: /\.css$/,
+                    test: /\.(sc|sa|c)ss$/,
                     use: [{
-                        loader: 'style-loader'
+                        loader: MiniCssExtractPlugin.loader,
                     }, {
                         loader: 'css-loader',
-                        options: cssLoaderOptions,
                     }, {
-                        loader: 'resolve-url-loader?sourceMap'
+                        loader: 'postcss-loader', // Run post css actions
+                        options: {
+                            plugins: function () {
+                                return [
+                                    require('autoprefixer')
+                                ];
+                            },
+                        }
+                    }, {
+                        loader: 'resolve-url-loader'
+                    }, {
+                        loader: 'sass-loader?sourceMap'
                     }]
-                }, {
-                    test: /\.scss$/,
-                    use: ExtractTextPlugin.extract({
-                        fallback: 'style-loader',
-                        use: [{
-                            loader: 'css-loader',
-                            options: cssLoaderOptions,
-                        }, {
-                            loader: 'postcss-loader?sourceMap',
-                            options: {
-                                plugins: function () {
-                                    return [
-                                        require('precss'),
-                                        require('autoprefixer')
-                                    ];
-                                },
-                                sourceMap: true,
-                            }
-                        }, {
-                            loader: 'resolve-url-loader?sourceMap'
-                        }, {
-                            loader: 'sass-loader?sourceMap'
-                        }]
-                    })
                 },
                 {
                     test: /\.jsx?$/,
-                    use: {
-                        loader: 'babel-loader',
-                    }
+                    use: [
+                        'babel-loader',
+                    ]
                 },
                 {
                     test: /\.(jpe?g|png|svg|ttf|woff|eot)$/,
-                    use: [{
-                        loader: 'file-loader'
-                    }]
+                    use: [
+                        'file-loader',
+                    ]
                 }
             ]
         },
@@ -113,11 +118,6 @@ function createWebpackConfig(withExamples = false, production = (NODE_ENV === 'p
             hints: "warning"
         },
     };
-
-    if (production) {
-        config.devtool = false;
-        config.plugins.push(new webpack.optimize.UglifyJsPlugin())
-    }
 
     return config;
 }
