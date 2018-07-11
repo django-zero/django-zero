@@ -46,20 +46,6 @@ function createWebpackConfig(withExamples = false, production = (NODE_ENV === 'p
             filename: '[name].js',
         },
 
-        /*
-        optimization: {
-            splitChunks: {
-                cacheGroups: {
-                    commons: {
-                        test: /[\\/]node_modules[\\/]/,
-                        name: 'vendor',
-                        chunks: 'all'
-                    }
-                }
-            }
-        },
-        */
-
         plugins: [
             new MiniCssExtractPlugin({
                 filename: '[name].css',
