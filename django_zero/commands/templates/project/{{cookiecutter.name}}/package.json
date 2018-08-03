@@ -1,6 +1,7 @@
 {
   "license": "UNLICENSED",
   "devDependencies": {
-    "webpack": "^3.10.0"
+    "webpack": "^4.0",
+    "webpack-command": "^0.4.1"
   }
 }
