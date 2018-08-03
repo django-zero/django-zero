@@ -29,7 +29,7 @@ python.setup(
 
 python.add_requirements(
     'brotli ~=1.0.4',
-    'django ~=2.0.7',
+    'django ~=2.1',
     'django-allauth ~=0.36.0',
     'django-includes ~=0.2.1',
     'jinja2 ~=2.10',
