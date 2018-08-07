@@ -6,6 +6,7 @@ const basePath = process.env.DJANGO_BASE_DIR;
 const NODE_ENV = process.env.NODE_ENV || 'production';
 
 const resolveConfig = {
+    alias: {},
     modules: [
         path.resolve(zeroPath, 'node_modules'),
         path.resolve(basePath, 'node_modules'),
