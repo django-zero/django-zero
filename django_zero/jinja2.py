@@ -8,10 +8,11 @@ from django.contrib.staticfiles.storage import staticfiles_storage
 from django.urls import reverse
 from django.utils.encoding import force_text
 from django.utils.translation import gettext
-from django_includes.jinja2 import DjangoIncludesExtension
-from jinja2 import Environment, nodes, lexer
+from jinja2 import Environment, lexer, nodes
 from jinja2.ext import Extension
 from markupsafe import Markup
+
+from django_includes.jinja2 import DjangoIncludesExtension
 
 
 class AssetsHelper:

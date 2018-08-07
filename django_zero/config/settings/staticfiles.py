@@ -3,6 +3,7 @@
 import os
 
 from django_zero.utils import create_directories_or_ignore
+
 from .base import BASE_DIR, ZERO_DIR
 
 STATICFILES_DIRS = create_directories_or_ignore(

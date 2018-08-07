@@ -4,10 +4,10 @@ import os
 import signal
 import socket
 from queue import Empty
+from time import sleep
 
 import requests
 from honcho.process import Process
-from time import sleep
 
 
 def get_free_port():

@@ -27,7 +27,7 @@ idna==2.7
 imagesize==1.0.0
 jinja2-time==0.2.0
 jinja2==2.10
-lxml==4.2.3
+lxml==4.2.4
 markupsafe==1.0
 medikit==0.6.3
 mondrian==0.7.0

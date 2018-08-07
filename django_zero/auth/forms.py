@@ -1,8 +1,6 @@
-from allauth.account.forms import (
-    LoginForm as BaseLoginForm,
-    ResetPasswordForm as BaseResetPasswordForm,
-    SignupForm as BaseSignupForm,
-)
+from allauth.account.forms import LoginForm as BaseLoginForm
+from allauth.account.forms import ResetPasswordForm as BaseResetPasswordForm
+from allauth.account.forms import SignupForm as BaseSignupForm
 from django.utils.translation import ugettext_lazy as _
 
 

@@ -4,8 +4,8 @@ import subprocess
 
 import django_zero
 from django_zero.commands import BaseCommand
-from django_zero.commands.utils.processes import call_webpack, call_manage, create_honcho_manager
-from django_zero.utils import get_env, check_installed, check_dev_extras, check_prod_extras
+from django_zero.commands.utils.processes import call_manage, call_webpack, create_honcho_manager
+from django_zero.utils import check_dev_extras, check_installed, check_prod_extras, get_env
 
 
 class StartCommand(BaseCommand):
