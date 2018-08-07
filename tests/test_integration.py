@@ -13,7 +13,7 @@ from time import sleep
 def get_free_port():
     """Get free port."""
     sock = socket.socket()
-    sock.bind(('localhost', 0))
+    sock.bind(("localhost", 0))
     port = sock.getsockname()[1]
     sock.close()
     del sock
@@ -25,27 +25,27 @@ def test_create_file(tmpdir):
     old_wd = os.getcwd()
     os.chdir(str(tmpdir))
     try:
-        os.system('python -m django_zero create --no-input project foo')
+        os.system("python -m django_zero create --no-input project foo")
 
-        os.chdir(str(tmpdir.join('foo')))
+        os.chdir(str(tmpdir.join("foo")))
 
         # TODO: move back into make install
-        os.system('python -m django_zero install')
-        os.system('yarn install')
+        os.system("python -m django_zero install")
+        os.system("yarn install")
 
-        os.system('python -m django_zero manage migrate')
+        os.system("python -m django_zero manage migrate")
 
         # Run the webpack assets builder
-        os.system('python -m django_zero webpack')
+        os.system("python -m django_zero webpack")
 
-        target = '127.0.0.1', get_free_port()
-        print('Target:', *target)
+        target = "127.0.0.1", get_free_port()
+        print("Target:", *target)
 
         events = multiprocessing.Queue()
-        server_command = 'python -m django_zero manage runserver {0}:{1}'.format(*target)
-        print('Command:', server_command)
-        server = Process(server_command, name='server')
-        server_process = multiprocessing.Process(name='server', target=server.run, args=(events, True))
+        server_command = "python -m django_zero manage runserver {0}:{1}".format(*target)
+        print("Command:", server_command)
+        server = Process(server_command, name="server")
+        server_process = multiprocessing.Process(name="server", target=server.run, args=(events, True))
 
         try:
             server_process.start()
@@ -60,8 +60,8 @@ def test_create_file(tmpdir):
                         break
                 else:
                     # print(msg)
-                    if msg.type == 'start':
-                        pid = msg.data['pid']
+                    if msg.type == "start":
+                        pid = msg.data["pid"]
 
                         conn_ok = False
                         for i in range(10):
@@ -74,20 +74,20 @@ def test_create_file(tmpdir):
                         assert conn_ok
 
                         try:
-                            target = 'http://{}:{}'.format(*target)
-                            resp = requests.get(target + '/')
+                            target = "http://{}:{}".format(*target)
+                            resp = requests.get(target + "/")
                             assert resp.status_code == 200
 
-                            resp = requests.get(target + '/static/bootstrap.css')
+                            resp = requests.get(target + "/static/bootstrap.css")
                             assert resp.status_code == 200
 
-                            resp = requests.get(target + '/static/bootstrap.js')
+                            resp = requests.get(target + "/static/bootstrap.js")
                             assert resp.status_code == 200
                         finally:
                             os.killpg(pid, signal.SIGKILL)
-                    elif msg.type == 'line':
-                        print('>>>', msg.data.decode('utf-8'), end='')
-                    elif msg.type == 'stop':
+                    elif msg.type == "line":
+                        print(">>>", msg.data.decode("utf-8"), end="")
+                    elif msg.type == "stop":
                         pid = None
                         exit = True
         finally:

@@ -19,7 +19,7 @@ class AssetsHelper:
         self.filename = filename
         self._data = None
         self._mtime = None
-        self._path = '/static'
+        self._path = "/static"
 
     @property
     def data(self):
@@ -31,60 +31,61 @@ class AssetsHelper:
                 self._mtime = mtime
             except OSError as exc:
                 warnings.warn(
-                    'Unreadable assets (looked for %r). Maybe webpack is still running?'.format(self.filename)
+                    "Unreadable assets (looked for %r). Maybe webpack is still running?".format(self.filename)
                 )
                 return {}
         return self._data
 
     def get_stylesheets(self, *names):
-        return Markup(''.join(map(self.get_stylesheet, names)))
+        return Markup("".join(map(self.get_stylesheet, names)))
 
     def get_stylesheet(self, name):
         try:
             bundle = self.data[name]
         except KeyError as e:
-            return ''
+            return ""
 
         try:
-            return Markup('<link href="' + staticfiles_storage.url(bundle['css']) + '" rel="stylesheet">')
+            return Markup('<link href="' + staticfiles_storage.url(bundle["css"]) + '" rel="stylesheet">')
         except KeyError as e:
-            message = 'Stylesheet bundle not found: {}'.format(name)
+            message = "Stylesheet bundle not found: {}".format(name)
             warnings.warn(message)
-            return Markup('<!-- {} -->'.format(message))
+            return Markup("<!-- {} -->".format(message))
 
     def get_javascripts(self, *names):
-        return Markup(''.join(map(self.get_javascript, names)))
+        return Markup("".join(map(self.get_javascript, names)))
 
     def get_javascript(self, name):
         try:
             bundle = self.data[name]
         except KeyError as e:
-            return ''
+            return ""
 
         try:
             return Markup(
-                '<script src="' + os.path.join(self._path, bundle['js']) + '" type="text/javascript"></script>'
+                '<script src="' + os.path.join(self._path, bundle["js"]) + '" type="text/javascript"></script>'
             )
         except KeyError as e:
-            message = 'Javascript bundle not found: {}'.format(name)
+            message = "Javascript bundle not found: {}".format(name)
             warnings.warn(message)
-            return Markup('<!-- {} -->'.format(message))
+            return Markup("<!-- {} -->".format(message))
 
 
 class DjangoCsrfExtension(Extension):
     """
     Implements django's `{% csrf_token %}` tag.
     """
-    tags = {'csrf_token'}
+
+    tags = {"csrf_token"}
 
     def parse(self, parser):
-        lineno = parser.stream.expect('name:csrf_token').lineno
-        call = self.call_method('_csrf_token', [nodes.Name('csrf_token', 'load', lineno=lineno)], lineno=lineno)
+        lineno = parser.stream.expect("name:csrf_token").lineno
+        call = self.call_method("_csrf_token", [nodes.Name("csrf_token", "load", lineno=lineno)], lineno=lineno)
         return nodes.Output([nodes.MarkSafe(call)])
 
     def _csrf_token(self, csrf_token):
-        if not csrf_token or csrf_token == 'NOTPROVIDED':
-            return ''
+        if not csrf_token or csrf_token == "NOTPROVIDED":
+            return ""
         else:
             return '<input type="hidden" name="csrfmiddlewaretoken" value="{}" />'.format(csrf_token)
 
@@ -100,7 +101,8 @@ class DjangoUrlExtension(Extension):
         {% url 'my_view' 'foo' 'bar' as my_url %}
         {{ my_url }}
     """
-    tags = {'url'}
+
+    tags = {"url"}
 
     def _url_reverse(self, name, *args, **kwargs):
         return reverse(name, args=args, kwargs=kwargs)
@@ -132,19 +134,18 @@ class DjangoUrlExtension(Extension):
 
         while parser.stream.current.type != lexer.TOKEN_BLOCK_END:
             token = parser.stream.current
-            if token.test('name:as'):
+            if token.test("name:as"):
                 next(parser.stream)
                 token = parser.stream.expect(lexer.TOKEN_NAME)
-                as_var = nodes.Name(token.value, 'store', lineno=token.lineno)
+                as_var = nodes.Name(token.value, "store", lineno=token.lineno)
                 break
             if args is not None:
                 args.append(self.parse_expression(parser))
             elif kwargs is not None:
                 if token.type != lexer.TOKEN_NAME:
                     parser.fail(
-                        "got '{}', expected name for keyword argument"
-                        "".format(lexer.describe_token(token)),
-                        lineno=token.lineno
+                        "got '{}', expected name for keyword argument" "".format(lexer.describe_token(token)),
+                        lineno=token.lineno,
                     )
                 arg = token.value
                 next(parser.stream)
@@ -165,7 +166,7 @@ class DjangoUrlExtension(Extension):
         if kwargs is not None:
             kwargs = [nodes.Keyword(key, val) for key, val in kwargs.items()]
 
-        call = self.call_method('_url_reverse', args, kwargs, lineno=lineno)
+        call = self.call_method("_url_reverse", args, kwargs, lineno=lineno)
         if as_var is None:
             return nodes.Output([call], lineno=lineno)
         else:
@@ -181,19 +182,16 @@ class SpacelessExtension(Extension):
         https://github.com/coffin/coffin/blob/master/coffin/template/defaulttags.py
     """
 
-    tags = {'spaceless'}
+    tags = {"spaceless"}
 
     def parse(self, parser):
         next(parser.stream)
         lineno = parser.stream.current.lineno
-        body = parser.parse_statements(['name:endspaceless'], drop_needle=True)
-        return nodes.CallBlock(
-            self.call_method('_strip_spaces', [], [], None, None),
-            [], [], body,
-        ).set_lineno(lineno)
+        body = parser.parse_statements(["name:endspaceless"], drop_needle=True)
+        return nodes.CallBlock(self.call_method("_strip_spaces", [], [], None, None), [], [], body).set_lineno(lineno)
 
     def _strip_spaces(self, caller=None):
-        return re.sub(r'>\s+<', '><', caller().strip())
+        return re.sub(r">\s+<", "><", caller().strip())
 
 
 def environment(**options):
@@ -201,19 +199,19 @@ def environment(**options):
     from django.utils import translation
     from django.urls import translate_url
 
-    env = Environment(extensions=['jinja2.ext.i18n'], **options)
+    env = Environment(extensions=["jinja2.ext.i18n"], **options)
     env.install_gettext_translations(translation)
 
     env.globals.update(
         {
-            '_': gettext,
-            'assets': AssetsHelper('assets.json'),
-            'get_messages': messages.get_messages,
-            'settings': settings,
-            'static': staticfiles_storage.url,
-            'url': reverse,
-            'get_language': translation.get_language,
-            'translate_url': translate_url,
+            "_": gettext,
+            "assets": AssetsHelper("assets.json"),
+            "get_messages": messages.get_messages,
+            "settings": settings,
+            "static": staticfiles_storage.url,
+            "url": reverse,
+            "get_language": translation.get_language,
+            "translate_url": translate_url,
         }
     )
 

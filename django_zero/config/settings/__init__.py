@@ -20,10 +20,17 @@ from .templates import *
 from .templates import __all__ as _all_templates
 
 # Django Zero settings
-ZERO_ENABLE_DEMO = get_bool_from_env('ENABLE_DEMO', default=False)
-ZERO_ENABLE_EXPERIMENTS = get_bool_from_env('ENABLE_EXPERIMENTS', default=False)
+ZERO_ENABLE_DEMO = get_bool_from_env("ENABLE_DEMO", default=False)
+ZERO_ENABLE_EXPERIMENTS = get_bool_from_env("ENABLE_EXPERIMENTS", default=False)
 
-__all__ = _all_base + _all_authentication + _all_databases + _all_django + _all_i18n + _all_security + _all_staticfiles + _all_templates + [
-    'ZERO_ENABLE_DEMO',
-    'ZERO_ENABLE_EXPERIMENTS',
-]
+__all__ = (
+    _all_base
+    + _all_authentication
+    + _all_databases
+    + _all_django
+    + _all_i18n
+    + _all_security
+    + _all_staticfiles
+    + _all_templates
+    + ["ZERO_ENABLE_DEMO", "ZERO_ENABLE_EXPERIMENTS"]
+)
