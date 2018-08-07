@@ -29,3 +29,5 @@ if settings.ZERO_ENABLE_DEMO:
     # Default example views
     urlpatterns.append(path('', views.example_feature_list_view, name='example_feature_list'))
     urlpatterns.append(path('<slug>', views.example_feature_detail_view, name='example_feature_detail'))
+
+

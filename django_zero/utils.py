@@ -150,3 +150,39 @@ def get_env():
         'DJANGO_ZERO_BASE_DIR': base_path,
         'NODE_PATH': os.path.dirname(base_path),
     }
+
+def decorated_patterns(*args):
+    """
+    Enables for the decoration of entire urlpatterns
+    with 1...n decorators within a Django urls.py
+    instead of
+    needing to decorate each View individually 1..n times
+
+    For detailed examples and documentation see:
+    http://ddenhartog.github.io/django-urlpattern-decorator/
+    """
+
+    decorators, url_patterns = args[0:-1], args[-1]
+    decorators = tuple(decorators) if hasattr(decorators, '__iter__') else (decorators, )
+
+    def decorate_url_pattern(decorators, url_pattern):
+        if not hasattr(url_pattern, 'resolve'):
+            return url_pattern
+        resolve = getattr(url_pattern, 'resolve')
+
+        def decorate_resolve(*args, **kwargs):
+            result = resolve(*args, **kwargs)
+            if not hasattr(result, 'func'):
+                return result
+
+            resolve_func = getattr(result, 'func')
+            for decorator in reversed(decorators):
+                resolve_func = decorator(resolve_func)
+
+            setattr(result, 'func', resolve_func)
+            return result
+
+        setattr(url_pattern, 'resolve', decorate_resolve)
+        return url_pattern
+
+    return [decorate_url_pattern(decorators, url_pattern) for url_pattern in url_patterns]
