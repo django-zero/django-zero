@@ -206,7 +206,7 @@ def environment(**options):
     env.globals.update(
         {
             "_": gettext,
-            "assets": AssetsHelper("assets.json"),
+            "assets": AssetsHelper(os.path.join(settings.BASE_DIR, "assets.json")),
             "get_messages": messages.get_messages,
             "settings": settings,
             "static": staticfiles_storage.url,
