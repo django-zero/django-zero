@@ -32,7 +32,7 @@ python.add_requirements(
     'django-allauth ~=0.36.0',
     'django-includes ~=0.2.1',
     'jinja2 ~=2.10',
-    'mondrian ~=0.7.0',
+    'mondrian ~=0.8.0',
     'whitenoise ~=3.3.1',
 
     # Celery

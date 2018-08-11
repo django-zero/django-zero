@@ -30,7 +30,7 @@ jinja2==2.10
 lxml==4.2.4
 markupsafe==1.0
 medikit==0.6.3
-mondrian==0.7.0
+mondrian==0.8.0
 more-itertools==4.3.0
 packaging==17.1
 pbr==4.2.0
