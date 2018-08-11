@@ -10,7 +10,6 @@ nodejs = require('nodejs')
 pytest = require('pytest')
 python = require('python')
 sphinx = require('sphinx')
-yapf = require('yapf')
 
 python.setup(
     name=PACKAGE,
@@ -104,6 +103,11 @@ def on_make_generate(event):
         (cd $(TMPDIR)/acme; $(ZERO) manage migrate)
         (cd $(TMPDIR)/acme; make start)
         trap 'rm -rf "$(TMPDIR)"' EXIT; (cd $(TMPDIR)/acme; $(ZERO) start)
+    ''', phony=True)
+
+    event.makefile.add_target('format', '''
+        black -l 120 --exclude '/(\.git|\.hg|\.mypy_cache|\.tox|\.venv|_build|buck-out|build|dist|node_modules|{{"{{cookiecutter.name}}"}})/' .
+        isort -rc -y -s node_modules .
     ''', phony=True)
 
 
