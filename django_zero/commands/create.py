@@ -1,7 +1,10 @@
 import os
 
+import django_zero
+
+import mondrian
 from django_zero.commands.base import BaseCommand
-from django_zero.utils import check_dev_extras
+from django_zero.utils import check_dev_extras, url_for_help
 
 
 class CreateCommand(BaseCommand):
@@ -20,11 +23,12 @@ class CreateCommand(BaseCommand):
     def handle(self, *args, **options):
         _type = options.pop('type')
 
-        if _type == 'app':
-            return self.handle_app(*args, **options)
+        with mondrian.humanizer.humanize():
+            if _type == 'app':
+                return self.handle_app(*args, **options)
 
-        if _type == 'project':
-            return self.handle_project(*args, **options)
+            if _type == 'project':
+                return self.handle_project(*args, **options)
 
     def handle_app(self, *args, **options):
         check_dev_extras('django-zero create app')
@@ -36,15 +40,18 @@ class CreateCommand(BaseCommand):
         from cookiecutter.main import cookiecutter
         cookiecutter(template, checkout=False, output_dir=path, extra_context={'name': name, **options}, no_input=True)
 
-        print('Your "{}" application has been created.'.format(name))
-        print()
-        print('Please add the following to your INSTALLED_APPS (in config/settings.py)')
-        print()
-        print("  INSTALLED_APPS += [")
-        print("      ...,")
-        print("      'apps.{}',".format(name))
-        print("  ]")
-        print()
+        print(
+            mondrian.humanizer.Success(
+                'Your "{}" application has been created.'.format(name),
+                'Add the following to your `INSTALLED_APPS` in `config/settings.py`:',
+                '',
+                "INSTALLED_APPS += [",
+                "    ...,",
+                "    `'apps.{}',`".format(name),
+                "]",
+                help_url=url_for_help('created/app.html')
+            )
+        )
 
     def handle_project(self, *args, **options):
         check_dev_extras('django-zero create project')
@@ -65,3 +72,17 @@ class CreateCommand(BaseCommand):
             handle_update('Projectfile')
         finally:
             os.chdir(oldwd)
+
+        print(
+            mondrian.humanizer.Success(
+                'Project "{}" has been created.'.format(name),
+                'Install your project and launch django\'s development server:',
+                '',
+                "  $ `cd {}`".format(name),
+                "  $ `django-zero install`",
+                "  $ `make`",
+                '',
+                'Development server will listen on `http://127.0.0.1:8000/`',
+                help_url=url_for_help('created/project.html')
+            )
+        )

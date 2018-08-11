@@ -150,3 +150,7 @@ def get_env():
         'DJANGO_ZERO_BASE_DIR': base_path,
         'NODE_PATH': os.path.dirname(base_path),
     }
+
+
+def url_for_help(path):
+    return 'https://django-zero.github.io/' + path.lstrip('/')
