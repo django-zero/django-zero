@@ -1,7 +1,6 @@
 import os
 
 import django_zero
-
 import mondrian
 from django_zero.commands.base import BaseCommand
 from django_zero.utils import check_dev_extras, url_for_help
@@ -24,10 +23,10 @@ class CreateCommand(BaseCommand):
         _type = options.pop("type")
 
         with mondrian.humanizer.humanize():
-            if _type == 'app':
+            if _type == "app":
                 return self.handle_app(*args, **options)
 
-            if _type == 'project':
+            if _type == "project":
                 return self.handle_project(*args, **options)
 
     def handle_app(self, *args, **options):
@@ -44,13 +43,13 @@ class CreateCommand(BaseCommand):
         print(
             mondrian.humanizer.Success(
                 'Your "{}" application has been created.'.format(name),
-                'Add the following to your `INSTALLED_APPS` in `config/settings.py`:',
-                '',
+                "Add the following to your `INSTALLED_APPS` in `config/settings.py`:",
+                "",
                 "INSTALLED_APPS += [",
                 "    ...,",
                 "    `'apps.{}',`".format(name),
                 "]",
-                help_url=url_for_help('created/app.html')
+                help_url=url_for_help("created/app.html"),
             )
         )
 
@@ -79,13 +78,13 @@ class CreateCommand(BaseCommand):
         print(
             mondrian.humanizer.Success(
                 'Project "{}" has been created.'.format(name),
-                'Install your project and launch django\'s development server:',
-                '',
+                "Install your project and launch django's development server:",
+                "",
                 "  $ `cd {}`".format(name),
                 "  $ `django-zero install`",
                 "  $ `make`",
-                '',
-                'Development server will listen on `http://127.0.0.1:8000/`',
-                help_url=url_for_help('created/project.html')
+                "",
+                "Development server will listen on `http://127.0.0.1:8000/`",
+                help_url=url_for_help("created/project.html"),
             )
         )

@@ -137,15 +137,11 @@ def check_prod_extras(cmd):
 
 def get_env():
     base_path = os.path.dirname(django_zero.__file__)
-    return {
-        'DJANGO_BASE_DIR': os.getcwd(),
-        'DJANGO_ZERO_BASE_DIR': base_path,
-        'NODE_PATH': os.path.dirname(base_path),
-    }
+    return {"DJANGO_BASE_DIR": os.getcwd(), "DJANGO_ZERO_BASE_DIR": base_path, "NODE_PATH": os.path.dirname(base_path)}
 
 
 def url_for_help(path):
-    return 'https://django-zero.github.io/' + path.lstrip('/')
+    return "https://django-zero.github.io/" + path.lstrip("/")
 
 
 def decorated_patterns(*args):
