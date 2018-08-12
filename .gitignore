@@ -14,6 +14,7 @@
 /build
 /dist
 /django_zero/node_modules
+/docs/.vuepress/dist
 /docs/_build
 /htmlcov
 /pylint.html

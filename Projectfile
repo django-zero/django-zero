@@ -1,6 +1,7 @@
 # django_zero (see github.com/python-medikit)
 
 from medikit import listen, require
+from medikit.feature.make import which
 
 PACKAGE = 'django_zero'
 
@@ -9,7 +10,6 @@ make = require('make')
 nodejs = require('nodejs')
 pytest = require('pytest')
 python = require('python')
-sphinx = require('sphinx')
 
 python.setup(
     name=PACKAGE,
@@ -32,7 +32,7 @@ python.add_requirements(
     'django-allauth ~=0.36.0',
     'django-includes ~=0.2.1',
     'jinja2 ~=2.10',
-    'mondrian ~=0.8.0',
+    'mondrian ~=0.8',
     'whitenoise ~=3.3.1',
 
     # Celery
@@ -125,5 +125,24 @@ def on_make_generate_pipelines(event):
         doc='Releases django-zero.'
     )
 
+
+# Documentation
+@listen(make.on_generate)
+def on_make_generate_documentation(event):
+    makefile = event.makefile
+
+    makefile['VUEPRESS'] = which('vuepress')
+    makefile['VUEPRESS_SOURCEDIR'] = 'docs'
+
+    makefile.add_target('docs', '$(VUEPRESS) dev docs', phony=True)
+    makefile.add_target('docs-dist', '$(VUEPRESS) build docs', phony=True)
+    makefile.add_target('docs-deploy',
+                        ' && '.join([
+                            'cd docs/.vuepress/dist',
+                            'git init',
+                            'git add -A',
+                            'git commit -m "Build vuepress documentation."',
+                            'git push -f git@github.com:django-zero/django-zero.github.io.git master'
+                        ]), deps=['docs-dist'], phony=True)
 
 # vim: ft=python:

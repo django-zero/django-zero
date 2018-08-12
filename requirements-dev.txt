@@ -1,10 +1,8 @@
 -e .[dev]
 -r requirements.txt
-alabaster==0.7.11
 arrow==0.12.1
 atomicwrites==1.1.5
 attrs==18.1.0
-babel==2.6.0
 binaryornot==0.4.4
 certifi==2018.4.16
 chardet==3.0.4
@@ -16,7 +14,6 @@ cssselect==1.0.3
 django-debug-toolbar==1.9.1
 django-extensions==2.1.0
 django==2.1
-docutils==0.14
 first==2.0.1
 future==0.16.0
 git-semver==0.2.3
@@ -24,7 +21,6 @@ gitdb2==2.0.4
 gitpython==2.1.11
 honcho==1.0.1
 idna==2.7
-imagesize==1.0.0
 jinja2-time==0.2.0
 jinja2==2.10
 lxml==4.2.4
@@ -38,7 +34,6 @@ pip-tools==2.0.2
 pluggy==0.7.1
 poyo==0.4.1
 py==1.5.4
-pygments==2.2.0
 pyparsing==2.2.0
 pyquery==1.4.0
 pytest-cov==2.5.1
@@ -50,9 +45,6 @@ requests==2.19.1
 semantic-version==2.6.0
 six==1.11.0
 smmap2==2.0.4
-snowballstemmer==1.2.1
-sphinx==1.7.6
-sphinxcontrib-websupport==1.1.0
 sqlparse==0.2.4
 stevedore==1.29.0
 urllib3==1.23
