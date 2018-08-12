@@ -1,3 +1,4 @@
+import logging
 import os
 
 import django_zero
@@ -70,9 +71,13 @@ class CreateCommand(BaseCommand):
 
         oldwd = os.getcwd()
         os.chdir(os.path.join(path, name))
+        logging.getLogger().setLevel(logging.WARNING)
         try:
             handle_update("Projectfile")
+            os.system('git add --all .')
+            os.system('git commit --quiet --amend -m "Project initialized using Medikit, Cookiecutter and Django-Zero."')
         finally:
+            logging.getLogger().setLevel(logging.INFO)
             os.chdir(oldwd)
 
         print(
@@ -81,8 +86,9 @@ class CreateCommand(BaseCommand):
                 "Install your project and launch django's development server:",
                 "",
                 "  $ `cd {}`".format(name),
-                "  $ `django-zero install`",
-                "  $ `make`",
+                "  $ `django-zero install --dev`",
+                "  $ `django-zero manage migrate`",
+                "  $ `django-zero start`",
                 "",
                 "Development server will listen on `http://127.0.0.1:8000/`",
                 help_url=url_for_help("created/project.html"),

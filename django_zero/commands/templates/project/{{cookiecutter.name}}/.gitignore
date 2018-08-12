@@ -1,0 +1,14 @@
+*.egg-info
+*.iml
+*.pyc
+*.swp
+/.cache
+/.coverage
+/.idea
+/.python*-*
+/build
+/db.sqlite3
+/dist
+/htmlcov
+/node_modules
+/pylint.html
