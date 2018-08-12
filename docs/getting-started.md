@@ -7,16 +7,16 @@ $ django-zero create project zero-to-one
 $ cd zero-to-one
 ```
 
-Install the python dependencies, with development extras:
+Install the python and javascript dependencies (requires yarn), with developement dependencies:
 
 ```shell
-$ make install-dev
+$ django-zero install --dev
 ```
 
-Install the javascript dependencies (requires yarn), with developement dependencies:
+Run django migrations:
 
 ```shell
-$ django-zero install
+$ django-zero manage migrate
 ```
 
 Launch both django development server and webpack in "watch" mode.

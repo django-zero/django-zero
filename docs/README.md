@@ -31,9 +31,14 @@ You need **Node.js 8+** with **Yarn** and a **python 3.5+** environment (user sh
 
 ```shell
 $ pip install django-zero[dev]
+```
+
+Create and run a project:
+
+```shell
 $ django-zero create project acme
 $ cd acme
-$ django-zero install
+$ django-zero install --dev
 $ django-zero manage migrate
 $ django-zero start
 ```
