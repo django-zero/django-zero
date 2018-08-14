@@ -1,8 +1,8 @@
 import logging
 import os
 
-import django_zero
 import mondrian
+
 from django_zero.commands.base import BaseCommand
 from django_zero.utils import check_dev_extras, url_for_help
 
@@ -74,8 +74,10 @@ class CreateCommand(BaseCommand):
         logging.getLogger().setLevel(logging.WARNING)
         try:
             handle_update("Projectfile")
-            os.system('git add --all .')
-            os.system('git commit --quiet --amend -m "Project initialized using Medikit, Cookiecutter and Django-Zero."')
+            os.system("git add --all .")
+            os.system(
+                'git commit --quiet --amend -m "Project initialized using Medikit, Cookiecutter and Django-Zero."'
+            )
         finally:
             logging.getLogger().setLevel(logging.INFO)
             os.chdir(oldwd)

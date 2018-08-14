@@ -1,6 +1,8 @@
 import os
 import sys
 
+import mondrian
+
 from django_zero.commands import BaseCommand
 from django_zero.commands.utils.processes import call_webpack
 from django_zero.utils import check_installed, get_env
