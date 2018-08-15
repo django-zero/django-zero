@@ -26,3 +26,7 @@ class BaseCommand:
         The actual logic of the command. Subclasses must implement this method.
         """
         raise NotImplementedError("Subclasses of BaseCommand must provide a handle() method")
+
+    @classmethod
+    def is_enabled(cls):
+        return True

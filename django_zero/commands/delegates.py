@@ -1,10 +1,10 @@
 import os
 import sys
 
-import mondrian
-
+import django_zero
 from django_zero.commands import BaseCommand
 from django_zero.commands.utils.processes import call_webpack
+from django_zero.config.settings.features import is_celery_enabled
 from django_zero.utils import check_installed, get_env
 
 
@@ -15,10 +15,9 @@ class DjangoCommand(BaseCommand):
         check_installed()
         env = get_env()
         # Add CWD and make sure django-zero base path is not in path so we avoid loading its settings instead of user's.
-        sys.path = [os.getcwd()] + list(filter(lambda p: p and not p == env["DJANGO_ZERO_BASE_DIR"], sys.path))
+        sys.path = list(dict.fromkeys([os.getcwd()] + list(filter(lambda p: p and not p == env["DJANGO_ZERO_BASE_DIR"], sys.path))))
 
-        os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
-        os.environ.setdefault("DJANGO_BASE_DIR", env.get("DJANGO_BASE_DIR", os.getcwd()))
+        django_zero.configure(env.get("DJANGO_BASE_DIR", os.getcwd()))
         os.environ.setdefault("DJANGO_DEBUG", "true")
 
         try:
@@ -63,6 +62,10 @@ class DaphneCommand(BaseCommand):
 
 class CeleryCommand(BaseCommand):
     """Runs the celery CLI."""
+
+    @classmethod
+    def is_enabled(cls):
+        return is_celery_enabled()
 
     def handle(self, *args):
         from celery.__main__ import main as celery_main

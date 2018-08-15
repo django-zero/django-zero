@@ -7,3 +7,4 @@
 - [**Tests** — Treatment is not always quicker](./tests.md)
 - [**Users** — Registration, authentication and authorization (Allauth)](./users.md)
 - [**Deployments** — The hitchhiker's guide to Production](./deployment.md)
+

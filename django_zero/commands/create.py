@@ -23,12 +23,11 @@ class CreateCommand(BaseCommand):
     def handle(self, *args, **options):
         _type = options.pop("type")
 
-        with mondrian.humanizer.humanize():
-            if _type == "app":
-                return self.handle_app(*args, **options)
+        if _type == "app":
+            return self.handle_app(*args, **options)
 
-            if _type == "project":
-                return self.handle_project(*args, **options)
+        if _type == "project":
+            return self.handle_project(*args, **options)
 
     def handle_app(self, *args, **options):
         check_dev_extras("django-zero create app")
@@ -96,3 +95,6 @@ class CreateCommand(BaseCommand):
                 help_url=url_for_help("created/project.html"),
             )
         )
+
+    def handle_config(self, *args, **kwargs):
+        pass

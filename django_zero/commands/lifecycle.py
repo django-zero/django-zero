@@ -26,10 +26,10 @@ class BaseLifecycleCommand(BaseCommand):
         retval = subprocess.call(command, cwd=cwd, shell=shell)
 
         if retval:
-            self.logger.error(term.red(term.bold("... Failure.")))
+            self.logger.error(term.red(term.bold("... ✖ failed")))
             raise RuntimeError('"{}" returned {}.'.format(command, retval))
         else:
-            self.logger.info(term.green(term.bold("... Success.")))
+            self.logger.info(term.green(term.bold("... ✓ ok")))
 
 
 class StartCommand(BaseLifecycleCommand):
@@ -38,7 +38,6 @@ class StartCommand(BaseLifecycleCommand):
     def add_arguments(self, parser):
         parser.add_argument("--prod", "-p", action="store_true")
 
-    @humanizer.humanize()
     def handle(self, *, prod=False):
         cmd = "django-zero start"
         check_dev_extras(cmd)
@@ -63,7 +62,6 @@ class InstallCommand(BaseLifecycleCommand):
         parser.add_argument("--dev", action="store_const", const="dev", dest="extra")
         parser.add_argument("--prod", action="store_const", const="prod", dest="extra")
 
-    @humanizer.humanize()
     def handle(self, *more, extra=None):
         env = get_env()
 
@@ -94,7 +92,6 @@ class InstallCommand(BaseLifecycleCommand):
 class UninstallCommand(BaseLifecycleCommand):
     """Removes the "node_modules" directory within django-zero package."""
 
-    @humanizer.humanize()
     def handle(self):
         check_installed()
         env = get_env()
@@ -104,6 +101,5 @@ class UninstallCommand(BaseLifecycleCommand):
 class PathCommand(BaseLifecycleCommand):
     """Shows the path of django-zero package."""
 
-    @humanizer.humanize()
     def handle(self):
         print(os.path.dirname(django_zero.__file__))
