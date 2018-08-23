@@ -15,7 +15,9 @@ class DjangoCommand(BaseCommand):
         check_installed()
         env = get_env()
         # Add CWD and make sure django-zero base path is not in path so we avoid loading its settings instead of user's.
-        sys.path = list(dict.fromkeys([os.getcwd()] + list(filter(lambda p: p and not p == env["DJANGO_ZERO_BASE_DIR"], sys.path))))
+        sys.path = list(
+            dict.fromkeys([os.getcwd()] + list(filter(lambda p: p and not p == env["DJANGO_ZERO_BASE_DIR"], sys.path)))
+        )
 
         django_zero.configure(env.get("DJANGO_BASE_DIR", os.getcwd()))
         os.environ.setdefault("DJANGO_DEBUG", "true")

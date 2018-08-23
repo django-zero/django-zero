@@ -32,7 +32,7 @@ def main():
 
     sys.path = list(dict.fromkeys([os.getcwd(), *sys.path]))
     try:
-        __import__('config')
+        __import__("config")
     except ImportError:
         pass
 

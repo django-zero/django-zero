@@ -1,15 +1,18 @@
+import warnings
+
 from django_zero.config.settings.base import DEBUG
 from django_zero.config.settings.features import is_channels_enabled, is_whitenoise_enabled
 
 _debug_only_apps = []
 _debug_only_middlewares = []
+
 if DEBUG:
     try:
         import django_extensions
 
         _debug_only_apps.append("django_extensions")
     except ImportError:
-        pass
+        warnings.warn("Django Extensions are not available, skipping.")
 
     try:
         import debug_toolbar
@@ -17,7 +20,7 @@ if DEBUG:
         _debug_only_apps.append("debug_toolbar")
         _debug_only_middlewares.append("debug_toolbar.middleware.DebugToolbarMiddleware")
     except ImportError:
-        pass
+        warnings.warn("Django Debug Toolbar is not available, skipping.")
 
 # Applications
 INSTALLED_APPS = [

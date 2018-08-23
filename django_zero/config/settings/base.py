@@ -16,6 +16,6 @@ else:
 ZERO_DIR = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = get_bool_from_env("DJANGO_DEBUG")
+DEBUG = get_bool_from_env("DJANGO_DEBUG") or get_bool_from_env("DEBUG")
 
 __all__ = ["DEBUG", "BASE_DIR", "ZERO_DIR"]

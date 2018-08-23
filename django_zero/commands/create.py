@@ -2,7 +2,6 @@ import logging
 import os
 
 import mondrian
-
 from django_zero.commands.base import BaseCommand
 from django_zero.utils import check_dev_extras, url_for_help
 
