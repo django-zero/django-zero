@@ -1,7 +1,5 @@
-import json
 import os
 import re
-import warnings
 
 from django.contrib import messages
 from django.contrib.staticfiles.storage import staticfiles_storage
@@ -10,66 +8,10 @@ from django.utils.encoding import force_text
 from django.utils.translation import gettext
 from jinja2 import Environment, lexer, nodes
 from jinja2.ext import Extension
-from markupsafe import Markup
 
 from django_includes.jinja2 import DjangoIncludesExtension
-
-
-class AssetsHelper:
-    def __init__(self, filename):
-        self.filename = filename
-        self._data = None
-        self._mtime = None
-        self._path = "/static"
-
-    @property
-    def data(self):
-        mtime = os.path.getmtime(self.filename)
-        if mtime != self._mtime or not self._data:
-            try:
-                with open(self.filename) as f:
-                    self._data = json.load(f)
-                self._mtime = mtime
-            except OSError as exc:
-                warnings.warn(
-                    "Unreadable assets (looked for %r). Maybe webpack is still running?".format(self.filename)
-                )
-                return {}
-        return self._data
-
-    def get_stylesheets(self, *names):
-        return Markup("".join(map(self.get_stylesheet, names)))
-
-    def get_stylesheet(self, name):
-        try:
-            bundle = self.data[name]
-        except KeyError as e:
-            return ""
-
-        try:
-            return Markup('<link href="' + staticfiles_storage.url(bundle["css"]) + '" rel="stylesheet">')
-        except KeyError as e:
-            message = "Stylesheet bundle not found: {}".format(name)
-            warnings.warn(message)
-            return Markup("<!-- {} -->".format(message))
-
-    def get_javascripts(self, *names):
-        return Markup("".join(map(self.get_javascript, names)))
-
-    def get_javascript(self, name):
-        try:
-            bundle = self.data[name]
-        except KeyError as e:
-            return ""
-
-        try:
-            return Markup(
-                '<script src="' + os.path.join(self._path, bundle["js"]) + '" type="text/javascript"></script>'
-            )
-        except KeyError as e:
-            message = "Javascript bundle not found: {}".format(name)
-            warnings.warn(message)
-            return Markup("<!-- {} -->".format(message))
+from django_zero import assets
+from django_zero.assets import AssetsHelper
 
 
 class DjangoCsrfExtension(Extension):
@@ -206,7 +148,7 @@ def environment(**options):
     env.globals.update(
         {
             "_": gettext,
-            "assets": AssetsHelper(os.path.join(settings.BASE_DIR, "assets.json")),
+            "assets": assets.get_helper(),
             "get_messages": messages.get_messages,
             "settings": settings,
             "static": staticfiles_storage.url,
