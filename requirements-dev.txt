@@ -1,10 +1,10 @@
 -e .[dev]
 -r requirements.txt
 arrow==0.12.1
-atomicwrites==1.1.5
-attrs==18.1.0
+atomicwrites==1.2.1
+attrs==18.2.0
 binaryornot==0.4.4
-certifi==2018.8.13
+certifi==2018.8.24
 chardet==3.0.4
 click==6.7
 colorama==0.3.9
@@ -12,8 +12,8 @@ cookiecutter==1.6.0
 coverage==4.5.1
 cssselect==1.0.3
 django-debug-toolbar==1.9.1
-django-extensions==2.1.0
-django==2.1
+django-extensions==2.1.2
+django==2.1.1
 first==2.0.1
 future==0.16.0
 git-semver==0.2.3
@@ -33,12 +33,12 @@ pbr==4.2.0
 pip-tools==2.0.2
 pluggy==0.7.1
 poyo==0.4.1
-py==1.5.4
+py==1.6.0
 pyparsing==2.2.0
 pyquery==1.4.0
-pytest-cov==2.5.1
-pytest-django==3.3.3
-pytest==3.7.1
+pytest-cov==2.6.0
+pytest-django==3.4.2
+pytest==3.7.4
 python-dateutil==2.7.3
 pytz==2018.5
 requests==2.19.1
@@ -51,4 +51,4 @@ urllib3==1.23
 werkzeug==0.14.1
 whichcraft==0.4.1
 whistle==1.0.1
-yapf==0.22.0
+yapf==0.23.0

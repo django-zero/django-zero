@@ -4,6 +4,7 @@ var webpack = require('webpack');
 const zeroPath = process.env.DJANGO_ZERO_BASE_DIR;
 const basePath = process.env.DJANGO_BASE_DIR;
 const NODE_ENV = process.env.NODE_ENV || 'production';
+console.log('NODE_ENV =', NODE_ENV)
 
 const resolveConfig = {
     alias: {},
@@ -34,7 +35,7 @@ function createWebpackConfig(withExamples = false, production = (NODE_ENV === 'p
     let config = {
         context: basePath,
         target: 'web',
-        devtool: production ? false : 'eval-source-map',
+        devtool: false,
         mode: production ? 'production' : 'development',
 
         resolve: resolveConfig,
@@ -44,6 +45,7 @@ function createWebpackConfig(withExamples = false, production = (NODE_ENV === 'p
 
         output: {
             path: path.resolve(basePath, '.cache/webpack'),
+            publicPath: '/static/',
             filename: '[name].js',
         },
 
@@ -59,6 +61,9 @@ function createWebpackConfig(withExamples = false, production = (NODE_ENV === 'p
             new webpack.DefinePlugin({
                 'process.env.NODE_ENV': JSON.stringify(NODE_ENV)
             }),
+            new webpack.SourceMapDevToolPlugin({
+                filename: "[file].map",
+            })
         ],
 
         module: {

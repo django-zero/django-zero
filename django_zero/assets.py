@@ -2,7 +2,6 @@ import json
 import os
 import warnings
 
-from django.contrib.staticfiles.storage import staticfiles_storage
 from markupsafe import Markup
 
 
@@ -11,7 +10,6 @@ class AssetsHelper:
         self.filename = filename
         self._data = None
         self._mtime = None
-        self._path = "/static"
 
     @property
     def data(self):
@@ -38,7 +36,8 @@ class AssetsHelper:
             return ""
 
         try:
-            return Markup('<link href="' + staticfiles_storage.url(bundle["css"]) + '" rel="stylesheet">')
+            print(bundle['css'])
+            return Markup('<link href="' + bundle["css"] + '" rel="stylesheet">')
         except KeyError as e:
             message = "Stylesheet bundle not found: {}".format(name)
             warnings.warn(message)
@@ -55,7 +54,7 @@ class AssetsHelper:
 
         try:
             return Markup(
-                '<script src="' + os.path.join(self._path, bundle["js"]) + '" type="text/javascript"></script>'
+                '<script src="' + bundle["js"] + '" type="text/javascript"></script>'
             )
         except KeyError as e:
             message = "Javascript bundle not found: {}".format(name)

@@ -1,13 +1,13 @@
 -e .
 brotli==1.0.4
 cachecontrol==0.12.5
-certifi==2018.8.13
+certifi==2018.8.24
 chardet==3.0.4
 colorama==0.3.9
 defusedxml==0.5.0
 django-allauth==0.36.0
 django-includes==0.2.2
-django==2.1
+django==2.1.1
 idna==2.7
 jinja2==2.10
 markupsafe==1.0

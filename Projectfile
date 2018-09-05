@@ -69,24 +69,26 @@ python.add_requirements(
     .setup(base_dir=PACKAGE)
     .add_dependencies(
     {
-        'assets-webpack-plugin': '^3.5.1',
-        'autoprefixer': '^8.6.5',
-        'babel-core': '^6.26.3',
-        'babel-loader': '^7.1.5',
-        'babel-preset-env': '^1.7.0',
-        'bootstrap': '^4.1.0',
-        'css-loader': '^1.0.0',
-        'file-loader': '^1.1.11',
-        'jquery': '1.9.1 - 3',
-        'mini-css-extract-plugin': '^0.4.1',
-        'node-sass': '^4.0.0',
-        'popper.js': '^1.12.9',
-        'postcss-loader': '^2.1.6',
-        'precss': '^3.1.2',
-        'resolve-url-loader': '^2.3.0',
-        'sass-loader': '^6.0.6',
-        'style-loader': '^0.19.1',
-        'webpack': '^4.0'
+        "@babel/cli": "^7.0.0",
+        "@babel/core": "^7.0.0",
+        "@babel/polyfill": "^7.0.0",
+        "@babel/preset-env": "^7.0.0",
+        "assets-webpack-plugin": "^3.5.1",
+        "autoprefixer": "^9.1.5",
+        "babel-loader": "^8.0.0",
+        "bootstrap": "^4.1.0",
+        "css-loader": "^1.0.0",
+        "file-loader": "^2.0.0",
+        "jquery": "1.9.1 - 3",
+        "mini-css-extract-plugin": "^0.4.1",
+        "node-sass": "^4.0.0",
+        "popper.js": "^1.12.9",
+        "postcss-loader": "^3.0.0",
+        "precss": "^3.1.2",
+        "resolve-url-loader": "^2.3.0",
+        "sass-loader": "^7.1.0",
+        "style-loader": "^0.23.0",
+        "webpack": "^4.0"
     }
 ))
 

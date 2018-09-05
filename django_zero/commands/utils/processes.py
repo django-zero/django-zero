@@ -51,6 +51,15 @@ def call_manage(*args, environ=None):
 def call_webpack(*args, environ=None):
     environ = {**os.environ, **get_env(), **(environ or {})}
     environ.setdefault("NODE_ENV", "development")
+
+    if environ['NODE_ENV'] == "development":
+        webpack_arguments = '--debug --devtool eval-source-map --output-pathinfo'
+    elif environ['NODE_ENV'] == "production":
+        webpack_arguments = '--optimize-minimize --define process.env.NODE_ENV="production"'
+    else:
+        webpack_arguments = ''
+
     return subprocess.call(
-        "yarn run webpack --config config/webpack.js " + " ".join(map(shlex.quote, args)), env=environ, shell=True
+        "yarn run webpack " + webpack_arguments + " --config config/webpack.js " + " ".join(map(shlex.quote, args)),
+        env=environ, shell=True
     )
