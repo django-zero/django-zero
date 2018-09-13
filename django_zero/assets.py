@@ -36,7 +36,6 @@ class AssetsHelper:
             return ""
 
         try:
-            print(bundle['css'])
             return Markup('<link href="' + bundle["css"] + '" rel="stylesheet">')
         except KeyError as e:
             message = "Stylesheet bundle not found: {}".format(name)
