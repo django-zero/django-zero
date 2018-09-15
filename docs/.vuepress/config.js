@@ -45,6 +45,28 @@ module.exports = {
                     {text: 'How-To', link: '/howto/'},
                 ],
                 sidebar: {
+                    '/features/': [
+                        {
+                            title: 'Features',
+                            collapsable: false,
+                            children: [
+                                '',
+                                'bootstrap',
+                                'cookiecutter',
+                                'allauth',
+                                'toolbar',
+                                'extensions',
+                                'docker',
+                                'gunicorn',
+                                'honcho',
+                                'jinja2',
+                                'mondrian',
+                                'pytest',
+                                'webpack',
+                                'whitenoise',
+                            ]
+                        }
+                    ],
                     '/guides/': [
                         {
                             title: 'Guides',
@@ -89,6 +111,7 @@ module.exports = {
                                 'getting-started',
                                 'guides/',
                                 'howto/',
+                                'features/',
                                 'contributions',
                             ]
                         }
