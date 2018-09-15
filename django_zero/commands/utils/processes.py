@@ -62,7 +62,7 @@ def call_webpack(*args, environ=None):
     webpack_arguments += ' --define process.env.NODE_ENV="\\"{}\\""'.format(environ["NODE_ENV"])
 
     return subprocess.call(
-        "yarn run webpack " + webpack_arguments + " --config config/webpack.js " + " ".join(map(shlex.quote, args)),
+        "yarn run webpack-cli " + webpack_arguments + " --config config/webpack.js " + " ".join(map(shlex.quote, args)),
         env=environ,
         shell=True,
     )

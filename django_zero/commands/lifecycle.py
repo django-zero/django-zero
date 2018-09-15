@@ -35,7 +35,7 @@ class StartCommand(BaseLifecycleCommand):
     """Starts all processes using honcho, after calling eventual prerequisites."""
 
     def add_arguments(self, parser):
-        parser.add_argument("--prod", "-p", action="store_true")
+        parser.add_argument("--prod", "--production", "-p", action="store_true")
 
     def handle(self, *, prod=False):
         cmd = "django-zero start"
