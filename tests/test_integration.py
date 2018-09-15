@@ -25,9 +25,10 @@ def get_free_port():
 def test_create_file(tmpdir):
     old_wd = os.getcwd()
     os.chdir(str(tmpdir))
+    print(str(tmpdir))
     try:
         os.system("python -m django_zero create --no-input project foo")
-
+        print(str(tmpdir.join("foo")))
         os.chdir(str(tmpdir.join("foo")))
 
         # TODO: move back into make install

@@ -58,6 +58,7 @@ def main():
 
     if debug:
         logging.getLogger().setLevel(logging.DEBUG)
+        logging.getLogger().debug("Logging level set to DEBUG")
 
     try:
         with humanizer.humanize():

@@ -72,6 +72,9 @@ Dependencies have their own licenses.
 
 ## Status
 
-This is an early preview. We use it on multiple production websites, but you should be aware that things can be a bit
-rusty here and there, changes are sometimes necessary, etc. Use at your own risks.
+This is an early preview. We use it on multiple production websites at [Makersquad](https://makersquad.fr/), and we
+know a few more people using it, but you should be aware that things can be a bit rusty here and there, changes are 
+sometimes necessary, etc.
+
+Use at your own risks, and take the time to understand how it works.
 

@@ -9,9 +9,7 @@ else:
     while not os.path.exists(os.path.join(BASE_DIR, "setup.py")):
         BASE_DIR = os.path.dirname(BASE_DIR).rstrip("/")
         if not len(BASE_DIR):
-            raise OSError(
-                "Could not find django zero project base directory form cwd, please provide a DJANGO_BASE_DIR value (in env)."
-            )
+            BASE_DIR = os.getcwd()
 
 ZERO_DIR = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
 

@@ -19,6 +19,10 @@ module.exports = {
     ],
     serviceWorker: true,
     themeConfig: {
+        algolia: {
+            apiKey: '9ee68811724d6401bbab1f00cd78d0b8',
+            indexName: 'django_zero'
+        },
         repo: 'django-zero/django-zero',
         editLinks: true,
         docsDir: 'docs',
