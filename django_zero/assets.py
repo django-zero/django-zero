@@ -52,9 +52,7 @@ class AssetsHelper:
             return ""
 
         try:
-            return Markup(
-                '<script src="' + bundle["js"] + '" type="text/javascript"></script>'
-            )
+            return Markup('<script src="' + bundle["js"] + '" type="text/javascript"></script>')
         except KeyError as e:
             message = "Javascript bundle not found: {}".format(name)
             warnings.warn(message)

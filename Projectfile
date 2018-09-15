@@ -3,114 +3,106 @@
 from medikit import listen, require
 from medikit.feature.make import which
 
-PACKAGE = 'django_zero'
+PACKAGE = "django_zero"
 
-git = require('git')
-make = require('make')
-nodejs = require('nodejs')
-pytest = require('pytest')
-python = require('python')
+git = require("git")
+make = require("make")
+nodejs = require("nodejs")
+pytest = require("pytest")
+python = require("python")
 
 python.setup(
     name=PACKAGE,
-    description='Zero-configuration django projects.',
-    license='Apache License, Version 2.0',
-    url='https://github.com/hartym/django-zero',
-    download_url='https://github.com/hartym/django-zero/archive/{version}.tar.gz',
-    author='Romain Dorgueil',
-    author_email='romain@dorgueil.net',
-    entry_points={
-        'console_scripts': [
-            'django-zero = django_zero.commands:main',
-        ],
-    }
+    description="Zero-configuration django projects.",
+    license="Apache License, Version 2.0",
+    url="https://github.com/hartym/django-zero",
+    download_url="https://github.com/hartym/django-zero/archive/{version}.tar.gz",
+    author="Romain Dorgueil",
+    author_email="romain@dorgueil.net",
+    entry_points={"console_scripts": ["django-zero = django_zero.commands:main"]},
 )
 
 python.add_requirements(
-    'brotli ~=1.0.4',
-    'django ~=2.1',
-    'django-allauth ~=0.36.0',
-    'django-includes ~=0.2.1',
-    'jinja2 ~=2.10',
-    'mondrian ~=0.8',
-    'whitenoise ~=3.3.1',
-
+    "brotli ~=1.0.4",
+    "django ~=2.1",
+    "django-allauth ~=0.36.0",
+    "django-includes ~=0.2.1",
+    "jinja2 ~=2.10",
+    "mondrian ~=0.8",
+    "whitenoise ~=3.3.1",
     # Celery
-    celery=[
-        'celery ~=4.2.0',
-        'django_celery_beat ~=1.1.1',
-        'django_celery_results ~=1.0.1',
-    ],
-
+    celery=["celery ~=4.2.0", "django_celery_beat ~=1.1.1", "django_celery_results ~=1.0.1"],
     # Channels
-    channels=[
-        'channels ~=2.1.2',
-    ],
-
+    channels=["channels ~=2.1.2"],
     # Dev-only tooling
     dev=[
-        'cookiecutter ~=1.6',
-        'django-extensions ~=2.1',
-        'django_debug_toolbar ~=1.9',
-        'honcho ~=1.0',
-        'medikit ~=0.6',
-        'pyquery ~=1.4',
-        'pytest-django ~=3.3',
-        'werkzeug ~=0.14',
+        "cookiecutter ~=1.6",
+        "django-extensions ~=2.1",
+        "django_debug_toolbar ~=1.9",
+        "honcho ~=1.0",
+        "medikit ~=0.6",
+        "pyquery ~=1.4",
+        "pytest-django ~=3.3",
+        "werkzeug ~=0.14",
     ],
-
     # Production tools
-    prod=[
-        'gunicorn ~=19.9.0',
-    ]
+    prod=["gunicorn ~=19.9.0"],
 )
 
-(nodejs
-    .setup(base_dir=PACKAGE)
-    .add_dependencies(
-    {
-        "@babel/cli": "^7.0.0",
-        "@babel/core": "^7.0.0",
-        "@babel/polyfill": "^7.0.0",
-        "@babel/preset-env": "^7.0.0",
-        "assets-webpack-plugin": "^3.5.1",
-        "autoprefixer": "^9.1.5",
-        "babel-loader": "^8.0.0",
-        "bootstrap": "^4.1.0",
-        "css-loader": "^1.0.0",
-        "file-loader": "^2.0.0",
-        "jquery": "1.9.1 - 3",
-        "mini-css-extract-plugin": "^0.4.1",
-        "node-sass": "^4.0.0",
-        "popper.js": "^1.12.9",
-        "postcss-loader": "^3.0.0",
-        "precss": "^3.1.2",
-        "resolve-url-loader": "^2.3.0",
-        "sass-loader": "^7.1.0",
-        "style-loader": "^0.23.0",
-        "webpack": "^4.0"
-    }
-))
+(
+    nodejs.setup(base_dir=PACKAGE).add_dependencies(
+        {
+            "@babel/cli": "^7.0.0",
+            "@babel/core": "^7.0.0",
+            "@babel/polyfill": "^7.0.0",
+            "@babel/preset-env": "^7.0.0",
+            "assets-webpack-plugin": "^3.5.1",
+            "autoprefixer": "^9.1.5",
+            "babel-loader": "^8.0.0",
+            "bootstrap": "^4.1.0",
+            "css-loader": "^1.0.0",
+            "file-loader": "^2.0.0",
+            "jquery": "1.9.1 - 3",
+            "mini-css-extract-plugin": "^0.4.1",
+            "node-sass": "^4.0.0",
+            "popper.js": "^1.12.9",
+            "postcss-loader": "^3.0.0",
+            "precss": "^3.1.2",
+            "resolve-url-loader": "^2.3.0",
+            "sass-loader": "^7.1.0",
+            "style-loader": "^0.23.0",
+            "webpack": "^4.0",
+        }
+    )
+)
 
 
 @listen(make.on_generate)
 def on_make_generate(event):
-    event.makefile.add_target('testrun', '''
-        $(eval TMPDIR := $(shell mktemp -d))
-        (cd $(TMPDIR); $(PYTHON) -m virtualenv -p $(PYTHON) env)
-        $(TMPDIR)/env/bin/pip install .[dev]
-        $(eval ZERO := $(TMPDIR)/env/bin/django-zero)
-        (cd $(TMPDIR); $(ZERO) create --no-input project acme)
-        (cd $(TMPDIR)/acme; $(ZERO) install)
-        (cd $(TMPDIR)/acme; $(ZERO) manage migrate)
-        (cd $(TMPDIR)/acme; make start)
-        trap 'rm -rf "$(TMPDIR)"' EXIT; (cd $(TMPDIR)/acme; $(ZERO) start)
-    ''', phony=True)
+    event.makefile.add_target(
+        "testrun",
+        """
+            $(eval TMPDIR := $(shell mktemp -d))
+            (cd $(TMPDIR); $(PYTHON) -m virtualenv -p $(PYTHON) env)
+            $(TMPDIR)/env/bin/pip install .[dev]
+            $(eval ZERO := $(TMPDIR)/env/bin/django-zero)
+            (cd $(TMPDIR); $(ZERO) create --no-input project acme)
+            (cd $(TMPDIR)/acme; $(ZERO) install)
+            (cd $(TMPDIR)/acme; $(ZERO) manage migrate)
+            (cd $(TMPDIR)/acme; make start)
+            trap 'rm -rf "$(TMPDIR)"' EXIT; (cd $(TMPDIR)/acme; $(ZERO) start)
+        """,
+        phony=True,
+    )
 
-    event.makefile.add_target('format', '''
-        black -l 120 --exclude '/(\.git|\.hg|\.mypy_cache|\.tox|\.venv|_build|buck-out|build|dist|node_modules|{{"{{cookiecutter.name}}"}})/' .
-        isort -rc -y -s node_modules .
-    ''', phony=True)
+    event.makefile.add_target(
+        "format",
+        """
+            black -l 120 --exclude '/(\.git|\.hg|\.mypy_cache|\.tox|\.venv|\.release|_build|buck-out|build|dist|node_modules|{{"{{cookiecutter.name}}"}})/' .
+            isort -rc -y -s node_modules .
+        """,
+        phony=True,
+    )
 
 
 # Pipelines
@@ -118,13 +110,13 @@ def on_make_generate(event):
 def on_make_generate_pipelines(event):
     # Releases
     event.makefile.add_target(
-        'release',
-        '''
+        "release",
+        """
             python -c 'import medikit; print(medikit.__version__)' || pip install medikit;
             $(PYTHON) -m medikit pipeline release start
-        ''',
+        """,
         phony=True,
-        doc='Releases django-zero.'
+        doc="Releases django-zero.",
     )
 
 
@@ -133,18 +125,25 @@ def on_make_generate_pipelines(event):
 def on_make_generate_documentation(event):
     makefile = event.makefile
 
-    makefile['VUEPRESS'] = which('vuepress')
-    makefile['VUEPRESS_SOURCEDIR'] = 'docs'
+    makefile["VUEPRESS"] = which("vuepress")
+    makefile["VUEPRESS_SOURCEDIR"] = "docs"
 
-    makefile.add_target('docs', '$(VUEPRESS) dev docs', phony=True)
-    makefile.add_target('docs-dist', '$(VUEPRESS) build docs', phony=True)
-    makefile.add_target('docs-deploy',
-                        ' && '.join([
-                            'cd docs/.vuepress/dist',
-                            'git init',
-                            'git add -A',
-                            'git commit -m "Build vuepress documentation."',
-                            'git push -f git@github.com:django-zero/django-zero.github.io.git master'
-                        ]), deps=['docs-dist'], phony=True)
+    makefile.add_target("docs", "$(VUEPRESS) dev docs", phony=True)
+    makefile.add_target("docs-dist", "$(VUEPRESS) build docs", phony=True)
+    makefile.add_target(
+        "docs-deploy",
+        " && ".join(
+            [
+                "cd docs/.vuepress/dist",
+                "git init",
+                "git add -A",
+                'git commit -m "Build vuepress documentation."',
+                "git push -f git@github.com:django-zero/django-zero.github.io.git master",
+            ]
+        ),
+        deps=["docs-dist"],
+        phony=True,
+    )
+
 
 # vim: ft=python:

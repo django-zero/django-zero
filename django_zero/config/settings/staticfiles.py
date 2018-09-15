@@ -14,7 +14,7 @@ STATICFILES_DIRS = create_directories_or_ignore(
 )
 
 if is_whitenoise_enabled():
-    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+    STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 else:
     STATICFILES_STORAGE = "django.contrib.staticfiles.storage.ManifestStaticFilesStorage"
 
