@@ -6,12 +6,11 @@ from django.contrib.staticfiles.storage import staticfiles_storage
 from django.urls import reverse
 from django.utils.encoding import force_text
 from django.utils.translation import gettext
-from jinja2 import Environment, lexer, nodes
-from jinja2.ext import Extension
-
 from django_includes.jinja2 import DjangoIncludesExtension
 from django_zero import assets
 from django_zero.assets import AssetsHelper
+from jinja2 import Environment, lexer, nodes
+from jinja2.ext import Extension
 
 
 class DjangoCsrfExtension(Extension):
