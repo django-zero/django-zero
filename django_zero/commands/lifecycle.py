@@ -5,13 +5,13 @@ import subprocess
 import sys
 
 import django_zero
-from django_zero.commands import BaseCommand
+from django_zero.commands import AbstractSubcommand
 from django_zero.commands.utils.processes import call_manage, call_webpack, create_honcho_manager
 from django_zero.utils import check_dev_extras, check_installed, check_prod_extras, get_env
 from mondrian import humanizer, term
 
 
-class BaseLifecycleCommand(BaseCommand):
+class BaseLifecycleCommand(AbstractSubcommand):
     """
     Contains logic for all lifecycle-related commands.
 

@@ -2,11 +2,11 @@ import logging
 import os
 
 import mondrian
-from django_zero.commands.base import BaseCommand
+from django_zero.commands.base import AbstractSubcommand
 from django_zero.utils import check_dev_extras, url_for_help
 
 
-class CreateCommand(BaseCommand):
+class CreateCommand(AbstractSubcommand):
     """Create a project/an app."""
 
     def add_arguments(self, parser):

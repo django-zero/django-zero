@@ -2,13 +2,13 @@ import os
 import sys
 
 import django_zero
-from django_zero.commands import BaseCommand
+from django_zero.commands import AbstractSubcommand
 from django_zero.commands.utils.processes import call_webpack
 from django_zero.config.settings.features import is_celery_enabled
 from django_zero.utils import check_installed, get_env
 
 
-class DjangoCommand(BaseCommand):
+class DjangoCommand(AbstractSubcommand):
     """Runs the django manage.py script after setting environment."""
 
     def handle(self, *args):
@@ -33,7 +33,7 @@ class DjangoCommand(BaseCommand):
         return execute_from_command_line(["django-zero manage"] + list(args))
 
 
-class GunicornCommand(BaseCommand):
+class GunicornCommand(AbstractSubcommand):
     """Serve your project using gunicorn. You must have a valid config/wsgi.py file for this to work."""
 
     def handle(self, *args):
@@ -49,7 +49,7 @@ class GunicornCommand(BaseCommand):
             sys.argv = _sys_argv_backup
 
 
-class DaphneCommand(BaseCommand):
+class DaphneCommand(AbstractSubcommand):
     """Serve your project using daphne. You must have a valid config/asgi.py file for this to work."""
 
     def handle(self, *args):
@@ -62,7 +62,7 @@ class DaphneCommand(BaseCommand):
             sys.argv = _sys_argv_backup
 
 
-class CeleryCommand(BaseCommand):
+class CeleryCommand(AbstractSubcommand):
     """Runs the celery CLI."""
 
     @classmethod
@@ -79,7 +79,7 @@ class CeleryCommand(BaseCommand):
             sys.argv = _sys_argv_backup
 
 
-class WebpackCommand(BaseCommand):
+class WebpackCommand(AbstractSubcommand):
     """Runs weppack using your project's configuration (in config/webpack.js)."""
 
     def add_arguments(self, parser):

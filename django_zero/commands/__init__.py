@@ -6,7 +6,7 @@ import sys
 import mondrian
 from mondrian import humanizer
 
-from django_zero.commands.base import BaseCommand
+from django_zero.commands.base import AbstractSubcommand
 from django_zero.commands.create import CreateCommand
 from django_zero.commands.delegates import CeleryCommand, DaphneCommand, GunicornCommand, DjangoCommand, WebpackCommand
 from django_zero.commands.lifecycle import StartCommand, InstallCommand, PathCommand, UninstallCommand

@@ -1,9 +1,9 @@
 import logging
 
 
-class BaseCommand:
+class AbstractSubcommand:
     """
-    Base class for CLI commands.
+    Base class for django-zero's subcommands.
 
     """
 
