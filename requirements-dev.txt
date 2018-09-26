@@ -6,12 +6,12 @@ attrs==18.2.0
 binaryornot==0.4.4
 certifi==2018.8.24
 chardet==3.0.4
-click==6.7
+click==7.0
 colorama==0.3.9
 cookiecutter==1.6.0
 coverage==4.5.1
 cssselect==1.0.3
-django-debug-toolbar==1.9.1
+django-debug-toolbar==1.10.1
 django-extensions==2.1.2
 django==2.1.1
 first==2.0.1
@@ -23,7 +23,7 @@ honcho==1.0.1
 idna==2.7
 jinja2-time==0.2.0
 jinja2==2.10
-lxml==4.2.4
+lxml==4.2.5
 markupsafe==1.0
 medikit==0.6.3
 mondrian==0.8.0
@@ -34,11 +34,11 @@ pip-tools==2.0.2
 pluggy==0.7.1
 poyo==0.4.1
 py==1.6.0
-pyparsing==2.2.0
+pyparsing==2.2.1
 pyquery==1.4.0
 pytest-cov==2.6.0
-pytest-django==3.4.2
-pytest==3.7.4
+pytest-django==3.4.3
+pytest==3.8.1
 python-dateutil==2.7.3
 pytz==2018.5
 requests==2.19.1
@@ -51,4 +51,4 @@ urllib3==1.23
 werkzeug==0.14.1
 whichcraft==0.4.1
 whistle==1.0.1
-yapf==0.23.0
+yapf==0.24.0

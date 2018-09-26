@@ -46,13 +46,13 @@ function createWebpackConfig(withExamples = false, production = (NODE_ENV === 'p
         output: {
             path: path.resolve(basePath, '.cache/webpack'),
             publicPath: '/static/',
-            filename: '[name].js',
+            filename: '[name].[chunkhash].js',
         },
 
         plugins: [
             new MiniCssExtractPlugin({
-                filename: '[name].css',
-                chunkFilename: '[id].css',
+                filename: '[name].[chunkhash].css',
+                chunkFilename: '[id].[chunkhash].css',
             }),
             new AssetsPlugin({
                 path: basePath,

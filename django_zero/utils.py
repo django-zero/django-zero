@@ -83,7 +83,9 @@ def check_installed():
 
     node_modules_path = os.path.join(env["DJANGO_ZERO_BASE_DIR"], "node_modules")
     if not os.path.exists(node_modules_path):
-        raise UserError("Django-zero's global node modules are not installed.", "Try running:", "  $ django-zero install")
+        raise UserError(
+            "Django-zero's global node modules are not installed.", "Try running:", "  $ django-zero install"
+        )
 
     local_node_modules_path = os.path.join(env["DJANGO_BASE_DIR"], "node_modules")
     if not os.path.exists(local_node_modules_path):

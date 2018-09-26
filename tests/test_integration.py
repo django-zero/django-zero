@@ -7,7 +7,6 @@ from queue import Empty
 from time import sleep
 
 import requests
-
 from honcho.process import Process
 
 

@@ -43,7 +43,7 @@ class StartCommand(BaseLifecycleCommand):
 
         if prod:
             check_prod_extras(cmd)
-            call_webpack("-p")
+            call_webpack(environ={"NODE_ENV": "production"})
             call_manage("collectstatic", "--noinput")
             m = create_honcho_manager(mode="prod")
         else:

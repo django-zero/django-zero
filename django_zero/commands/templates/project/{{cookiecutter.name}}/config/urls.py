@@ -1,4 +1,5 @@
 from django.contrib import admin
+
 from django_zero.urls import urlpatterns as django_zero_urlpatterns
 
 urlpatterns = [

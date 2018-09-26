@@ -5,8 +5,9 @@ defined in the WSGI_APPLICATION setting.
 
 import os
 
-import django_zero
 from django.core.wsgi import get_wsgi_application
+
+import django_zero
 
 django_zero.configure(os.path.dirname(os.path.dirname(__file__)))
 

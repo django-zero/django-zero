@@ -1,5 +1,5 @@
 -e .
-brotli==1.0.4
+brotli==1.0.6
 cachecontrol==0.12.5
 certifi==2018.8.24
 chardet==3.0.4

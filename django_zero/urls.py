@@ -3,6 +3,7 @@ import logging
 from django.conf import settings
 from django.contrib import admin
 from django.urls import include, path
+
 from django_zero import views
 
 urlpatterns = [path(settings.ADMIN_URL.strip("/") + "/", admin.site.urls)]
