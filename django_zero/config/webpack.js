@@ -2,9 +2,18 @@ var path = require('path');
 var webpack = require('webpack');
 
 const zeroPath = process.env.DJANGO_ZERO_BASE_DIR;
+const ZERO_DIR = zeroPath;
 const basePath = process.env.DJANGO_BASE_DIR;
+const BASE_DIR = basePath;
 const NODE_ENV = process.env.NODE_ENV || 'production';
-console.log('NODE_ENV =', NODE_ENV)
+const WEBPACK_DEV_SERVER = process.env.WEBPACK_DEV_SERVER || false;
+
+console.log('[ django-zero / webpack ] ZERO_DIR =', ZERO_DIR);
+console.log('[ django-zero / webpack ] BASE_DIR =', BASE_DIR);
+console.log('[ django-zero / webpack ] NODE_ENV =', NODE_ENV);
+if (WEBPACK_DEV_SERVER) {
+    console.log('[ django-zero / webpack ] WEBPACK_DEV_SERVER =', WEBPACK_DEV_SERVER);
+}
 
 const resolveConfig = {
     alias: {},
@@ -12,6 +21,17 @@ const resolveConfig = {
         path.resolve(zeroPath, 'node_modules'),
         path.resolve(basePath, 'node_modules'),
     ]
+};
+
+function createEntry() {
+    if (WEBPACK_DEV_SERVER === 'hot') {
+        return ['webpack/hot/dev-server', ...arguments];
+    } else if (WEBPACK_DEV_SERVER === 'hot-only') {
+        return ['webpack/hot/only-dev-server', ...arguments];
+    } else if (WEBPACK_DEV_SERVER) {
+        throw new Error('Invalid WEBPACK_DEV_SERVER value.')
+    }
+    return [...arguments];
 }
 
 function createWebpackConfig(withExamples = false, production = (NODE_ENV === 'production')) {
@@ -19,8 +39,8 @@ function createWebpackConfig(withExamples = false, production = (NODE_ENV === 'p
     const AssetsPlugin = require('assets-webpack-plugin');
 
     let entries = {
-        account: path.resolve(zeroPath, 'resources/assets/account.js'),
-        bootstrap: path.resolve(zeroPath, 'resources/assets/bootstrap.js'),
+        account: createEntry(path.resolve(zeroPath, 'resources/assets/account.js')),
+        bootstrap: createEntry(path.resolve(zeroPath, 'resources/assets/bootstrap.js')),
     };
 
     if (withExamples) {
@@ -31,6 +51,21 @@ function createWebpackConfig(withExamples = false, production = (NODE_ENV === 'p
     }
 
     let cssLoaderOptions = {minimize: production};
+    let styleLoader = [MiniCssExtractPlugin.loader];
+    if (WEBPACK_DEV_SERVER) {
+        styleLoader = [
+            'style-loader',
+        ];
+    }
+    let stylePlugins = [
+        new MiniCssExtractPlugin({
+                filename: production ? '[name].[hash].css' : '[name].css',
+                chunkFilename: production ? '[id].[hash].css' : '[id].css',
+            })
+    ];
+    if (WEBPACK_DEV_SERVER) {
+        stylePlugins = [];
+    }
 
     let config = {
         context: basePath,
@@ -46,14 +81,12 @@ function createWebpackConfig(withExamples = false, production = (NODE_ENV === 'p
         output: {
             path: path.resolve(basePath, '.cache/webpack'),
             publicPath: '/static/',
-            filename: '[name].[chunkhash].js',
+            filename: production ? '[name].[hash].js' : '[name].js',
+            chunkFilename: production ? '[id].[hash].js' : '[id].js',
         },
 
         plugins: [
-            new MiniCssExtractPlugin({
-                filename: '[name].[chunkhash].css',
-                chunkFilename: '[id].[chunkhash].css',
-            }),
+            ...stylePlugins,
             new AssetsPlugin({
                 path: basePath,
                 filename: 'assets.json',
@@ -70,24 +103,24 @@ function createWebpackConfig(withExamples = false, production = (NODE_ENV === 'p
             rules: [
                 {
                     test: /\.(sc|sa|c)ss$/,
-                    use: [{
-                        loader: MiniCssExtractPlugin.loader,
-                    }, {
-                        loader: 'css-loader',
-                    }, {
-                        loader: 'postcss-loader', // Run post css actions
-                        options: {
-                            plugins: function () {
-                                return [
-                                    require('autoprefixer')
-                                ];
-                            },
+                    use: [
+                        ...styleLoader, {
+                            loader: 'css-loader',
+                        }, {
+                            loader: 'postcss-loader', // Run post css actions
+                            options: {
+                                plugins: function () {
+                                    return [
+                                        require('autoprefixer')
+                                    ];
+                                },
+                            }
+                        }, {
+                            loader: 'resolve-url-loader'
+                        }, {
+                            loader: 'sass-loader?sourceMap'
                         }
-                    }, {
-                        loader: 'resolve-url-loader'
-                    }, {
-                        loader: 'sass-loader?sourceMap'
-                    }]
+                    ]
                 },
                 {
                     test: /\.jsx?$/,
@@ -104,17 +137,44 @@ function createWebpackConfig(withExamples = false, production = (NODE_ENV === 'p
             ]
         },
 
+        /*optimization: {
+            splitChunks: {
+                // include all types of chunks
+                chunks: 'all'
+            }
+        },*/
+
         performance: {
             hints: "warning"
         },
     };
 
+    if (WEBPACK_DEV_SERVER) {
+        config.output.publicPath = 'http://localhost:7999/static/'
+
+        config.devServer = {
+            hot: true,
+            hotOnly: true,
+            port: 7999,
+            headers: {'Access-Control-Allow-Origin': '*'},
+        };
+
+        config.plugins.push(
+            new webpack.HotModuleReplacementPlugin()
+        );
+
+    }
+
     return config;
 }
 
 module.exports = {
+    BASE_DIR,
     NODE_ENV,
+    WEBPACK_DEV_SERVER,
+    ZERO_DIR,
     basePath,
+    createEntry,
     createWebpackConfig,
     zeroPath,
 };

@@ -4,11 +4,12 @@ import shutil
 import subprocess
 import sys
 
+from mondrian import humanizer, term
+
 import django_zero
 from django_zero.commands import AbstractSubcommand
 from django_zero.commands.utils.processes import call_manage, call_webpack, create_honcho_manager
 from django_zero.utils import check_dev_extras, check_installed, check_prod_extras, get_env
-from mondrian import humanizer, term
 
 
 class BaseLifecycleCommand(AbstractSubcommand):
@@ -36,19 +37,26 @@ class StartCommand(BaseLifecycleCommand):
 
     def add_arguments(self, parser):
         parser.add_argument("--prod", "--production", "-p", action="store_true")
+        dev_server = parser.add_mutually_exclusive_group(required=False)
+        dev_server.add_argument("--hot", action="store_true")
+        dev_server.add_argument("--hot-only", action="store_true")
 
-    def handle(self, *, prod=False):
+    def handle(self, *, hot=False, hot_only=False, prod=False):
         cmd = "django-zero start"
         check_dev_extras(cmd)
 
         if prod:
+            if hot or hot_only:
+                raise RuntimeError(
+                    "Cannot use webpack-dev-server (invluding --hot or --hot-only modes) in production mode."
+                )
             check_prod_extras(cmd)
             call_webpack(environ={"NODE_ENV": "production"})
             call_manage("collectstatic", "--noinput")
             m = create_honcho_manager(mode="prod")
         else:
             check_installed()
-            m = create_honcho_manager(mode="dev", environ={"DJANGO_DEBUG": "1"})
+            m = create_honcho_manager(mode="dev", hot=hot, hot_only=hot_only, environ={"DJANGO_DEBUG": "1"})
 
         m.loop()
         return m.returncode
