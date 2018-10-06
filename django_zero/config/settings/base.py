@@ -6,10 +6,10 @@ if os.environ.get("DJANGO_BASE_DIR"):
     BASE_DIR = os.environ.get("DJANGO_BASE_DIR")
 else:
     BASE_DIR = os.getcwd()
-    while not os.path.exists(os.path.join(BASE_DIR, "setup.py")):
+    while len(BASE_DIR) and not os.path.exists(os.path.join(BASE_DIR, "setup.py")):
         BASE_DIR = os.path.dirname(BASE_DIR).rstrip("/")
-        if not len(BASE_DIR):
-            BASE_DIR = os.getcwd()
+    if not len(BASE_DIR):
+        BASE_DIR = os.getcwd()
 
 ZERO_DIR = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
 
