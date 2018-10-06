@@ -37,11 +37,12 @@ class StartCommand(BaseLifecycleCommand):
 
     def add_arguments(self, parser):
         parser.add_argument("--prod", "--production", "-p", action="store_true")
+        parser.add_argument("--bind", default=None)
         dev_server = parser.add_mutually_exclusive_group(required=False)
         dev_server.add_argument("--hot", action="store_true")
         dev_server.add_argument("--hot-only", action="store_true")
 
-    def handle(self, *, hot=False, hot_only=False, prod=False):
+    def handle(self, *, bind=None, hot=False, hot_only=False, prod=False):
         cmd = "django-zero start"
         check_dev_extras(cmd)
 
@@ -50,13 +51,17 @@ class StartCommand(BaseLifecycleCommand):
                 raise RuntimeError(
                     "Cannot use webpack-dev-server (invluding --hot or --hot-only modes) in production mode."
                 )
+            if bind:
+                raise NotImplementedError(
+                    "Custom bind address/port can't be customized in production env (yet). Please open a pull-request!"
+                )
             check_prod_extras(cmd)
             call_webpack(environ={"NODE_ENV": "production"})
             call_manage("collectstatic", "--noinput")
             m = create_honcho_manager(mode="prod")
         else:
             check_installed()
-            m = create_honcho_manager(mode="dev", hot=hot, hot_only=hot_only, environ={"DJANGO_DEBUG": "1"})
+            m = create_honcho_manager(mode="dev", bind=bind, hot=hot, hot_only=hot_only, environ={"DJANGO_DEBUG": "1"})
 
         m.loop()
         return m.returncode

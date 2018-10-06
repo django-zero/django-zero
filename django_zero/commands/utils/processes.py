@@ -34,7 +34,7 @@ def get_procs(mode="dev", *, hot=False, hot_only=False):
     return procs
 
 
-def create_honcho_manager(*, printer=None, mode="dev", hot=False, hot_only=False, **kwargs):
+def create_honcho_manager(*, printer=None, mode="dev", bind=None, hot=False, hot_only=False, **kwargs):
     environ = {**os.environ, **kwargs.pop("environ", {}), "PYTHONUNBUFFERED": "1"}
 
     from honcho.manager import Manager
@@ -42,6 +42,8 @@ def create_honcho_manager(*, printer=None, mode="dev", hot=False, hot_only=False
     m = Manager(printer=printer)
 
     for proc_name, proc_cmd in sorted(get_procs(mode, hot=hot, hot_only=hot_only).items()):
+        if bind and proc_name == "server":
+            proc_cmd += " " + bind
         m.add_process(proc_name, proc_cmd, env=environ)
 
     return m
