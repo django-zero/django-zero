@@ -1,1 +1,1 @@
-import './account.scss';
+import "./account.scss";

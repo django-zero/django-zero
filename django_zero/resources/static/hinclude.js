@@ -31,14 +31,13 @@ See http://mnot.github.com/hinclude/ for documentation.
 
 var hinclude;
 
-(function () {
-
+(function() {
   "use strict";
 
   hinclude = {
     classprefix: "include_",
 
-    set_content_async: function (element, req) {
+    set_content_async: function(element, req) {
       if (req.readyState === 4) {
         if (req.status === 200 || req.status === 304) {
           element.innerHTML = req.responseText;
@@ -51,7 +50,7 @@ var hinclude;
     },
 
     buffer: [],
-    set_content_buffered: function (element, req) {
+    set_content_buffered: function(element, req) {
       if (req.readyState === 4) {
         hinclude.buffer.push([element, req]);
         hinclude.outstanding -= 1;
@@ -61,7 +60,7 @@ var hinclude;
       }
     },
 
-    show_buffered_content: function () {
+    show_buffered_content: function() {
       var include;
       while (hinclude.buffer.length > 0) {
         include = hinclude.buffer.pop();
@@ -75,12 +74,13 @@ var hinclude;
 
     outstanding: 0,
     includes: [],
-    run: function () {
+    run: function() {
       var i = 0;
       var mode = this.get_meta("include_mode", "buffered");
       var callback;
       this.includes = document.getElementsByTagName("hx:include");
-      if (this.includes.length === 0) { // remove ns for IE
+      if (this.includes.length === 0) {
+        // remove ns for IE
         this.includes = document.getElementsByTagName("include");
       }
       if (mode === "async") {
@@ -92,24 +92,32 @@ var hinclude;
       }
 
       for (i; i < this.includes.length; i += 1) {
-        this.include(this.includes[i], this.includes[i].getAttribute("src"), this.includes[i].getAttribute("media"), callback);
+        this.include(
+          this.includes[i],
+          this.includes[i].getAttribute("src"),
+          this.includes[i].getAttribute("media"),
+          callback
+        );
       }
     },
 
-    include: function (element, url, media, incl_cb) {
+    include: function(element, url, media, incl_cb) {
       if (media && window.matchMedia && !window.matchMedia(media).matches) {
         return;
       }
       var scheme = url.substring(0, url.indexOf(":"));
-      if (scheme.toLowerCase() === "data") { // just text/plain for now
-        var data = decodeURIComponent(url.substring(url.indexOf(",") + 1, url.length));
+      if (scheme.toLowerCase() === "data") {
+        // just text/plain for now
+        var data = decodeURIComponent(
+          url.substring(url.indexOf(",") + 1, url.length)
+        );
         element.innerHTML = data;
       } else {
         var req = false;
         if (window.XMLHttpRequest) {
           try {
             req = new XMLHttpRequest();
-            if (element.hasAttribute('data-with-credentials')) {
+            if (element.hasAttribute("data-with-credentials")) {
               req.withCredentials = true;
             }
           } catch (e1) {
@@ -124,7 +132,7 @@ var hinclude;
         }
         if (req) {
           this.outstanding += 1;
-          req.onreadystatechange = function () {
+          req.onreadystatechange = function() {
             incl_cb(element, req);
           };
           try {
@@ -138,18 +146,23 @@ var hinclude;
       }
     },
 
-    refresh: function (element_id) {
+    refresh: function(element_id) {
       var i = 0;
       var callback;
       callback = this.set_content_buffered;
       for (i; i < this.includes.length; i += 1) {
         if (this.includes[i].getAttribute("id") === element_id) {
-          this.include(this.includes[i], this.includes[i].getAttribute("src"), this.includes[i].getAttribute("media"), callback);
+          this.include(
+            this.includes[i],
+            this.includes[i].getAttribute("src"),
+            this.includes[i].getAttribute("media"),
+            callback
+          );
         }
       }
     },
 
-    get_meta: function (name, value_default) {
+    get_meta: function(name, value_default) {
       var m = 0;
       var metas = document.getElementsByTagName("meta");
       var meta_name;
@@ -172,12 +185,14 @@ var hinclude;
      *
      * Thrown together by Jesse Skinner (http://www.thefutureoftheweb.com/)
      */
-    addDOMLoadEvent: function (func) {
+    addDOMLoadEvent: function(func) {
       if (!window.__load_events) {
-        var init = function () {
+        var init = function() {
           var i = 0;
           // quit if this function has already been called
-          if (hinclude.addDOMLoadEvent.done) {return; }
+          if (hinclude.addDOMLoadEvent.done) {
+            return;
+          }
           hinclude.addDOMLoadEvent.done = true;
           if (window.__load_timer) {
             clearInterval(window.__load_timer);
@@ -211,8 +226,9 @@ var hinclude;
         };
         @*/
         // for Safari
-        if (/WebKit/i.test(navigator.userAgent)) { // sniff
-          window.__load_timer = setInterval(function () {
+        if (/WebKit/i.test(navigator.userAgent)) {
+          // sniff
+          window.__load_timer = setInterval(function() {
             if (/loaded|complete/.test(document.readyState)) {
               init();
             }
@@ -225,7 +241,7 @@ var hinclude;
       window.__load_events.push(func);
     },
 
-    trigger_event: function (element) {
+    trigger_event: function(element) {
       var event;
 
       if (document.createEvent) {
@@ -233,8 +249,8 @@ var hinclude;
         event.initEvent("hinclude", true, true);
         event.eventName = "hinclude";
         element.dispatchEvent(event);
-
-      } else if (document.createEventObject) { // IE
+      } else if (document.createEventObject) {
+        // IE
         event = document.createEventObject();
         event.eventType = "hinclude";
         event.eventName = "hinclude";
@@ -242,17 +258,24 @@ var hinclude;
       }
     },
 
-    set_class: function (element, status) {
+    set_class: function(element, status) {
       var tokens = element.className.split(/\s+/);
-      var otherClasses = tokens.filter(function (token) {
-        return !token.match(/^include_\d+$/i) && !token.match(/^included/i);
-      }).join(' ');
+      var otherClasses = tokens
+        .filter(function(token) {
+          return !token.match(/^include_\d+$/i) && !token.match(/^included/i);
+        })
+        .join(" ");
 
-      element.className = otherClasses + (otherClasses ? ' ' : '') +
-        'included ' + hinclude.classprefix + status;
+      element.className =
+        otherClasses +
+        (otherClasses ? " " : "") +
+        "included " +
+        hinclude.classprefix +
+        status;
     }
   };
 
-  hinclude.addDOMLoadEvent(function () { hinclude.run(); });
-}());
-
+  hinclude.addDOMLoadEvent(function() {
+    hinclude.run();
+  });
+})();

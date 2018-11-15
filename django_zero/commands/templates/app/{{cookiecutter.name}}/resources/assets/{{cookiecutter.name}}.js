@@ -1,1 +1,1 @@
-import "./{{cookiecutter.name}}.scss"
+import "./{{cookiecutter.name}}.scss";
