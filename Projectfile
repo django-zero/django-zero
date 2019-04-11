@@ -71,7 +71,7 @@ python.add_requirements(
             "resolve-url-loader": "^2.3.0",
             "sass-loader": "^7.1.0",
             "style-loader": "^0.23.0",
-            "webpack": "^4.0",
+            "webpack": "^4.0.0",
         }
     )
 )

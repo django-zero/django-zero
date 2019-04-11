@@ -20,10 +20,10 @@
         "resolve-url-loader": "^2.3.0",
         "sass-loader": "^7.1.0",
         "style-loader": "^0.23.0",
-        "webpack": "^4.0"
+        "webpack": "^4.0.0"
     },
     "description": "Zero-configuration django projects.",
     "license": "Apache License, Version 2.0",
     "name": "django_zero",
-    "version": "0.0.20"
+    "version": "0.0.21rc3"
 }

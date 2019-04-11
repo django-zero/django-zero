@@ -82,10 +82,34 @@ class CeleryCommand(AbstractSubcommand):
 class WebpackCommand(AbstractSubcommand):
     """Runs weppack using your project's configuration (in config/webpack.js)."""
 
+    webpack_command = "webpack-cli"
+
     def add_arguments(self, parser):
         parser.add_argument("--production", "--prod", "-p", action="store_true")
 
-    def handle(self, *args, production=False):
+    def get_environ(self, production=False):
+        return {"NODE_ENV": "production" if production else "development"}
+
+    def handle(self, *args, **kwargs):
         check_installed()
-        environ = {"NODE_ENV": "production" if production else "development"}
-        return call_webpack(*args, environ=environ)
+        return call_webpack(*args, command=self.webpack_command, environ=self.get_environ(**kwargs))
+
+
+class WebpackDevServerCommand(WebpackCommand):
+    webpack_command = "webpack-dev-server"
+
+    def add_arguments(self, parser):
+        super(WebpackDevServerCommand, self).add_arguments(parser)
+        dev_server = parser.add_mutually_exclusive_group(required=False)
+        dev_server.add_argument("--hot", action="store_true")
+        dev_server.add_argument("--hot-only", action="store_true")
+
+    def get_environ(self, hot=False, hot_only=False, production=False):
+        if production and (hot or hot_only):
+            raise RuntimeError("Cannot run webpack-dev-server while in production mode.")
+        environ = super(WebpackDevServerCommand, self).get_environ(production=production)
+        if hot:
+            environ["WEBPACK_DEV_SERVER"] = "hot"
+        elif hot_only:
+            environ["WEBPACK_DEV_SERVER"] = "hot-only"
+        return environ

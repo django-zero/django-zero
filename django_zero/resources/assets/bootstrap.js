@@ -1,2 +1,2 @@
-import 'bootstrap';
-import './bootstrap.scss';
+import "bootstrap";
+import "./bootstrap.scss";
