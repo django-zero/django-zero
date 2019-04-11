@@ -24,26 +24,26 @@ python.setup(
 
 python.add_requirements(
     "brotli ~=1.0.4",
-    "django ~=2.1",
-    "django-allauth ~=0.36.0",
+    "django ~=2.2",
+    "django-allauth ~=0.39.1",
     "django-includes ~=0.2.1",
     "jinja2 ~=2.10",
     "mondrian ~=0.8",
     "whitenoise ~=3.3.1",
     # Celery
-    celery=["celery ~=4.2.0", "django_celery_beat ~=1.1.1", "django_celery_results ~=1.0.1"],
+    celery=["celery ~=4.3.0", "django_celery_beat ~=1.4.0", "django_celery_results ~=1.0.4"],
     # Channels
-    channels=["channels ~=2.1.2"],
+    channels=["channels ~=2.1.2", "daphne ~=2.2.0"],
     # Dev-only tooling
     dev=[
         "cookiecutter ~=1.6",
         "django-extensions ~=2.1",
-        "django_debug_toolbar ~=1.9",
+        "django_debug_toolbar ~=1.11",
         "honcho ~=1.0",
-        "medikit ~=0.6",
+        "medikit ~=0.7",
         "pyquery ~=1.4",
         "pytest-django ~=3.3",
-        "werkzeug ~=0.14",
+        "werkzeug ~=0.15",
     ],
     # Production tools
     prod=["gunicorn ~=19.9.0"],
