@@ -53,9 +53,9 @@ setup(
     packages=find_packages(exclude=['ez_setup', 'example', 'test']),
     include_package_data=True,
     install_requires=[
-        'brotli (~= 1.0.4)', 'django (~= 2.2)', 'django-allauth (~= 0.39.1)',
-        'django-includes (~= 0.2.1)', 'jinja2 (~= 2.10)', 'mondrian (~= 0.8)',
-        'whitenoise (~= 3.3.1)'
+        'brotli (~= 1.0.4)', 'django (~= 2.1, < 2.2)',
+        'django-allauth (~= 0.39.1)', 'django-includes (~= 0.2.1)',
+        'jinja2 (~= 2.10)', 'mondrian (~= 0.8)', 'whitenoise (~= 3.3.1)'
     ],
     extras_require={
         'celery': [

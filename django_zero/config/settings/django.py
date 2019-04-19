@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     "allauth.socialaccount",
 ]
 
+
 # Middlewares
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
