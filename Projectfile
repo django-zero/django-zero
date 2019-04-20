@@ -22,20 +22,23 @@ python.setup(
     entry_points={"console_scripts": ["django-zero = django_zero.commands:main"]},
 )
 
+common_requirements = ["django ~=2.1,<2.2", "mondrian ~=0.8"]
+
+
 python.add_requirements(
+    *common_requirements,
     "brotli ~=1.0.4",
-    "django ~=2.1,<2.2",
     "django-allauth ~=0.39.1",
     "django-includes ~=0.2.1",
     "jinja2 ~=2.10",
-    "mondrian ~=0.8",
     "whitenoise ~=3.3.1",
     # Celery
-    celery=["celery ~=4.3.0", "django_celery_beat ~=1.4.0", "django_celery_results ~=1.0.4"],
+    celery=[*common_requirements, "celery ~=4.3.0", "django_celery_beat ~=1.4.0", "django_celery_results ~=1.0.4"],
     # Channels
-    channels=["channels ~=2.1.2", "daphne ~=2.2.0"],
+    channels=[*common_requirements, "channels ~=2.1.2", "daphne ~=2.2.0"],
     # Dev-only tooling
     dev=[
+        *common_requirements,
         "cookiecutter ~=1.6",
         "django-extensions ~=2.1",
         "django_debug_toolbar ~=1.11",
@@ -46,32 +49,32 @@ python.add_requirements(
         "werkzeug ~=0.15",
     ],
     # Production tools
-    prod=["gunicorn ~=19.9.0"],
+    prod=[*common_requirements, "gunicorn ~=19.9.0"],
 )
 
 (
     nodejs.setup(base_dir=PACKAGE).add_dependencies(
         {
-            "@babel/cli": "^7.0.0",
-            "@babel/core": "^7.0.0",
-            "@babel/polyfill": "^7.0.0",
-            "@babel/preset-env": "^7.0.0",
-            "assets-webpack-plugin": "^3.5.1",
-            "autoprefixer": "^9.1.5",
-            "babel-loader": "^8.0.0",
-            "bootstrap": "^4.1.0",
-            "css-loader": "^1.0.0",
-            "file-loader": "^2.0.0",
-            "jquery": "1.9.1 - 3",
-            "mini-css-extract-plugin": "^0.4.1",
-            "node-sass": "^4.0.0",
-            "popper.js": "^1.12.9",
+            "@babel/cli": "^7.4.3",
+            "@babel/core": "^7.4.3",
+            "@babel/polyfill": "^7.4.3",
+            "@babel/preset-env": "^7.4.3",
+            "assets-webpack-plugin": "^3.9.10",
+            "autoprefixer": "^9.5.1",
+            "babel-loader": "^8.0.5",
+            "bootstrap": "^4.3.1",
+            "css-loader": "^2.1.1",
+            "file-loader": "^3.0.1",
+            "jquery": "3",
+            "mini-css-extract-plugin": "^0.6.0",
+            "node-sass": "^4.11.0",
+            "popper.js": "^1.15.0",
             "postcss-loader": "^3.0.0",
-            "precss": "^3.1.2",
-            "resolve-url-loader": "^2.3.0",
+            "precss": "^4.0.0",
+            "resolve-url-loader": "^3.1.0",
             "sass-loader": "^7.1.0",
-            "style-loader": "^0.23.0",
-            "webpack": "^4.0.0",
+            "style-loader": "^0.23.1",
+            "webpack": "^4.30.0",
         }
     )
 )

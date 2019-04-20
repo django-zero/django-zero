@@ -1,6 +1,5 @@
 from django_zero.config.settings.base import *
 from django_zero.config.settings.base import __all__ as _all_base
-
 from django_zero.config.settings.features import is_channels_enabled
 from django_zero.utils import get_bool_from_env
 

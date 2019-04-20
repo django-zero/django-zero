@@ -4,7 +4,7 @@ cachecontrol==0.12.5
 certifi==2019.3.9
 chardet==3.0.4
 colorama==0.3.9
-defusedxml==0.5.0
+defusedxml==0.6.0
 django-allauth==0.39.1
 django-includes==0.2.2
 django==2.1.8
@@ -19,5 +19,5 @@ python3-openid==3.1.0
 pytz==2019.1
 requests-oauthlib==1.2.0
 requests==2.21.0
-urllib3==1.24.1
+urllib3==1.24.2
 whitenoise==3.3.1

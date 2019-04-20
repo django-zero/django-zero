@@ -1,5 +1,6 @@
 # noinspection PyUnresolvedReferences
 import os
+
 from config.settings import *
 
 # This is required so lie server actually serve assets
