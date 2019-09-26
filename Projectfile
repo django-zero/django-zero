@@ -27,26 +27,26 @@ common_requirements = ["django ~=2.1,<2.2", "mondrian ~=0.8"]
 
 python.add_requirements(
     *common_requirements,
-    "brotli ~=1.0.4",
-    "django-allauth ~=0.39.1",
-    "django-includes ~=0.2.1",
+    "brotli ~=1.0.7",
+    "django-allauth ~=0.40.0",
+    "django-includes ~=0.2.3",
     "jinja2 ~=2.10",
     "whitenoise ~=3.3.1",
     # Celery
-    celery=[*common_requirements, "celery ~=4.3.0", "django_celery_beat ~=1.4.0", "django_celery_results ~=1.0.4"],
+    celery=[*common_requirements, "celery ~=4.3.0", "django_celery_beat ~=1.5.0", "django_celery_results ~=1.1.2"],
     # Channels
-    channels=[*common_requirements, "channels ~=2.1.2", "daphne ~=2.2.0"],
+    channels=[*common_requirements, "channels ~=2.3.0", "daphne ~=2.3.0"],
     # Dev-only tooling
     dev=[
         *common_requirements,
         "cookiecutter ~=1.6",
-        "django-extensions ~=2.1",
+        "django-extensions ~=2.2",
         "django_debug_toolbar ~=1.11",
         "honcho ~=1.0",
         "medikit ~=0.7",
         "pyquery ~=1.4",
-        "pytest-django ~=3.3",
-        "werkzeug ~=0.15",
+        "pytest-django ~=3.5",
+        "werkzeug ~=0.16",
     ],
     # Production tools
     prod=[*common_requirements, "gunicorn ~=19.9.0"],
