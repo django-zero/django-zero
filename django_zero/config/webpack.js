@@ -6,7 +6,7 @@ const ZERO_DIR = zeroPath;
 const basePath = process.env.DJANGO_BASE_DIR;
 const BASE_DIR = basePath;
 const NODE_ENV = process.env.NODE_ENV || "production";
-const WEBPACK_DEV_SERVER = process.env.WEBPACK_DEV_SERVER || false;
+const WEBPACK_DEV_SERVER = NODE_ENV !== "production" && process.env.WEBPACK_DEV_SERVER || false;
 
 console.log("[ django-zero / webpack ] ZERO_DIR =", ZERO_DIR);
 console.log("[ django-zero / webpack ] BASE_DIR =", BASE_DIR);
@@ -90,7 +90,6 @@ function createWebpackConfig(
       filename: production ? "[name].[hash].js" : "[name].js",
       chunkFilename: production ? "[id].[hash].js" : "[id].js"
     },
-
     plugins: [
       ...stylePlugins,
       new AssetsPlugin({
@@ -141,13 +140,6 @@ function createWebpackConfig(
       ]
     },
 
-    /*optimization: {
-            splitChunks: {
-                // include all types of chunks
-                chunks: 'all'
-            }
-        },*/
-
     performance: {
       hints: "warning"
     }
@@ -168,6 +160,7 @@ function createWebpackConfig(
 
   return config;
 }
+
 
 module.exports = {
   BASE_DIR,

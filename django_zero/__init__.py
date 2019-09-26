@@ -1,8 +1,7 @@
+import logging
 import os
 
 from django_zero._version import __version__
-
-import logging
 
 logger = logging.getLogger(__name__)
 
