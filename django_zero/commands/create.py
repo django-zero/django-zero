@@ -66,13 +66,13 @@ class CreateCommand(AbstractSubcommand):
 
         cookiecutter(template, checkout=False, output_dir=path, extra_context={"name": name, **options}, no_input=True)
 
-        from medikit.commands import handle_update
+        from medikit.commands import UpdateCommand
 
         oldwd = os.getcwd()
         os.chdir(os.path.join(path, name))
         logging.getLogger().setLevel(logging.WARNING)
         try:
-            handle_update("Projectfile")
+            UpdateCommand.handle("Projectfile")
             os.system("git add --all .")
             os.system(
                 'git commit --quiet --amend -m "Project initialized using Medikit, Cookiecutter and Django-Zero."'
