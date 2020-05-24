@@ -25,3 +25,10 @@ def is_whitenoise_enabled():
     whitenoise_enabled = get_bool_from_env("ENABLE_WHITENOISE", default=True)
     logger.debug("Whitenoise: %s", "enabled" if whitenoise_enabled else "disabled")
     return whitenoise_enabled
+
+@lru_cache()
+def is_webpack_enabled():
+    webpack_enabled = get_bool_from_env("ENABLE_WEBPACK", default=True)
+    logger.debug("Webpack: %s", "enabled" if webpack_enabled else "disabled")
+    return webpack_enabled
+

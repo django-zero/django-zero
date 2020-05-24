@@ -8,20 +8,27 @@ from django_zero.utils import get_env
 DEFAULT_DEV_PROCESSES = ["server", "assets"]
 
 
+def get_webpack_dev_proc(hot=False, hot_only=False):
+    proc = sys.executable + " -m django_zero webpack --watch"
+
+    if hot or hot_only:
+        proc = sys.executable + " -m django_zero webpack-dev-server"
+        if hot:
+            proc += " --hot"
+        elif hot_only:
+            proc += " --hot-only"
+
+    return proc
+
+
 def get_procs(mode="dev", *, hot=False, hot_only=False):
     from django_zero.config.settings import features
 
     procs = {}
     if mode == "dev":
         procs["server"] = sys.executable + " -m django_zero manage runserver"
-        if hot or hot_only:
-            procs["assets"] = sys.executable + " -m django_zero webpack-dev-server"
-            if hot:
-                procs["assets"] += " --hot"
-            elif hot_only:
-                procs["assets"] += " --hot-only"
-        else:
-            procs["assets"] = sys.executable + " -m django_zero webpack --watch"
+        if features.is_webpack_enabled():
+            procs['assets'] = get_webpack_dev_proc(hot=hot, hot_only=hot_only)
     elif mode == "prod":
         procs["server"] = sys.executable + " -m django_zero gunicorn --access-logfile -"
     else:
@@ -58,6 +65,10 @@ def call_manage(*args, environ=None):
 
 
 def call_webpack(*args, command="webpack-cli", environ=None):
+    from django_zero.config.settings import features
+    if not features.is_webpack_enabled():
+        raise RuntimeError('Webpack is disabled.')
+
     environ = {**os.environ, **get_env(), **(environ or {})}
     environ.setdefault("NODE_ENV", "development")
 

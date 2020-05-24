@@ -38,11 +38,13 @@ class StartCommand(BaseLifecycleCommand):
     def add_arguments(self, parser):
         parser.add_argument("--prod", "--production", "-p", action="store_true")
         parser.add_argument("--bind", default=None)
+        parser.add_argument("--collectstatic", action="store_true")
         dev_server = parser.add_mutually_exclusive_group(required=False)
         dev_server.add_argument("--hot", action="store_true")
         dev_server.add_argument("--hot-only", action="store_true")
 
-    def handle(self, *, bind=None, hot=False, hot_only=False, prod=False):
+    def handle(self, *, bind=None, collectstatic=False, hot=False, hot_only=False, prod=False):
+        from django_zero.config.settings import features
         cmd = "django-zero start"
         check_dev_extras(cmd)
 
@@ -56,8 +58,10 @@ class StartCommand(BaseLifecycleCommand):
                     "Custom bind address/port can't be customized in production env (yet). Please open a pull-request!"
                 )
             check_prod_extras(cmd)
-            call_webpack(environ={"NODE_ENV": "production"})
-            call_manage("collectstatic", "--noinput")
+            if features.is_webpack_enabled():
+                call_webpack(environ={"NODE_ENV": "production"})
+            if collectstatic:
+                call_manage("collectstatic", "--noinput")
             m = create_honcho_manager(mode="prod")
         else:
             check_installed()
@@ -75,6 +79,7 @@ class InstallCommand(BaseLifecycleCommand):
         parser.add_argument("--prod", action="store_const", const="prod", dest="extra")
 
     def handle(self, *more, extra=None):
+        from django_zero.config.settings import features
         env = get_env()
 
         zero_dir = env["DJANGO_ZERO_BASE_DIR"]
@@ -87,8 +92,9 @@ class InstallCommand(BaseLifecycleCommand):
             ),
             cwd=project_dir,
         )
-        self.execute("yarn install --silent", cwd=zero_dir)
-        self.execute("yarn install --silent", cwd=project_dir)
+        if features.is_webpack_enabled():
+            self.execute("yarn install --silent", cwd=zero_dir)
+            self.execute("yarn install --silent", cwd=project_dir)
 
         print(
             humanizer.Success(

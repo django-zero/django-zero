@@ -79,25 +79,27 @@ def create_directories_or_ignore(*dirs):
 
 
 def check_installed():
+    from django_zero.config.settings import features
     env = get_env()
 
-    node_modules_path = os.path.join(env["DJANGO_ZERO_BASE_DIR"], "node_modules")
-    if not os.path.exists(node_modules_path):
-        raise UserError(
-            "Django-zero's global node modules are not installed.", "Try running:", "  $ django-zero install"
-        )
+    if features.is_webpack_enabled():
+        node_modules_path = os.path.join(env["DJANGO_ZERO_BASE_DIR"], "node_modules")
+        if not os.path.exists(node_modules_path):
+            raise UserError(
+                "Django-zero's global node modules are not installed.", "Try running:", "  $ django-zero install"
+            )
 
-    local_node_modules_path = os.path.join(env["DJANGO_BASE_DIR"], "node_modules")
-    if not os.path.exists(local_node_modules_path):
-        raise UserError("Project's local node modules are not installed.", "Try running:", "  $ django-zero install")
+        local_node_modules_path = os.path.join(env["DJANGO_BASE_DIR"], "node_modules")
+        if not os.path.exists(local_node_modules_path):
+            raise UserError("Project's local node modules are not installed.", "Try running:", "  $ django-zero install")
 
-    webpack_path = os.path.join(local_node_modules_path, ".bin/webpack-cli")
-    if not os.path.exists(webpack_path):
-        raise UserError(
-            "Webpack CLI binary is not available in local node modules directory.",
-            "Make sure that `webpack-cli` is listed in your project's `package.json` file and run:",
-            "  $ django-zero install",
-        )
+        webpack_path = os.path.join(local_node_modules_path, ".bin/webpack-cli")
+        if not os.path.exists(webpack_path):
+            raise UserError(
+                "Webpack CLI binary is not available in local node modules directory.",
+                "Make sure that `webpack-cli` is listed in your project's `package.json` file and run:",
+                "  $ django-zero install",
+            )
 
 
 DEV_EXTRA_REQUIRED_MESSAGE = (

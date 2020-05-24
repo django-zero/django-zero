@@ -12,6 +12,10 @@ class DjangoCommand(AbstractSubcommand):
     """Runs the django manage.py script after setting environment."""
 
     def handle(self, *args):
+        # This is a hack to ensure environment tuning is imported. Probably something more solid should be thought
+        # about.
+        __import__('config')
+
         check_installed()
         env = get_env()
         # Add CWD and make sure django-zero base path is not in path so we avoid loading its settings instead of user's.
