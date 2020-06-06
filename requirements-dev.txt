@@ -14,7 +14,7 @@ coverage==4.5.4
 cssselect==1.1.0
 django-debug-toolbar==2.2
 django-extensions==2.2.9
-django==3.0.6
+django==3.0.7
 git-semver==0.3.2
 gitdb==4.0.5
 gitpython==3.1.2
