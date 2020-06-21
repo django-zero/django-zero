@@ -1,15 +1,15 @@
 -e .[channels]
 -r requirements.txt
-asgiref==3.2.7
+asgiref==3.2.10
 attrs==19.3.0
-autobahn==20.4.3
+autobahn==20.6.1
 automat==20.2.0
 cffi==1.14.0
 channels==2.4.0
 constantly==15.1.0
 cryptography==2.9.2
 daphne==2.5.0
-django==3.0.6
+django==3.0.7
 hyperlink==19.0.0
 idna==2.9
 incremental==17.5.0
@@ -20,7 +20,7 @@ pyhamcrest==2.0.2
 pyopenssl==19.1.0
 pytz==2020.1
 service-identity==18.1.0
-six==1.14.0
+six==1.15.0
 sqlparse==0.3.1
 twisted[tls]==20.3.0
 txaio==20.4.1

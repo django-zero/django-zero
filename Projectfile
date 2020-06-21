@@ -24,13 +24,13 @@ with require("python") as python:
     python.add_requirements(
         "brotli ~=1.0.7",
         "django ~=3.0,<3.1",
-        "django-allauth ~=0.41.0",
+        "django-allauth ~=0.42.0",
         "django-includes ~=0.3.1",
         "jinja2 ~=2.11",
         "mondrian ~=0.8",
-        "whitenoise ~=5.0.1",
+        "whitenoise ~=5.1.0",
         # Celery
-        celery=["celery ~=4.4.2", "django_celery_beat ~=2.0.0", "django_celery_results ~=1.2.1"],
+        celery=["celery ~=4.4.5", "django_celery_beat ~=2.0.0", "django_celery_results ~=1.2.1"],
         # Channels
         channels=["channels ~=2.4.0", "daphne ~=2.5"],
         # Dev-only tooling
