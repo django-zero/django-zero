@@ -1,4 +1,3 @@
-import os
 import re
 
 from django.contrib import messages
@@ -7,11 +6,9 @@ from django.urls import reverse
 from django.utils.encoding import force_text
 from django.utils.translation import gettext
 from django_includes.jinja2 import DjangoIncludesExtension
+from django_zero import assets
 from jinja2 import Environment, lexer, nodes
 from jinja2.ext import Extension
-
-from django_zero import assets
-from django_zero.assets import AssetsHelper
 
 
 class DjangoCsrfExtension(Extension):
@@ -145,10 +142,11 @@ def environment(**options):
     env = Environment(extensions=["jinja2.ext.i18n"], **options)
     env.install_gettext_translations(translation)
 
+
+
     env.globals.update(
         {
             "_": gettext,
-            "assets": assets.get_helper(),
             "get_messages": messages.get_messages,
             "settings": settings,
             "static": staticfiles_storage.url,
@@ -157,6 +155,13 @@ def environment(**options):
             "translate_url": translate_url,
         }
     )
+
+    from django_zero.config.settings import features
+    if features.is_webpack_enabled():
+        env.globals.update(
+            {
+                "assets": assets.get_helper(),
+            })
 
     env.add_extension(DjangoCsrfExtension)
     env.add_extension(DjangoIncludesExtension)

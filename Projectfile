@@ -18,30 +18,26 @@ with require("python") as python:
     )
 
     python.add_requirements(
-        "brotli ~=1.0.4",
-        "django ~=3.0.8",
+        "brotli ~=1.0.7",
+        "django ~=3.0,<3.1",
         "django-allauth ~=0.42.0",
         "django-includes ~=0.3.1",
-        "jinja2 ~=2.10",
+        "jinja2 ~=2.11",
         "mondrian ~=0.8",
         "whitenoise ~=5.1.0",
-        # Celery
         celery=["celery ~=4.4.6", "django_celery_beat ~=2.0.0", "django_celery_results ~=1.2.1"],
-        # Channels
-        channels=["channels ~=2.4.0"],
-        # Dev-only tooling
+        channels=["channels ~=2.4.0", "daphne ~=2.5"],
         dev=[
-            "cookiecutter ~=1.6",
+            "cookiecutter ~=1.7",
             "django-extensions ~=3.0.2",
             "django_debug_toolbar ~=2.2",
             "honcho ~=1.0",
-            "medikit ~=0.6",
+            "medikit ~=0.7",
             "pyquery ~=1.4",
-            "pytest-django ~=3.3",
-            "werkzeug ~=0.14",
+            "pytest-django ~=3.9",
+            "werkzeug ~=1.0",
         ],
-        # Production tools
-        prod=["gunicorn ~=20.0.4"],
+        prod=["gunicorn ~=20.0"],
     )
 
 with require("nodejs") as nodejs:
@@ -94,15 +90,6 @@ with require("make") as make:
             phony=True,
         )
 
-        event.makefile.add_target(
-            "format",
-            """
-                black -l 120 --exclude '/(\.git|\.hg|\.mypy_cache|\.tox|\.venv|\.release|_build|buck-out|build|dist|node_modules|{{"{{cookiecutter.name}}"}})/' .
-                isort -rc -y -s node_modules .
-            """,
-            phony=True,
-        )
-
     # Pipelines
     @listen(make.on_generate)
     def on_make_generate_pipelines(event):
@@ -141,6 +128,18 @@ with require("make") as make:
             deps=["docs-dist"],
             phony=True,
         )
+
+
+with require("format") as format:
+    # Formatting
+    @listen(make.on_generate)
+    def on_make_generate_format(event):
+        makefile = event.makefile
+        makefile[
+            "BLACK_OPTIONS"
+        ] += " --exclude '/(\.git|\.hg|\.mypy_cache|\.tox|\.venv|\.release|_build|buck-out|build|dist|node_modules|{{\"{{cookiecutter.name}}\"}})/'"
+
+        makefile["ISORT_OPTIONS"] += " -s node_modules"
 
 
 # vim: ft=python:
