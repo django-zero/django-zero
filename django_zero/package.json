@@ -25,5 +25,5 @@
     "description": "Zero-configuration django projects.",
     "license": "Apache License, Version 2.0",
     "name": "django_zero",
-    "version": "0.0.21rc3"
+    "version": "0.1.0"
 }
