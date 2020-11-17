@@ -14,7 +14,7 @@ class DjangoCommand(AbstractSubcommand):
     def handle(self, *args):
         # This is a hack to ensure environment tuning is imported. Probably something more solid should be thought
         # about.
-        __import__('config')
+        __import__("config")
 
         check_installed()
         env = get_env()

@@ -6,9 +6,10 @@ from django.urls import reverse
 from django.utils.encoding import force_text
 from django.utils.translation import gettext
 from django_includes.jinja2 import DjangoIncludesExtension
-from django_zero import assets
 from jinja2 import Environment, lexer, nodes
 from jinja2.ext import Extension
+
+from django_zero import assets
 
 
 class DjangoCsrfExtension(Extension):
@@ -136,13 +137,11 @@ class SpacelessExtension(Extension):
 
 def environment(**options):
     from django.conf import settings
-    from django.utils import translation
     from django.urls import translate_url
+    from django.utils import translation
 
     env = Environment(extensions=["jinja2.ext.i18n"], **options)
     env.install_gettext_translations(translation)
-
-
 
     env.globals.update(
         {
@@ -157,11 +156,13 @@ def environment(**options):
     )
 
     from django_zero.config.settings import features
+
     if features.is_webpack_enabled():
         env.globals.update(
             {
                 "assets": assets.get_helper(),
-            })
+            }
+        )
 
     env.add_extension(DjangoCsrfExtension)
     env.add_extension(DjangoIncludesExtension)

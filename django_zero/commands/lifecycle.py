@@ -45,6 +45,7 @@ class StartCommand(BaseLifecycleCommand):
 
     def handle(self, *, bind=None, collectstatic=False, hot=False, hot_only=False, prod=False):
         from django_zero.config.settings import features
+
         cmd = "django-zero start"
         check_dev_extras(cmd)
 
@@ -80,6 +81,7 @@ class InstallCommand(BaseLifecycleCommand):
 
     def handle(self, *more, extra=None):
         from django_zero.config.settings import features
+
         env = get_env()
 
         zero_dir = env["DJANGO_ZERO_BASE_DIR"]

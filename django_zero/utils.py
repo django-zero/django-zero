@@ -80,6 +80,7 @@ def create_directories_or_ignore(*dirs):
 
 def check_installed():
     from django_zero.config.settings import features
+
     env = get_env()
 
     if features.is_webpack_enabled():
@@ -91,7 +92,9 @@ def check_installed():
 
         local_node_modules_path = os.path.join(env["DJANGO_BASE_DIR"], "node_modules")
         if not os.path.exists(local_node_modules_path):
-            raise UserError("Project's local node modules are not installed.", "Try running:", "  $ django-zero install")
+            raise UserError(
+                "Project's local node modules are not installed.", "Try running:", "  $ django-zero install"
+            )
 
         webpack_path = os.path.join(local_node_modules_path, ".bin/webpack-cli")
         if not os.path.exists(webpack_path):
