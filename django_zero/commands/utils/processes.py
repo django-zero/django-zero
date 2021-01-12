@@ -26,7 +26,11 @@ def get_procs(mode="dev", *, hot=False, hot_only=False):
 
     procs = {}
     if mode == "dev":
-        procs["server"] = sys.executable + " -m django_zero manage runserver" + " --nostatic" if features.is_whitenoise_enabled() else ""
+        procs["server"] = (
+            sys.executable + " -m django_zero manage runserver" + " --nostatic"
+            if features.is_whitenoise_enabled()
+            else ""
+        )
         if features.is_webpack_enabled():
             procs["assets"] = get_webpack_dev_proc(hot=hot, hot_only=hot_only)
     elif mode == "prod":

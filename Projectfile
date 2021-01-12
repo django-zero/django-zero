@@ -23,24 +23,24 @@ with require("python") as python:
     python.add_requirements(
         "brotli ~=1.0.9",
         "django ~=3.1,<3.2",
-        "django-allauth ~=0.43.0",
+        "django-allauth ~=0.44.0",
         "django-includes ~=0.3.1",
         "jinja2 ~=2.11",
         "mondrian ~=0.8",
         "whitenoise ~=5.2.0",
         # Celery
         celery=[
-            "celery ~=4.0",  # waiting for django_celery_results version bump to allow upgrade to celery 5
+            "celery ~=5.0",  # waiting for django_celery_results version bump to allow upgrade to celery 5
             "django_celery_beat ~=2.1.0",
-            "django_celery_results ~=1.2.1",  # see https://github.com/celery/django-celery-results/issues/173
+            "django_celery_results ~=2.0.0",  # see https://github.com/celery/django-celery-results/issues/173
         ],
         # Channels
         channels=["channels ~=3.0.0", "daphne ~=3.0.0"],
         # Dev-only tooling
         dev=[
             "cookiecutter ~=1.7",
-            "django-extensions ~=3.0.9",
-            "django_debug_toolbar ~=3.1.1",
+            "django-extensions ~=3.1",
+            "django_debug_toolbar ~=3.2",
             "honcho ~=1.0",
             "medikit ~=0.7",
             "werkzeug ~=1.0",
