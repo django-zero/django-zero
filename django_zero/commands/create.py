@@ -32,22 +32,36 @@ class CreateCommand(AbstractSubcommand):
     def handle_app(self, *args, **options):
         check_dev_extras("django-zero create app")
 
-        name = options.pop("name")
         path = "apps"
+        name = options.pop("name").replace(".", "/")
+        if name.startswith(path + "/"):
+            name = name[len(path) + 1 :]
+        package = path + "." + name.replace("/", ".")
+        app = package.split(".")[-1]
 
         template = os.path.join(os.path.dirname(__file__), "templates/app")
         from cookiecutter.main import cookiecutter
 
-        cookiecutter(template, checkout=False, output_dir=path, extra_context={"name": name, **options}, no_input=True)
+        try:
+            cookiecutter(
+                template,
+                checkout=False,
+                output_dir=path,
+                extra_context={"app": app, "name": name, "package": package, **options},
+                no_input=True,
+            )
+        except Exception as exc:
+            self.logger.exception(exc)
+            raise
 
         print(
             mondrian.humanizer.Success(
-                'Your "{}" application has been created.'.format(name),
+                'Your "{}" application has been created.'.format(package),
                 "Add the following to your `INSTALLED_APPS` in `config/settings.py`:",
                 "",
                 "INSTALLED_APPS += [",
                 "    ...,",
-                "    `'apps.{}',`".format(name),
+                "    `'{}',`".format(package),
                 "]",
                 help_url=url_for_help("created/app.html"),
             )
