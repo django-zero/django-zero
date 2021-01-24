@@ -89,7 +89,7 @@ class InstallCommand(BaseLifecycleCommand):
 
         self.execute(
             sys.executable
-            + " -m pip install --quiet {more} -e .{extra}".format(
+            + " -m pip install {more} -e .{extra}".format(
                 more=" ".join(map(shlex.quote, more)), extra="[" + extra + "]" if extra else ""
             ),
             cwd=project_dir,
