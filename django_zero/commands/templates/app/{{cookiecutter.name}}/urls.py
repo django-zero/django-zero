@@ -1,5 +1,5 @@
-from apps.{{cookiecutter.name}}.views import WelcomeView
 from django.urls import path
+from {{cookiecutter.package}}.views import WelcomeView
 
 urlpatterns = [
     path('', WelcomeView.as_view())

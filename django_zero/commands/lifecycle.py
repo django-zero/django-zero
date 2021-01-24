@@ -39,6 +39,7 @@ class StartCommand(BaseLifecycleCommand):
         parser.add_argument("--prod", "--production", "-p", action="store_true")
         parser.add_argument("--bind", default=None)
         parser.add_argument("--collectstatic", action="store_true")
+
         dev_server = parser.add_mutually_exclusive_group(required=False)
         dev_server.add_argument("--hot", action="store_true")
         dev_server.add_argument("--hot-only", action="store_true")
@@ -66,6 +67,12 @@ class StartCommand(BaseLifecycleCommand):
             m = create_honcho_manager(mode="prod")
         else:
             check_installed()
+
+            if not bind:
+                host = os.environ.get('HOST', "127.0.0.1")
+                port =  os.environ.get('PORT', "8000")
+                bind = host + ':' + port
+
             m = create_honcho_manager(mode="dev", bind=bind, hot=hot, hot_only=hot_only, environ={"DJANGO_DEBUG": "1"})
 
         m.loop()
