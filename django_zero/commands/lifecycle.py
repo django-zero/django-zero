@@ -69,9 +69,9 @@ class StartCommand(BaseLifecycleCommand):
             check_installed()
 
             if not bind:
-                host = os.environ.get('HOST', "127.0.0.1")
-                port =  os.environ.get('PORT', "8000")
-                bind = host + ':' + port
+                host = os.environ.get("HOST", "127.0.0.1")
+                port = os.environ.get("PORT", "8000")
+                bind = host + ":" + port
 
             m = create_honcho_manager(mode="dev", bind=bind, hot=hot, hot_only=hot_only, environ={"DJANGO_DEBUG": "1"})
 

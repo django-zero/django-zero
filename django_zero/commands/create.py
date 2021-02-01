@@ -88,9 +88,7 @@ class CreateCommand(AbstractSubcommand):
         try:
             UpdateCommand.handle("Projectfile")
             os.system("git add --all .")
-            os.system(
-                'git commit --amend -m "Project initialized using Medikit, Cookiecutter and Django-Zero."'
-            )
+            os.system('git commit --amend -m "Project initialized using Medikit, Cookiecutter and Django-Zero."')
         finally:
             logging.getLogger().setLevel(logging.INFO)
             os.chdir(oldwd)
