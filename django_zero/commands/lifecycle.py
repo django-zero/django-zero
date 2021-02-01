@@ -50,28 +50,24 @@ class StartCommand(BaseLifecycleCommand):
         cmd = "django-zero start"
         check_dev_extras(cmd)
 
+        if not bind:
+            host = os.environ.get("HOST", "127.0.0.1")
+            port = os.environ.get("PORT", "8000")
+            bind = host + ":" + port
+
         if prod:
             if hot or hot_only:
                 raise RuntimeError(
-                    "Cannot use webpack-dev-server (invluding --hot or --hot-only modes) in production mode."
-                )
-            if bind:
-                raise NotImplementedError(
-                    "Custom bind address/port can't be customized in production env (yet). Please open a pull-request!"
+                    "Cannot use webpack-dev-server (including --hot or --hot-only modes) in production mode."
                 )
             check_prod_extras(cmd)
             if features.is_webpack_enabled():
                 call_webpack(environ={"NODE_ENV": "production"})
             if collectstatic:
                 call_manage("collectstatic", "--noinput")
-            m = create_honcho_manager(mode="prod")
+            m = create_honcho_manager(mode="prod", bind=bind)
         else:
             check_installed()
-
-            if not bind:
-                host = os.environ.get("HOST", "127.0.0.1")
-                port = os.environ.get("PORT", "8000")
-                bind = host + ":" + port
 
             m = create_honcho_manager(mode="dev", bind=bind, hot=hot, hot_only=hot_only, environ={"DJANGO_DEBUG": "1"})
 

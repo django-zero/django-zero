@@ -54,6 +54,8 @@ def create_honcho_manager(*, printer=None, mode="dev", bind=None, hot=False, hot
 
     for proc_name, proc_cmd in sorted(get_procs(mode, hot=hot, hot_only=hot_only).items()):
         if bind and proc_name == "server":
+            if mode == "prod":
+                bind = "--bind " + bind
             proc_cmd += " " + bind
         m.add_process(proc_name, proc_cmd, env=environ)
 
