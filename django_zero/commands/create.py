@@ -89,7 +89,7 @@ class CreateCommand(AbstractSubcommand):
             UpdateCommand.handle("Projectfile")
             os.system("git add --all .")
             os.system(
-                'git commit --quiet --amend -m "Project initialized using Medikit, Cookiecutter and Django-Zero."'
+                'git commit --amend -m "Project initialized using Medikit, Cookiecutter and Django-Zero."'
             )
         finally:
             logging.getLogger().setLevel(logging.INFO)
