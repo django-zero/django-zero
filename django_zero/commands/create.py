@@ -78,7 +78,13 @@ class CreateCommand(AbstractSubcommand):
 
         from cookiecutter.main import cookiecutter
 
-        cookiecutter(template, checkout=False, output_dir=path, extra_context={"name": name, **options}, no_input=True)
+        cookiecutter(
+            template,
+            checkout=False,
+            output_dir=path,
+            extra_context={"name": name, **options},
+            no_input=True,
+        )
 
         from medikit.commands import UpdateCommand
 

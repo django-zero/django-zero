@@ -7,4 +7,9 @@ from config.settings import *
 del STATICFILES_STORAGE
 
 # Test database configuration
-DATABASES = {"default": {"ENGINE": "django.db.backends.sqlite3", "NAME": os.path.join(BASE_DIR, "db.test.sqlite3")}}
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": os.path.join(BASE_DIR, "db.test.sqlite3"),
+    }
+}

@@ -96,5 +96,7 @@ def example_feature_detail_view(request, slug):
             }
 
     return render(
-        request, "examples/feature_detail.html", {"current_feature": feature, "features": FEATURES, "content": parsed}
+        request,
+        "examples/feature_detail.html",
+        {"current_feature": feature, "features": FEATURES, "content": parsed},
     )

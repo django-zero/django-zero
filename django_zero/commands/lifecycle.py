@@ -69,7 +69,13 @@ class StartCommand(BaseLifecycleCommand):
         else:
             check_installed()
 
-            m = create_honcho_manager(mode="dev", bind=bind, hot=hot, hot_only=hot_only, environ={"DJANGO_DEBUG": "1"})
+            m = create_honcho_manager(
+                mode="dev",
+                bind=bind,
+                hot=hot,
+                hot_only=hot_only,
+                environ={"DJANGO_DEBUG": "1"},
+            )
 
         m.loop()
         return m.returncode
@@ -93,7 +99,8 @@ class InstallCommand(BaseLifecycleCommand):
         self.execute(
             sys.executable
             + " -m pip install {more} -e .{extra}".format(
-                more=" ".join(map(shlex.quote, more)), extra="[" + extra + "]" if extra else ""
+                more=" ".join(map(shlex.quote, more)),
+                extra="[" + extra + "]" if extra else "",
             ),
             cwd=project_dir,
         )

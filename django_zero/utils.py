@@ -1,4 +1,4 @@
-import collections
+import collections.abc
 import operator
 import os
 from functools import reduce
@@ -7,7 +7,7 @@ import django_zero
 from django_zero.errors import UserError
 
 
-class LazyListFromLists(collections.Sequence):
+class LazyListFromLists(collections.abc.Sequence):
     def __init__(self, *lists):
         self._lists = lists
 
@@ -87,13 +87,17 @@ def check_installed():
         node_modules_path = os.path.join(env["DJANGO_ZERO_BASE_DIR"], "node_modules")
         if not os.path.exists(node_modules_path):
             raise UserError(
-                "Django-zero's global node modules are not installed.", "Try running:", "  $ django-zero install"
+                "Django-zero's global node modules are not installed.",
+                "Try running:",
+                "  $ django-zero install",
             )
 
         local_node_modules_path = os.path.join(env["DJANGO_BASE_DIR"], "node_modules")
         if not os.path.exists(local_node_modules_path):
             raise UserError(
-                "Project's local node modules are not installed.", "Try running:", "  $ django-zero install"
+                "Project's local node modules are not installed.",
+                "Try running:",
+                "  $ django-zero install",
             )
 
         webpack_path = os.path.join(local_node_modules_path, ".bin/webpack-cli")
@@ -144,7 +148,11 @@ def check_prod_extras(cmd):
 
 def get_env():
     base_path = os.path.dirname(django_zero.__file__)
-    return {"DJANGO_BASE_DIR": os.getcwd(), "DJANGO_ZERO_BASE_DIR": base_path, "NODE_PATH": os.path.dirname(base_path)}
+    return {
+        "DJANGO_BASE_DIR": os.getcwd(),
+        "DJANGO_ZERO_BASE_DIR": base_path,
+        "NODE_PATH": os.path.dirname(base_path),
+    }
 
 
 def url_for_help(path):

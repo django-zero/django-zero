@@ -46,7 +46,11 @@ class GunicornCommand(AbstractSubcommand):
         except ModuleNotFoundError as exc:
             raise ModuleNotFoundError("Gunicorn not found. Please install it (pip install gunicorn).") from exc
 
-        _sys_argv_backup, sys.argv = sys.argv, [sys.argv[1], "config.wsgi", *sys.argv[2:]]
+        _sys_argv_backup, sys.argv = sys.argv, [
+            sys.argv[1],
+            "config.wsgi",
+            *sys.argv[2:],
+        ]
         try:
             WSGIApplication("django-zero %(prog)s [OPTIONS]").run()
         finally:
@@ -59,7 +63,11 @@ class DaphneCommand(AbstractSubcommand):
     def handle(self, *args):
         from daphne.cli import CommandLineInterface as DaphneCLI
 
-        _sys_argv_backup, sys.argv = sys.argv, [sys.argv[1], "config.asgi:application", *sys.argv[2:]]
+        _sys_argv_backup, sys.argv = sys.argv, [
+            sys.argv[1],
+            "config.asgi:application",
+            *sys.argv[2:],
+        ]
         try:
             DaphneCLI.entrypoint()
         finally:
@@ -76,7 +84,12 @@ class CeleryCommand(AbstractSubcommand):
     def handle(self, *args):
         from celery.__main__ import main as celery_main
 
-        _sys_argv_backup, sys.argv = sys.argv, [" ".join(sys.argv[0:2]), "-A", "config.celery", *sys.argv[2:]]
+        _sys_argv_backup, sys.argv = sys.argv, [
+            " ".join(sys.argv[0:2]),
+            "-A",
+            "config.celery",
+            *sys.argv[2:],
+        ]
         try:
             celery_main()
         finally:

@@ -62,7 +62,11 @@ setup(
         "whitenoise ~= 5.2.0",
     ],
     extras_require={
-        "celery": ["celery ~= 5.0", "django_celery_beat ~= 2.2.0", "django_celery_results ~= 2.0.0"],
+        "celery": [
+            "celery ~= 5.0",
+            "django_celery_beat ~= 2.2.0",
+            "django_celery_results ~= 2.0.0",
+        ],
         "channels": ["channels ~= 3.0.0", "daphne ~= 3.0.0"],
         "dev": [
             "cookiecutter ~= 1.7",
