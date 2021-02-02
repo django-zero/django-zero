@@ -5,7 +5,6 @@ from django.contrib.staticfiles.storage import staticfiles_storage
 from django.urls import reverse
 from django.utils.encoding import force_text
 from django.utils.translation import gettext
-from django_includes.jinja2 import DjangoIncludesExtension
 from jinja2 import Environment, lexer, nodes
 from jinja2.ext import Extension
 
@@ -169,7 +168,12 @@ def environment(**options):
         )
 
     env.add_extension(DjangoCsrfExtension)
-    env.add_extension(DjangoIncludesExtension)
+    try:
+        from django_includes.jinja2 import DjangoIncludesExtension
+
+        env.add_extension(DjangoIncludesExtension)
+    except ImportError:
+        pass
     env.add_extension(DjangoUrlExtension)
     env.add_extension(SpacelessExtension)
 
