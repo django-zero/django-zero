@@ -105,8 +105,8 @@ class InstallCommand(BaseLifecycleCommand):
             cwd=project_dir,
         )
         if features.is_webpack_enabled():
-            self.execute("yarn install --silent", cwd=zero_dir)
-            self.execute("yarn install --silent", cwd=project_dir)
+            self.execute("yarn install", cwd=zero_dir)
+            self.execute("yarn install", cwd=project_dir)
 
         print(
             humanizer.Success(
