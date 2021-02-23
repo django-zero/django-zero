@@ -12,11 +12,11 @@ cookiecutter==1.7.2
 coverage==5.4
 cssselect==1.1.0
 django-debug-toolbar==3.2
-django-extensions==3.1.0
-django==3.1.6
+django-extensions==3.1.1
+django==3.1.7
 git-semver==0.3.2
 gitdb==4.0.5
-gitpython==3.1.12
+gitpython==3.1.13
 honcho==1.0.1
 idna==2.10
 iniconfig==1.1.1

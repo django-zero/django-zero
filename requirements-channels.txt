@@ -2,14 +2,14 @@
 -r requirements.txt
 asgiref==3.3.1
 attrs==20.3.0
-autobahn==20.12.3
+autobahn==21.2.1
 automat==20.2.0
-cffi==1.14.4
+cffi==1.14.5
 channels==3.0.3
 constantly==15.1.0
-cryptography==3.3.1
+cryptography==3.4.6
 daphne==3.0.1
-django==3.1.6
+django==3.1.7
 hyperlink==21.0.0
 idna==3.1
 incremental==17.5.0
@@ -23,5 +23,5 @@ service-identity==18.1.0
 six==1.15.0
 sqlparse==0.4.1
 twisted[tls]==20.3.0
-txaio==20.12.1
+txaio==21.2.1
 zope.interface==5.2.0
