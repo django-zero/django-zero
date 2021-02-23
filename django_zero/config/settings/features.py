@@ -1,4 +1,5 @@
 import logging
+import os
 from functools import lru_cache
 
 from django_zero.utils import get_bool_from_env
@@ -11,6 +12,21 @@ def is_celery_enabled():
     celery_enabled = get_bool_from_env("ENABLE_CELERY", default=False)
     logger.debug("Celery: %s", "enabled" if celery_enabled else "disabled")
     return celery_enabled
+
+
+_celery_loglevels = "DEBUG|INFO|WARNING|ERROR|CRITICAL|FATAL".split("|")
+
+
+def get_celery_beat_loglevel():
+    loglevel = os.environ.get("CELERY_BEAT_LOGLEVEL")
+    if loglevel.upper() in _celery_loglevels:
+        return loglevel.lower()
+
+
+def get_celery_worker_loglevel():
+    loglevel = os.environ.get("CELERY_WORKER_LOGLEVEL")
+    if loglevel.upper() in _celery_loglevels:
+        return loglevel.lower()
 
 
 @lru_cache()

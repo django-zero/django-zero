@@ -39,8 +39,18 @@ def get_procs(mode="dev", *, hot=False, hot_only=False):
         raise NotImplementedError("Unknown mode {}.".format(mode))
 
     if features.is_celery_enabled():
-        procs["beat"] = sys.executable + " -m django_zero celery beat"
-        procs["worker"] = sys.executable + " -m django_zero celery worker"
+        _beat_loglevel = features.get_celery_beat_loglevel()
+        procs["beat"] = (
+            sys.executable
+            + " -m django_zero celery beat"
+            + ((" --loglevel=" + _beat_loglevel) if _beat_loglevel else "")
+        )
+        _worker_loglevel = features.get_celery_worker_loglevel()
+        procs["worker"] = (
+            sys.executable
+            + " -m django_zero celery worker"
+            + ((" --loglevel=" + _worker_loglevel) if _worker_loglevel else "")
+        )
 
     return procs
 

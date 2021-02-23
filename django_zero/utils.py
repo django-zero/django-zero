@@ -40,7 +40,7 @@ def get_bool_from_env(var, default=False):
     if not len(val):
         return False
 
-    if val.lower().strip() in ("f", "false", "n", "no", "0"):
+    if val.lower().strip() in ("f", "false", "n", "no", "0", "off"):
         return False
 
     return True
