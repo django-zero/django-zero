@@ -3,7 +3,7 @@
 amqp==5.0.5
 asgiref==3.3.1
 billiard==3.6.3.0
-celery==5.0.5
+celery==5.2.2
 click-didyoumean==0.0.3
 click-plugins==1.1.1
 click-repl==0.1.6
