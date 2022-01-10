@@ -8,6 +8,10 @@ PACKAGE = "django_zero"
 require("git")
 require("format")
 
+COMMON_REQUIREMENTS = [
+    "django ~=3.2,<3.3",
+]
+
 with require("python") as python:
     python.setup(
         name=PACKAGE,
@@ -21,31 +25,37 @@ with require("python") as python:
     )
 
     python.add_requirements(
+        *COMMON_REQUIREMENTS,
         "brotli ~=1.0.9",
-        "django ~=3.1,<3.2",
-        "django-allauth ~=0.44.0",
-        "jinja2 ~=2.11",
+        "django-allauth ~=0.47.0",
+        "jinja2 ~=3.0.3",
         "mondrian ~=0.8",
-        "whitenoise ~=5.2.0",
+        "whitenoise ~=5.3.0",
         # Celery
         celery=[
+            *COMMON_REQUIREMENTS,
             "celery ~=5.0",  # waiting for django_celery_results version bump to allow upgrade to celery 5
-            "django_celery_beat ~=2.2.0",
-            "django_celery_results ~=2.0.0",  # see https://github.com/celery/django-celery-results/issues/173
+            "django_celery_beat ~=2.2.1",
+            "django_celery_results ~=2.2.0",  # see https://github.com/celery/django-celery-results/issues/173
         ],
         # Channels
-        channels=["channels ~=3.0.0", "daphne ~=3.0.0"],
+        channels=[
+            *COMMON_REQUIREMENTS,
+            "channels ~=3.0.0",
+            "daphne ~=3.0.0",
+        ],
         # Dev-only tooling
         dev=[
+            *COMMON_REQUIREMENTS,
             "cookiecutter ~=1.7",
             "django-extensions ~=3.1",
             "django_debug_toolbar ~=3.2",
             "honcho ~=1.0",
             "medikit ~=0.7",
-            "werkzeug ~=1.0",
+            "werkzeug ~=2.0",
         ],
         # Production tools
-        prod=["gunicorn ~=20.0"],
+        prod=[*COMMON_REQUIREMENTS, "gunicorn ~=20.0"],
     )
 
 with require("nodejs") as nodejs:
@@ -77,8 +87,8 @@ with require("nodejs") as nodejs:
 with require("pytest") as pytest:
     pytest.set_version(">=5.4.0")
     pytest.addons = {
-        "coverage": "~=5.3",
-        "pytest-cov": "~=2.7",
+        "coverage": "~=6.2",
+        "pytest-cov": "~=3.0.0",
         "pyquery": "~=1.4",
         "pytest-django": "~=4.0",
     }

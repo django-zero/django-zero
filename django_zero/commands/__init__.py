@@ -9,12 +9,7 @@ from mondrian import humanizer
 from django_zero.commands.base import AbstractSubcommand
 from django_zero.commands.create import CreateCommand
 from django_zero.commands.delegates import (
-    CeleryCommand,
-    DaphneCommand,
-    DjangoCommand,
-    GunicornCommand,
-    WebpackCommand,
-    WebpackDevServerCommand,
+    CeleryCommand, DaphneCommand, DjangoCommand, GunicornCommand, WebpackCommand, WebpackDevServerCommand
 )
 from django_zero.commands.lifecycle import InstallCommand, PathCommand, StartCommand, UninstallCommand
 
