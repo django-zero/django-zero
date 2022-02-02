@@ -1,3 +1,4 @@
+import importlib
 import warnings
 
 from django_zero.config.settings.base import DEBUG
@@ -6,20 +7,17 @@ from django_zero.config.settings.features import is_channels_enabled, is_whiteno
 _debug_only_apps = []
 _debug_only_middlewares = []
 
-if DEBUG:
-    try:
-        import django_extensions
 
+if DEBUG:
+    if importlib.util.find_spec("django_extensions") is not None:
         _debug_only_apps.append("django_extensions")
-    except ImportError:
+    else:
         warnings.warn("Django Extensions are not available, skipping.")
 
-    try:
-        import debug_toolbar
-
+    if importlib.util.find_spec("debug_toolbar") is not None:
         _debug_only_apps.append("debug_toolbar")
         _debug_only_middlewares.append("debug_toolbar.middleware.DebugToolbarMiddleware")
-    except ImportError:
+    else:
         warnings.warn("Django Debug Toolbar is not available, skipping.")
 
 # Applications
