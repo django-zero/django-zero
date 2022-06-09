@@ -70,7 +70,7 @@ setup(
         ],
         "channels": ["channels ~= 3.0.0", "daphne ~= 3.0.0", "django ~= 3.2, < 3.3"],
         "dev": [
-            "cookiecutter ~= 1.7",
+            "cookiecutter >= 1.7,< 3.0",
             "coverage ~= 6.2",
             "django ~= 3.2, < 3.3",
             "django-extensions ~= 3.1",
