@@ -9,7 +9,7 @@ chardet==4.0.0
 charset-normalizer==2.0.10
 click==8.0.3
 colorama==0.4.4
-cookiecutter==1.7.3
+cookiecutter==2.1.1
 coverage[toml]==6.2
 cssselect==1.1.0
 django-debug-toolbar==3.2.4
