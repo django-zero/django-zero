@@ -66,7 +66,7 @@ setup(
             "celery ~= 5.0",
             "django ~= 3.2, < 3.3",
             "django_celery_beat ~= 2.2.1",
-            "django_celery_results ~= 2.2.0",
+            "django_celery_results >= 2.2,< 2.5",
         ],
         "channels": ["channels ~= 3.0.0", "daphne ~= 3.0.0", "django ~= 3.2, < 3.3"],
         "dev": [
