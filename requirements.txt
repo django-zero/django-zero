@@ -1,7 +1,7 @@
 -e .
 asgiref==3.4.1
 brotli==1.0.9
-certifi==2021.10.8
+certifi==2022.12.7
 cffi==1.15.0
 charset-normalizer==2.0.10
 colorama==0.4.4
