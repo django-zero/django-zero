@@ -8,7 +8,7 @@ colorama==0.4.4
 cryptography==36.0.1
 defusedxml==0.7.1
 django-allauth==0.47.0
-django==3.2.11
+django==3.2.17
 idna==3.3
 jinja2==3.0.3
 markupsafe==2.0.1
