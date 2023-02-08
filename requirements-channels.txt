@@ -7,7 +7,7 @@ automat==20.2.0
 cffi==1.15.0
 channels==3.0.4
 constantly==15.1.0
-cryptography==36.0.1
+cryptography==39.0.1
 daphne==3.0.2
 django==3.2.11
 hyperlink==21.0.0
