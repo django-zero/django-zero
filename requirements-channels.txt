@@ -9,7 +9,7 @@ channels==3.0.4
 constantly==15.1.0
 cryptography==36.0.1
 daphne==3.0.2
-django==3.2.11
+django==3.2.18
 hyperlink==21.0.0
 idna==3.3
 incremental==21.3.0
